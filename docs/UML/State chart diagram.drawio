@@ -1,0 +1,72 @@
+<mxfile host="app.diagrams.net">
+  <diagram name="Страница-1" id="cijGomIK176mtUkRQLRf">
+    <mxGraphModel dx="1121" dy="1144" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="k5TLiUuNITmEJlzG2LfZ-1" parent="1" style="ellipse;html=1;shape=startState;fillColor=#000000;strokeColor=#ff0000;" value="" vertex="1">
+          <mxGeometry height="30" width="30" x="330" y="40" as="geometry" />
+        </mxCell>
+        <mxCell id="k5TLiUuNITmEJlzG2LfZ-2" edge="1" parent="1" source="k5TLiUuNITmEJlzG2LfZ-1" style="edgeStyle=orthogonalEdgeStyle;html=1;verticalAlign=bottom;endArrow=open;endSize=8;strokeColor=#ff0000;rounded=0;fontSize=12;curved=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" target="idsmJlHN9uQar9T07-On-1" value="">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="345" y="100" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="idsmJlHN9uQar9T07-On-1" parent="1" style="swimlane;fontStyle=1;align=center;verticalAlign=middle;childLayout=stackLayout;horizontal=1;startSize=30;horizontalStack=0;resizeParent=0;resizeLast=1;container=0;fontColor=#000000;collapsible=0;rounded=1;arcSize=30;strokeColor=#ff0000;fillColor=#ffffc0;swimlaneFillColor=#ffffc0;dropTarget=0;" value="Открыта форма создания" vertex="1">
+          <mxGeometry height="60" width="225" x="232.5" y="120" as="geometry" />
+        </mxCell>
+        <mxCell id="idsmJlHN9uQar9T07-On-2" parent="idsmJlHN9uQar9T07-On-1" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;spacingLeft=4;spacingRight=4;whiteSpace=wrap;overflow=hidden;rotatable=0;fontColor=#000000;" value="entry/ отобразить поля для заполнения" vertex="1">
+          <mxGeometry height="30" width="225" y="30" as="geometry" />
+        </mxCell>
+        <mxCell id="idsmJlHN9uQar9T07-On-3" edge="1" parent="1" source="idsmJlHN9uQar9T07-On-1" style="edgeStyle=orthogonalEdgeStyle;html=1;verticalAlign=bottom;endArrow=open;endSize=8;strokeColor=#ff0000;rounded=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" target="idsmJlHN9uQar9T07-On-5" value="">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="345" y="270" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="idsmJlHN9uQar9T07-On-5" parent="1" style="swimlane;fontStyle=1;align=center;verticalAlign=middle;childLayout=stackLayout;horizontal=1;startSize=30;horizontalStack=0;resizeParent=0;resizeLast=1;container=0;fontColor=#000000;collapsible=0;rounded=1;arcSize=30;strokeColor=#ff0000;fillColor=#ffffc0;swimlaneFillColor=#ffffc0;dropTarget=0;" value="Сохранение мероприятия" vertex="1">
+          <mxGeometry height="80" width="225" x="232.5" y="240" as="geometry" />
+        </mxCell>
+        <mxCell id="idsmJlHN9uQar9T07-On-6" parent="idsmJlHN9uQar9T07-On-5" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;spacingLeft=4;spacingRight=4;whiteSpace=wrap;overflow=hidden;rotatable=0;fontColor=#000000;" value="entry/ запрос к базе для сохранения&lt;div&gt;exit/ переход на экран мероприятий&lt;/div&gt;" vertex="1">
+          <mxGeometry height="50" width="225" y="30" as="geometry" />
+        </mxCell>
+        <mxCell id="idsmJlHN9uQar9T07-On-7" edge="1" parent="1" source="idsmJlHN9uQar9T07-On-5" style="edgeStyle=orthogonalEdgeStyle;html=1;verticalAlign=bottom;endArrow=open;endSize=8;strokeColor=#ff0000;rounded=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" target="idsmJlHN9uQar9T07-On-9" value="">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="345" y="410" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="idsmJlHN9uQar9T07-On-8" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" value="Пользователь нажал &quot;сохранить&quot; /[форма заполнена корректно]" vertex="1">
+          <mxGeometry height="30" width="220" x="370" y="200" as="geometry" />
+        </mxCell>
+        <mxCell id="idsmJlHN9uQar9T07-On-9" parent="1" style="swimlane;fontStyle=1;align=center;verticalAlign=middle;childLayout=stackLayout;horizontal=1;startSize=30;horizontalStack=0;resizeParent=0;resizeLast=1;container=0;fontColor=#000000;collapsible=0;rounded=1;arcSize=30;strokeColor=#ff0000;fillColor=#ffffc0;swimlaneFillColor=#ffffc0;dropTarget=0;" value="Хранение мероприятия в базе" vertex="1">
+          <mxGeometry height="80" width="213.75" x="238.12" y="400" as="geometry" />
+        </mxCell>
+        <mxCell id="idsmJlHN9uQar9T07-On-10" parent="idsmJlHN9uQar9T07-On-9" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;spacingLeft=4;spacingRight=4;whiteSpace=wrap;overflow=hidden;rotatable=0;fontColor=#000000;" value="do/ хранение мероприятия&lt;div&gt;exit/ очистка данных о мероприятии&lt;/div&gt;" vertex="1">
+          <mxGeometry height="50" width="213.75" y="30" as="geometry" />
+        </mxCell>
+        <mxCell id="idsmJlHN9uQar9T07-On-11" edge="1" parent="1" source="idsmJlHN9uQar9T07-On-9" style="edgeStyle=orthogonalEdgeStyle;html=1;verticalAlign=bottom;endArrow=open;endSize=8;strokeColor=#ff0000;rounded=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" target="idsmJlHN9uQar9T07-On-14" value="">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="345" y="550" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="idsmJlHN9uQar9T07-On-12" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" value="Мероприятие сохранено" vertex="1">
+          <mxGeometry height="30" width="220" x="340" y="350" as="geometry" />
+        </mxCell>
+        <mxCell id="idsmJlHN9uQar9T07-On-13" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" value="Админ удалил мероприятие" vertex="1">
+          <mxGeometry height="30" width="220" x="370" y="500" as="geometry" />
+        </mxCell>
+        <mxCell id="idsmJlHN9uQar9T07-On-14" parent="1" style="swimlane;fontStyle=1;align=center;verticalAlign=middle;childLayout=stackLayout;horizontal=1;startSize=30;horizontalStack=0;resizeParent=0;resizeLast=1;container=0;fontColor=#000000;collapsible=0;rounded=1;arcSize=30;strokeColor=#ff0000;fillColor=#ffffc0;swimlaneFillColor=#ffffc0;dropTarget=0;" value="Удалено" vertex="1">
+          <mxGeometry height="40" width="213.75" x="238.12" y="530" as="geometry" />
+        </mxCell>
+        <mxCell id="idsmJlHN9uQar9T07-On-16" parent="1" style="ellipse;html=1;shape=endState;fillColor=#000000;strokeColor=#ff0000;" value="" vertex="1">
+          <mxGeometry height="30" width="30" x="329.99" y="620" as="geometry" />
+        </mxCell>
+        <mxCell id="idsmJlHN9uQar9T07-On-17" edge="1" parent="1" source="idsmJlHN9uQar9T07-On-14" style="edgeStyle=orthogonalEdgeStyle;html=1;verticalAlign=bottom;endArrow=open;endSize=8;strokeColor=#ff0000;rounded=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;exitX=0.5;exitY=1;exitDx=0;exitDy=0;" target="idsmJlHN9uQar9T07-On-16" value="">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="410" y="610" as="sourcePoint" />
+            <mxPoint x="410" y="690" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Вход</title>
+    <link rel="stylesheet" href="{% static 'CorpSiteProject/css/login.css' %}">
+</head>
+
+<body>
+    <div class="login-container">
+        <div class="login-header">
+            <h2>Добро пожаловать!</h2>
+            <p>Войдите в свой аккаунт</p>
+        </div>
+
+        {% if form.errors %}
+            <div class="error-message">
+                Неверный номер телефона или пароль. Попробуйте снова.
+            </div>
+        {% endif %}
+
+        <form method="POST">
+            {% csrf_token %}
+            
+            <div class="form-group">
+                <label for="phone">Номер телефона или почта</label>
+                <div class="input-icon">
+                    <input type="text" id="phone" name="username" 
+                           placeholder="+7 (999) 123-45-67" required>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="password">Пароль</label>
+                <div class="input-icon">
+                    <input type="password" id="password" name="password" 
+                           placeholder="Введите пароль" required>
+                </div>
+            </div>
+
+            <button type="submit" class="login-btn">Войти</button>
+            
+            <input type="hidden" name="next" value="{{ next }}">
+        </form>
+
+        <div class="footer-links">
+            <a href="#">Забыли пароль?</a> | 
+            <a href="#">Нет аккаунта? Зарегистрироваться</a>
+        </div>
+    </div>
+</body>
+</html>

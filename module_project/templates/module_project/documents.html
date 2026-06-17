@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Документы и бланки</title>
+    <link rel="stylesheet" href="{% static 'CorpSiteProject/css/style.css' %}">
+</head>
+
+<body>
+    <header class="header">
+        <div class="header-top">
+            <h1 style="font-weight: 100; color: rgb(143, 0, 0); margin-left: 0;"><i class="Main"></i>Пламенея корпоративный портал</h1>
+            <nav>
+                <ul class="nav-list" >
+                    {% if user.is_authenticated %}
+                        {% if perms.auth.add_user %}
+                            <li><a href="{% url 'admin:index' %}" class="profile-btn">Раздел администратора</a></li>
+                        {% endif %}
+                        <li><a href="{% url 'Profile' %}" class="profile-btn">Личный кабинет</a></li>
+                    {% else %}
+                        <li><a href="{% url 'login' %}" class="profile-btn">Войти</a></li>
+                    {% endif %}
+                </ul>
+            </nav>
+        </div>
+        
+        <nav class="header-nav">
+            <ul class="nav-list">
+                <li><a href="{% url 'Departments' %}" class="nav-btn">Подразделения и контакты</a></li>
+                <li><a href="{% url 'Events' %}" class="nav-btn">Корпоративная жизнь</a></li>
+                <li><a href="{% url 'Home' %}" class="nav-btn">Главная страница с новостями </a></li>
+            </ul>
+         </nav>
+    </header>
+
+    <main class="docs-page">
+        <!-- Заголовок страницы -->
+        <section class="docs-hero">
+            <h1 style="font-weight: 400; color: rgb(143, 0, 0);">Документы и бланки</h1>
+            <p class="subtitle">Здесь вы можете найти и скачать официальные документы, бланки заявлений и образцы договоров</p>
+        </section>
+
+        <!-- Категория 1: Официальные документы -->
+        <section class="docs-category">
+            <h2 class="category-title" style="font-weight: 400; color: rgb(143, 0, 0);"><i class="fas fa-folder-open"></i> Учредительные документы</h2>
+            
+            <div class="docs-list">
+                <!-- Карточка документа 1 -->
+                <div class="doc-item">
+                    <div class="doc-icon pdf"><i class="far fa-file-pdf"></i></div>
+                    <div class="doc-info">
+                        <a href="docs/ustav.pdf" download class="doc-name">Устав организации (редакция 2026 года)</a>
+                        <span class="doc-meta">PDF, 2.4 MB • Обновлено: 10.01.2026</span>
+                    </div>
+                    <a href="docs/ustav.pdf" download class="download-btn" title="Скачать"><i class="fas fa-download"></i></a>
+                </div>
+
+                <!-- Карточка документа 2 -->
+                <div class="doc-item">
+                    <div class="doc-icon pdf"><i class="far fa-file-pdf"></i></div>
+                    <div class="doc-info">
+                        <a href="docs/svidetelstvo.pdf" download class="doc-name">Свидетельство о постановке на учет (ИНН)</a>
+                        <span class="doc-meta">PDF, 1.1 MB • Обновлено: 15.03.2024</span>
+                    </div>
+                    <a href="docs/svidetelstvo.pdf" download class="download-btn" title="Скачать"><i class="fas fa-download"></i></a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Категория 2: Бланки и заявления -->
+        <section class="docs-category">
+            <h2 class="category-title" style="font-weight: 400; color: rgb(143, 0, 0);"><i class="fas fa-folder-open"></i> Бланки заявлений</h2>
+            
+            <div class="docs-list">
+                <!-- Карточка документа 3 -->
+                <div class="doc-item">
+                    <div class="doc-icon word"><i class="far fa-file-word"></i></div>
+                    <div class="doc-info">
+                        <a href="docs/zayavlenie-priem.docx" download class="doc-name">Заявление о приеме на работу</a>
+                        <span class="doc-meta">DOCX, 45 KB • Образец заполнения</span>
+                    </div>
+                    <a href="docs/zayavlenie-priem.docx" download class="download-btn" title="Скачать"><i class="fas fa-download"></i></a>
+                </div>
+
+                <!-- Карточка документа 4 -->
+                <div class="doc-item">
+                    <div class="doc-icon word"><i class="far fa-file-word"></i></div>
+                    <div class="doc-info">
+                        <a href="docs/zayavlenie-otpusk.docx" download class="doc-name">Заявление на ежегодный оплачиваемый отпуск</a>
+                        <span class="doc-meta">DOCX, 38 KB • Бланк для заполнения</span>
+                    </div>
+                    <a href="docs/zayavlenie-otpusk.docx" download class="download-btn" title="Скачать"><i class="fas fa-download"></i></a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Категория 3: Отчеты и аналитика -->
+        <section class="docs-category">
+            <h2 class="category-title" style="font-weight: 400; color: rgb(143, 0, 0);"><i class="fas fa-folder-open"></i> Сметы и отчетность</h2>
+            
+            <div class="docs-list">
+                <!-- Карточка документа 5 -->
+                <div class="doc-item">
+                    <div class="doc-icon excel"><i class="far fa-file-excel"></i></div>
+                    <div class="doc-info">
+                        <a href="docs/otchet-2025.xlsx" download class="doc-name">Финансовый отчет за IV квартал 2025 года</a>
+                        <span class="doc-meta">XLSX, 420 KB • Утвержденный оригинал</span>
+                    </div>
+                    <a href="docs/otchet-2025.xlsx" download class="download-btn" title="Скачать"><i class="fas fa-download"></i></a>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+</body>
+</html>

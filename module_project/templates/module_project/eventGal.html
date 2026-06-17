@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Галерея мероприятия</title>
+    <link rel="stylesheet" href="{% static 'CorpSiteProject/css/galstyle.css' %}">
+</head>
+
+{% block content %}
+<div class="gallery-page">
+    <div class="container">
+        <a href="{% url 'Events' %}" class="back-btn">Назад к мероприятиям</a>
+        
+        <h1>{{ event.title }}</h1>
+        <p class="event-date">{{ event.date|date:"d E Y, H:i" }}</p>
+        
+        {% if event.text %}
+            <div class="event-description">
+                <p>{{ event.text }}</p>
+            </div>
+        {% endif %}
+        
+        <div class="gallery-grid">
+            {% for photo in photos %}
+                <div class="gallery-item">
+                    <a href="{{ photo.image.url }}" data-lightbox="gallery" data-title="{{ photo.title|default:event.title }}">
+                        <img src="{{ photo.image.url }}" alt="{{ photo.title|default:event.title }}">
+                    </a>
+                    {% if photo.title %}
+                        <p class="photo-caption">{{ photo.title }}</p>
+                    {% endif %}
+                </div>
+            {% empty %}
+                <div class="no-photos">
+                    <p>В этом мероприятии пока нет фотографий</p>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+
+
+{% endblock %}

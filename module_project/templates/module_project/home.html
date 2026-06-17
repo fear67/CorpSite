@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Корпоративный сайт</title>
+    <link rel="stylesheet" href="{% static 'CorpSiteProject/css/style.css' %}">
+</head>
+{% block content %}
+<body>
+    <header class="header">
+        <div class="header-top">
+            <h1 style="font-weight: 100; color: rgb(143, 0, 0); margin-left: 0;"><i class="Main"></i>Пламенея корпоративный портал</h1>
+            <nav>
+                <ul class="nav-list" >
+                    {% if user.is_authenticated %}
+                        {% if perms.auth.add_user %}
+                            <li><a href="{% url 'admin:index' %}" class="profile-btn">Раздел администратора</a></li>
+                        {% endif %}
+                        <li><a href="{% url 'Profile' %}" class="profile-btn">Личный кабинет</a></li>
+                    {% else %}
+                        <li><a href="{% url 'login' %}" class="profile-btn">Войти</a></li>
+                    {% endif %}
+                </ul>
+            </nav>
+        </div>
+        
+        <nav class="header-nav">
+            <ul class="nav-list">
+                <li><a href="{% url 'Departments' %}" class="nav-btn">Подразделения и контакты </a></li>
+                <li><a href="{% url 'Events' %}" class="nav-btn">Корпоративная жизнь</a></li>
+                <li><a href="{% url 'Docs' %}" class="nav-btn">Документы и бланки</a></li>
+            </ul>
+         </nav>
+    </header>
+
+    <main>
+        <div class="top-banner">
+            <img src="{% static 'images/banner.webp' %}" >
+        </div>
+        <h1 id="korp-life" style="font-weight: 200; font-size: 2rem; margin-top: 3rem; ">Новости</h1>
+        {% if perms.module_project.add_news %}
+            <a href="{% url 'news_create' %}" class="add-news-btn" >+ Добавить новость</a>
+        {% endif %}
+        <div class="news-grid">
+            {% for item in news %}
+            <article class="news-card">
+                <div class="news-card__image">
+                    {% if item.image %}
+                        <img src="{{ item.image.url }}" alt="{{ item.title }}">
+                    {% else %}
+                        <div class="news-card__no-image">
+                            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#ccc" stroke-width="1.5">
+                                <rect x="2" y="2" width="20" height="20" rx="2"></rect>
+                                <circle cx="8.5" cy="8.5" r="2.5"></circle>
+                                <path d="M21 15l-5-4-3 3-4-4-5 5"></path>
+                            </svg>
+                            <span>Нет фото</span>
+                        </div>
+                    {% endif %}
+                </div>
+                <div class="news-card__content">
+                    <h2 class="news-card__title">
+                        <a href="#" class="event-link-title">{{ item.title }}</a>
+                    </h2>
+                    <div class="news-card__meta">
+                        <span class="news-card__date">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+                                <line x1="8" y1="2" x2="8" y2="6"></line>
+                                <line x1="16" y1="2" x2="16" y2="6"></line>
+                                <line x1="3" y1="10" x2="21" y2="10"></line>
+                            </svg>
+                            {{ item.date|date:"d E Y" }}
+                        </span>
+                        <span class="news-card__author">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                                <circle cx="12" cy="7" r="4"></circle>
+                            </svg>
+                            {{ item.author.full_name|default:"Автор" }}
+                        </span>
+                    </div>
+                    <p class="promo-desc news-card__desc">
+                        {{ item.text }}
+                    </p>
+                    <button type="button" class="read-more-btn">Ещё</button>
+                </div>
+            </article>
+            {% endfor %}
+        </div>
+    </main>
+    <footer class="footer">
+
+    </footer>
+    <script src="{% static 'CorpSiteProject/js/script.js' %}" defer></script>
+</body>
+
+{% endblock %}

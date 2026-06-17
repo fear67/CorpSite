@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Документы и бланки</title>
+    <link rel="stylesheet" href="{% static 'CorpSiteProject/css/personal.css' %}">
+</head>
+
+{% block content %}
+<div class="employees-page">
+    <div class="container">
+        <a href="{% url 'Departments' %}" class="back-link">Назад к подразделениям</a>
+        
+        <div class="workplace-header">
+            <h1>{{ workplace.group.name }}</h1>
+            
+            {% if workplace.place %}
+                <p class="workplace-location">
+                    <i class="fas fa-map-marker-alt"></i> {{ workplace.place.name }}
+                </p>
+            {% endif %}
+            <div style="display:flex;">
+                {% if workplace.phone_number %}
+                    <p class="workplace-phone">
+                        <i class="fas fa-phone"></i> {{ workplace.phone_number }}
+                    </p>
+                {% endif %}
+                {% if workplace.address %}
+                    <p class="workplace-address">
+                        <i class="fas fa-building"></i> {{ workplace.address }}
+                    </p>
+                {% endif %}
+                {% if workplace.timework %}
+                    <p class="workplace-timework">
+                        <i class="fas fa-clock"></i> {{ workplace.timework }}
+                    </p>
+                {% endif %}
+            </div>
+            
+        </div>
+        
+        <div class="employees-section">
+            <h2>Сотрудники ({{ employees.count }})</h2>
+            
+            {% if employees %}
+                <div class="employees-grid">
+                    {% for employee in employees %}
+                        <div class="employee-card">
+                            <div class="employee-avatar">
+                                {% if employee.avatar %}
+                                    <img src="{{ employee.avatar.url }}" alt="{{ employee.full_name }}">
+                                {% else %}
+                                    <div class="avatar-placeholder">
+                                        <i class="fas fa-user"></i>
+                                    </div>
+                                {% endif %}
+                            </div>
+                            <div class="employee-info">
+                                <h3>{{ employee.full_name }}</h3>
+                                {% if employee.post %}
+                                    <p class="employee-post">{{ employee.post.name }}</p>
+                                {% endif %}
+                                {% if employee.phone_number %}
+                                    <p class="employee-phone">
+                                        <i class="fas fa-phone"></i> {{ employee.phone_number }}
+                                    </p>
+                                {% endif %}
+                                <p class="employee-email">
+                                    <i class="fas fa-envelope"></i> {{ employee.user.email }}
+                                </p>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            {% else %}
+                <div class="no-employees">
+                    <p>В этом подразделении пока нет сотрудников</p>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+{% endblock %}

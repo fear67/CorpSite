@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Подразделения и контакты</title>
+    <link rel="stylesheet" href="{% static 'CorpSiteProject/css/departments.css' %}">
+</head>
+
+<body>
+
+    <header class="header">
+        <div class="header-top">
+            <h1 style="font-weight: 100; color: rgb(143, 0, 0); margin-left: 0;"><i class="Main"></i>Пламенея корпоративный портал</h1>
+            <nav>
+                <ul class="nav-list" >
+                    {% if user.is_authenticated %}
+                        {% if perms.auth.add_user %}
+                            <li><a href="{% url 'admin:index' %}" class="profile-btn">Раздел администратора</a></li>
+                        {% endif %}
+                        <li><a href="{% url 'Profile' %}" class="profile-btn">Личный кабинет</a></li>
+                    {% else %}
+                        <li><a href="{% url 'login' %}" class="profile-btn">Войти</a></li>
+                    {% endif %}
+                </ul>
+            </nav>
+        </div>
+        
+        <nav class="header-nav">
+            <ul class="nav-list">
+                <li><a href="{% url 'Home' %}" class="nav-btn">Главная страница с новостями </a></li>
+                <li><a href="{% url 'Events' %}" class="nav-btn">Корпоративная жизнь</a></li>
+                <li><a href="{% url 'Docs' %}" class="nav-btn">Документы и бланки</a></li>
+            </ul>
+         </nav>
+    </header>
+
+    <main class="departments-page" style="margin-top: 4rem;">
+        <h1 class="page-title" style="font-weight: 400; color: #7c5237;">Подразделения и контакты</h1>
+        <p class="page-subtitle">Свяжитесь с нужным отделом напрямую</p>
+
+        <div class="departments-grid">
+            {% for workplace in workplaces %}
+                <a href="{% url 'personal' workplace.id %}" class="dep-card">
+                    <!-- Название -->
+                    <div class="dep-group-name">
+                        {{ workplace.group.name|default:workplace.name }}
+                    </div>
+
+                    <!-- Адрес -->
+                    {% if workplace.place %}
+                        <div class="dep-address">
+                            <span>{{ workplace.place.name }}</span>
+                        </div>
+                    {% endif %}
+
+                    <!-- Режим работы -->
+                    {% if workplace.timework %}
+                        <div class="dep-timework">
+                            <strong>Адрес:</strong> {{ workplace.address }}
+                        </div>
+                    {% endif %}
+
+                    <!-- Телефон -->
+                    {% if workplace.phone_number %}
+                        <div class="dep-phone">
+                            <strong>Номер телефона:</strong> {{ workplace.phone_number }}
+                        </div>
+                    {% endif %}
+
+                
+                </a>
+            {% empty %}
+                <div class="no-data">
+                    Нет данных о подразделениях
+                </div>
+            {% endfor %}
+        </div>
+    </main>
+
+</body>
+</html>

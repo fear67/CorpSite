@@ -1,0 +1,1028 @@
+*, *::before, *::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family:  'Segoe UI', sans-serif;
+    color: #333;
+    background-color: #ffffff;
+    padding-bottom: 2rem;
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden;
+    padding: 2rem;
+    margin-bottom: 200px;
+}
+
+
+ul, ol {
+    list-style-type: none; 
+}
+
+a {
+    font-size: 1.15rem;
+    text-decoration: none;
+    color: #333333;
+}
+
+a:hover {
+    color: #7c5237;       
+}
+
+
+.header {
+    display: flex;             
+    flex-direction: column;
+    gap: 20px;
+    padding: 0.1rem 0.1rem;
+    background-color: #ffffff;
+    max-width: 1600px;
+    margin: 0 auto ;
+}
+
+.header-top {
+    display: flex;
+    justify-content: space-between; 
+    align-items: center;            
+    width: 93%;
+    border-bottom: 1px solid rgb(231, 231, 231);
+    margin: 1rem 3rem 1.5rem 3rem;
+}
+
+.header-nav {
+    display: flex;
+    justify-content: center;  
+    width: 100%; 
+    margin-top: -1rem;
+}
+
+/* Banner */
+.top-banner {
+    width: 100%;
+    display: flex;
+    justify-content: center; /* Центрирует картинку по горизонтали */
+    box-sizing: border-box;
+}
+
+.top-banner img {
+    width: 100%;      
+    height: auto;           
+    display: block;
+}
+
+.nav-list {
+    display: flex;                
+    gap: 5rem;                     
+    list-style: none;              
+    padding: 0;
+    margin-bottom: 0.5rem;
+}
+
+.header h1 {
+    margin-left: 2rem;
+    margin-bottom: 1rem;
+    font-size: 2.5rem;
+}
+
+.profile-btn {
+    text-decoration: none; 
+    color: #333333;
+    transition: 0.3s;
+    display: inline-block; 
+}
+
+.profile-btn:hover {
+    transform: scale(1.05);
+}
+
+.profile-btn:active {
+    transform: scale(0.98); 
+}
+
+.nav-list{
+    display: flex;
+    justify-content: flex-end;
+    margin-right: 2rem;
+}
+
+main h1{
+    text-align: center;
+    margin: 0.5rem;
+}
+
+.nav-btn {
+    margin-left: 1rem;
+    font-size: 1.2rem;
+    margin-left: 2rem;
+    text-decoration: none; 
+    color: #333333;
+    transition: transform 0.2s ease-in-out, background-color 0.2s;
+    display: inline-block; 
+}  
+
+.nav-btn:hover {
+    transform: scale(1.05);
+}
+
+.nav-btn:active {
+    transform: scale(0.98); 
+}
+
+/* text-info */
+.promo-section {
+    display: flex;
+    justify-content: center; 
+    gap: 10%;                 
+    align-items: flex-start;  
+    margin:  4rem 0; 
+    max-height: min-content;   
+              
+}
+
+.promo-desc {
+    font-size: 16px;
+    line-height: 1.6;
+    color: #555555;
+    margin-bottom: 10px;
+
+    display: -webkit-box;
+    -webkit-line-clamp: 3; 
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    
+    transition: all 0.3s ease-in-out;
+}
+
+.read-more-btn {
+    background: none;
+    border: none;
+    color: #7c5237;           /* Коричнево-золотой цвет под стиль бренда */
+    font-size: 1rem;
+    font-weight: bold;
+    cursor: pointer;
+    padding: 5px 0;
+    text-decoration: underline;
+    outline: none;
+    display: block;           /* Делает её полноценным элементом строки */
+}
+
+.promo-desc.expanded {
+    display: block;
+    -webkit-line-clamp: none;
+    overflow: visible;
+}
+
+.read-more-btn {
+    background: none;
+    border: none;
+    color: #7c5237; 
+    font-size: 1rem;
+    font-weight: bold;
+    cursor: pointer;
+    padding: 0;
+    text-decoration: underline;
+    outline: none;
+}
+
+.read-more-btn:hover {
+    color: #333333;
+}
+
+/* Картинка и описание новости */
+.text-block {
+    width: 30%;               /* Слегка увеличили ширину под большой текст */
+    display: flex;
+    flex-direction: column;   /* Выстраивает заголовок, текст и кнопку строго друг под другом */
+    align-items: flex-start;
+}
+
+.image-block {
+    min-width: 10%;
+    max-width: 400px;
+    max-height: 400px;
+}
+
+.image-block img {
+    width: 100%;                  
+    height: auto;                   
+    display: block;   
+    border-radius: 3rem 0rem 0rem 3rem;              
+}
+
+.footer a {
+    margin-left: 3rem;
+    font-size: 0.9rem;
+}
+
+.footer a:hover {
+    color: #000000;
+    text-decoration: underline; 
+}
+
+/* settings */
+
+.home-btn {
+    display: inline-block;      
+    text-decoration: none;      
+    color: #333333;            
+    font-size: 16px;
+    font-weight: 500;
+    padding: 8px 16px; 
+    margin-left: 1rem;
+    margin-top: 1rem;
+    transition: transform 0.2s ease-in-out;
+    will-change: transform;         
+}
+
+.home-btn:hover {
+    transform: scale(0.995);
+    transform-origin: center center;
+}
+
+.settings-section {
+    padding: 2rem 1rem;
+    display: flex;
+    justify-content: center;
+}
+
+/* Ограничиваем форму по ширине и центрируем */
+.form-container {
+    width: 100%;
+    max-width: 450px;
+    background-color: #ffffff;
+    padding: 2rem;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05); /* Легкая тень для отделения от фона */
+}
+
+.form-container h2 {
+    text-align: center;
+    margin-bottom: 2rem;
+    font-size: 1.8rem;
+}
+
+/* Блок аватарки */
+.avatar-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 2rem;
+}
+
+.avatar-preview {
+    width: 130px;
+    height: 130px;
+    border-radius: 50%;
+    overflow: hidden;
+    border: 3px solid #333333;
+    margin-bottom: 0.8rem;
+}
+
+.avatar-preview img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+#avatar-input {
+    display: none; /* Прячем некрасивую системную кнопку */
+}
+
+.avatar-label {
+    display: inline-block;
+    background-color: #f0f0f0;
+    padding: 6px 16px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    border: 1px solid #ccc;
+    transition: background-color 0.2s;
+}
+
+.avatar-label:hover {
+    background-color: #e2e2e2;
+}
+
+/* Стили для групп полей ввода */
+.form-group {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 1.2rem;
+}
+
+.form-group label {
+    font-size: 0.95rem;
+    font-weight: 600;
+    margin-bottom: 0.4rem;
+}
+
+.form-group input, .form-group select {
+    padding: 10px 12px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 1rem;
+    font-family: inherit;
+    outline: none;
+    transition: border-color 0.2s;
+}
+
+/* Подсветка поля при клике */
+.form-group input:focus, .form-group select:focus {
+    border-color: #333333;
+}
+
+/* Кнопка «Сохранить» */
+.save-btn {
+    width: 100%;
+    padding: 12px;
+    background-color: #333333;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    font-size: 1rem;
+    font-weight: bold;
+    cursor: pointer;
+    margin-top: 1rem;
+    transition: background-color 0.2s, transform 0.1s;
+}
+
+.save-btn:hover {
+    background-color: #555555;
+}
+
+.save-btn:active {
+    transform: scale(0.98);
+}
+
+/* Подразделения и контакты */
+
+/* --- СТРАНИЦА ПОДРАЗДЕЛЕНИЙ --- */
+
+.departments-page {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 3rem 1.5rem;
+}
+
+/* Главный текстовый блок сверху */
+.contacts-hero {
+    text-align: center;
+    margin-bottom: 4rem;
+}
+
+.contacts-hero h1 {
+    font-size: 2.5rem;
+    color: #222;
+    margin-bottom: 0.5rem;
+}
+
+.contacts-hero .subtitle {
+    color: #666;
+    font-size: 1.1rem;
+}
+
+/* Крупный телефон по центру */
+.main-phone-block {
+    margin-top: 1.5rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    font-size: 1.1rem;
+    color: #555;
+}
+
+.main-phone-block i {
+    color: #7c5237; /* Ваш фирменный цвет */
+    font-size: 1.4rem;
+}
+
+.main-phone {
+    font-size: 2rem;
+    font-weight: bold;
+    color: #7c5237;
+    text-decoration: none;
+    transition: color 0.2s;
+}
+.main-phone:hover {
+    color: #333;
+}
+
+/* Умная сетка для карточек */
+.departments-grid {
+    display: grid;
+    /* grid-template-columns заставляет карточки автоматически адаптироваться под размер экрана */
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 30px; /* Красивые зазоры между карточками */
+}
+
+/* Стилизация самой карточки отдела */
+.dep-card {
+    background-color: #ffffff;
+    padding: 2.5rem 2rem;
+    border-radius: 8px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.04);
+    border: 1px solid #eaeaea;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    position: relative; /* Нужно для позиционирования бейджика */
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+/* Легкий интерактив: при наведении карточка приподнимается */
+.dep-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
+}
+
+/* Иконки отделов */
+.dep-icon {
+    font-size: 2rem;
+    color: #7c5237;
+    background-color: #fbf8f5;
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 1.5rem;
+}
+
+.dep-card h3 {
+    font-size: 1.4rem;
+    color: #222;
+    margin-bottom: 0.5rem;
+}
+
+.dep-manager {
+    font-size: 0.95rem;
+    color: #666;
+    margin-bottom: 1.5rem;
+}
+
+/* Блок ссылок внутри карточки */
+.dep-contacts {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    width: 100%;
+    border-top: 1px solid #f5f5f5;
+    padding-top: 1.5rem;
+}
+
+.dep-contacts a {
+    text-decoration: none;
+    color: #444;
+    font-size: 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    transition: color 0.2s;
+}
+
+.dep-contacts a i {
+    font-size: 0.9rem;
+    color: #888;
+}
+
+.dep-contacts a:hover {
+    color: #7c5237;
+}
+
+/* Маленький аккуратный зеленый бейджик "Работаем сейчас" */
+.dep-badge {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    background-color: #e6f4ea;
+    color: #137333;
+    font-size: 0.75rem;
+    font-weight: bold;
+    padding: 4px 8px;
+    border-radius: 4px;
+}
+
+ /* Документы и бланки */
+ /* --- СТРАНИЦА ДОКУМЕНТОВ --- */
+
+.docs-page {
+    max-width: 900px; /* Сужаем страницу, чтобы списки читались удобно */
+    margin: 0 auto;
+    padding: 3rem 1.5rem;
+}
+
+.docs-hero {
+    text-align: center;
+    margin-bottom: 3rem;
+}
+
+.docs-hero h1 {
+    font-size: 2.5rem;
+    color: #222;
+    margin-bottom: 0.5rem;
+}
+
+.docs-hero .subtitle {
+    color: #666;
+    font-size: 1.1rem;
+}
+
+/* Блоки категорий */
+.docs-category {
+    margin-bottom: 2.5rem;
+}
+
+.category-title {
+    font-size: 1.3rem;
+    color: #333;
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.category-title i {
+    color: #7c5237; /* Ваш фирменный цвет */
+}
+
+/* Список документов */
+.docs-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px; /* Расстояние между строками */
+}
+
+/* Отдельная строка документа */
+.doc-item {
+    background-color: #ffffff;
+    padding: 1rem 1.5rem;
+    border-radius: 6px;
+    border: 1px solid #eaeaea;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    transition: background-color 0.2s, box-shadow 0.2s;
+}
+
+/* При наведении подсвечиваем всю плашку документа */
+.doc-item:hover {
+    background-color: #fbf9f6; /* Легкий оттенок */
+    box-shadow: 0 2px 8px rgba(0,0,0,0.02);
+}
+
+/* Иконки типов файлов */
+.doc-icon {
+    font-size: 1.8rem;
+    width: 45px;
+    display: flex;
+    justify-content: center;
+}
+/* Разные цвета для разных расширений */
+.doc-icon.pdf { color: #dc3545; }   /* Красный PDF */
+.doc-icon.word { color: #0056b3; }  /* Синий Word */
+.doc-icon.excel { color: #28a745; } /* Зеленый Excel */
+
+/* Информация о документе */
+.doc-info {
+    flex-grow: 1; /* Занимает всё свободное место в строке */
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.doc-name {
+    color: #222;
+    font-weight: 500;
+    text-decoration: none;
+    font-size: 1.05rem;
+}
+.doc-name:hover {
+    color: #7c5237;
+}
+
+.doc-meta {
+    font-size: 0.85rem;
+    color: #888;
+}
+
+/* Кнопка скачивания справа */
+.download-btn {
+    color: #888;
+    font-size: 1.2rem;
+    text-decoration: none;
+    padding: 8px;
+    border-radius: 50%;
+    transition: background-color 0.2s, color 0.2s;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.download-btn:hover {
+    background-color: #eaeaea;
+    color: #333;
+}
+
+/* Страница с мероприятиями event */
+/* --- СТРАНИЦА СПИСКА МЕРОПРИЯТИЙ --- */
+
+.events-page-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2rem 1.5rem;
+}
+
+.page-title-block {
+    text-align: center;
+    margin-bottom: 2.5rem;
+}
+
+.page-title-block h1 {
+    font-size: 2.2rem;
+    color: #222;
+    margin-bottom: 0.5rem;
+}
+
+.page-title-block p {
+    color: #666;
+}
+
+/* На главном экране: ссылка-заголовок */
+.event-link-title {
+    color: #333;
+    text-decoration: none;
+    transition: color 0.2s;
+}
+.event-link-title:hover {
+    color: #7c5237; /* Выделение цветом бренда при наведении */
+}
+
+/* Панель фильтров */
+.search-filter-panel {
+    background-color: #ffffff;
+    padding: 1.5rem;
+    border-radius: 8px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.03);
+    margin-bottom: 3rem;
+}
+
+.filter-form {
+    display: flex;
+    flex-wrap: wrap; /* Чтобы на мобильных инпуты красиво переносились */
+    gap: 20px;
+    align-items: flex-end; /* Выравнивает кнопку сброса по нижней линии полей */
+}
+
+.filter-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    flex: 1; /* Инпуты делят ширину строки поровну */
+    min-width: 220px; /* Чтобы не сжимались слишком сильно */
+}
+
+.search-input-wrapper {
+    flex: 2; /* Поле поиска по названию будет в два раза шире остальных */
+}
+
+.filter-group label {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: #444;
+}
+
+.filter-group input, .filter-group select {
+    padding: 10px 12px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 1rem;
+    outline: none;
+    background-color: #ffffff;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+/* Иконка лупы внутри поля ввода */
+.input-with-icon {
+    position: relative;
+}
+.input-with-icon i {
+    position: absolute;
+    left: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #aaa;
+}
+.input-with-icon input {
+    padding-left: 35px;
+}
+
+/* Кнопка сброса */
+.clear-filters-btn {
+    padding: 10px 20px;
+    background-color: #f0f0f0;
+    border: 1px solid #ccc;
+    color: #555;
+    border-radius: 5px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    height: 43px; /* Высота подгоняется под соседние инпуты */
+}
+.clear-filters-btn:hover { background-color: #e2e2e2; }
+
+/* Сетка карточек */
+.events-catalog-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 3rem;
+}
+
+/* Стили самой карточки */
+.catalog-card {
+    background-color: #ffffff;
+    border-radius: 8px;
+    overflow: hidden;
+    border: 1px solid #eaeaea;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.02);
+    display: flex;
+    flex-direction: column;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+.catalog-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.06);
+}
+
+.card-img {
+    position: relative;
+    height: 200px;
+    background-color: #eee;
+}
+.card-img img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* Цветные плашки на картинках */
+.card-badge {
+    position: absolute;
+    top: 15px;
+    left: 15px;
+    background-color: #7c5237;
+    color: #fff;
+    padding: 4px 10px;
+    font-size: 0.8rem;
+    font-weight: bold;
+    border-radius: 4px;
+}
+.sale-badge { background-color: #007bff; }
+
+/* Текстовая зона карточки */
+.card-content {
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+}
+
+.card-date {
+    font-size: 0.85rem;
+    color: #7c5237;
+    font-weight: 600;
+    margin-bottom: 8px;
+}
+
+.card-content h3 {
+    font-size: 1.25rem;
+    color: #222;
+    margin-bottom: 10px;
+    line-height: 1.4;
+}
+
+.card-text {
+    font-size: 0.95rem;
+    color: #666;
+    line-height: 1.5;
+    margin-bottom: 1.5rem;
+    flex-grow: 1; /* Выравнивает кнопки по нижней линии, если тексты разной длины */
+}
+
+/* Кнопка "Записаться" */
+.card-btn {
+    text-align: center;
+    text-decoration: none;
+    background-color: #333;
+    color: #fff;
+    padding: 10px;
+    border-radius: 10px;
+    font-weight: bold;
+    font-size: 0.95rem;
+    transition: background-color 0.2s;
+}
+.card-btn:hover { background-color: #535353; color: #fff; }
+
+/* .input{
+    border: none;
+    background: transparent;
+    outline: none;
+    box-shadow: none;
+
+    padding: 10px 15px;
+    margin: 0;
+    box-sizing: border-box;
+
+    border: 1px solid #ccc; 
+    border-radius: 0.5rem;
+    font-size: 16px;
+    color: #333;
+    transition: border-color 0.3s ease;
+} */
+
+.news-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
+    gap: 4rem;
+    max-width: 1600px;
+    margin: 0 auto;
+    padding: 1rem;
+}
+
+/* Карточка новости */
+.news-card {
+    background: #ffffff;
+    border-radius: 16px;
+    overflow: hidden;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+    border: 1px solid #e8e8e8;
+    display: flex;
+    flex-direction: column;
+}
+
+.news-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.08);
+}
+
+/* Изображение */
+.news-card__image {
+    height: 220px;
+    overflow: hidden;
+    background: #f5f5f0;
+}
+
+.news-card__image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.4s ease;
+}
+
+.news-card:hover .news-card__image img {
+    transform: scale(1.03);
+}
+
+.news-card__no-image {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    color: #aaa;
+    font-size: 0.85rem;
+}
+
+/* Контент */
+.news-card__content {
+    padding: 1.5rem;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.news-card__title {
+    margin: 0 0 0.75rem 0;
+    font-size: 1.2rem;
+    font-weight: 600;
+    line-height: 1.4;
+}
+
+.news-card__title a {
+    text-decoration: none;
+    color: #2c2c2c;
+    transition: color 0.2s;
+}
+
+.news-card__title a:hover {
+    color: #7c5237;
+}
+
+/* Мета */
+.news-card__meta {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 1rem;
+    font-size: 0.8rem;
+    color: #8a8a8a;
+    flex-wrap: wrap;
+}
+
+.news-card__date, .news-card__author {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
+}
+
+/* Текст */
+.news-card__text-wrapper {
+    flex: 1;
+}
+
+.news-card__desc {
+    font-size: 0.9rem;
+    line-height: 1.6;
+    color: #5a5a5a;
+    margin: 0;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.news-card__desc.expanded {
+    display: block;
+    -webkit-line-clamp: unset;
+}
+
+/* Кнопка */
+.read-more-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: none;
+    border: none;
+    color: #7c5237;
+    font-size: 0.85rem;
+    font-weight: 500;
+    cursor: pointer;
+    padding: 0.75rem 0 0 0;
+    margin-top: 1rem;
+    transition: color 0.2s;
+    width: fit-content;
+}
+
+.read-more-btn svg {
+    transition: transform 0.2s;
+}
+
+.read-more-btn:hover {
+    color: #2c2c2c;
+}
+
+.read-more-btn:hover svg {
+    transform: translateY(2px);
+}
+
+.footer{
+    border-top: 1px solid #eeeeee;
+    margin: 0 3rem;
+    padding: 2rem 0;
+}
+
+.grid-container {
+  display: grid;
+  grid-template-columns: 200px 1fr 200px;
+  grid-template-rows: auto 1fr auto;
+  gap: 10px;
+  min-height: 100vh;
+
+}
+
+
+
+/* Адаптив */
+@media (max-width: 800px) {
+    .news-grid {
+        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+        gap: 1.5rem;
+    }
+}
+
+@media (max-width: 600px) {
+    .news-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .news-card__image {
+        height: 200px;
+    }
+}

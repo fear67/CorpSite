@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Корпоративный сайт</title>
+    <link rel="stylesheet" href="{% static 'CorpSiteProject/css/newscreate.css' %}">
+</head>
+
+<body>
+    {% block content %}
+    <div class="form-page">
+        <div class="form-container">
+            <a href="{% url 'Home' %}" class="back-link">На главную</a>
+            
+            <h1>{{ title }}</h1>
+            
+            <form method="post" enctype="multipart/form-data" class="news-form">
+                {% csrf_token %}
+                
+                {% for field in form %}
+                    <div class="form-group">
+                        <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+                        {{ field }}
+                        {% if field.errors %}
+                            <div class="form-error">
+                                {{ field.errors }}
+                            </div>
+                        {% endif %}
+                    </div>
+                {% endfor %}
+                
+                <div class="form-buttons">
+                    <button type="submit" class="btn-submit">Опубликовать</button>
+                    <button type="reset" class="btn-reset">Очистить</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <script src="{% static 'CorpSiteProject/js/script.js' %}" defer></script>
+    {% endblock %}
+</body>

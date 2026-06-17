@@ -1,0 +1,203 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body{
+    margin-bottom: 200px;
+}
+
+.gallery-page {
+    min-height: 100vh;
+    padding: 2rem;
+    font-family: 'Segoe UI', 'Roboto', 'Helvetica Neue', Arial, sans-serif;
+}
+
+.gallery-page .container {
+    max-width: 1200px;
+    margin: 0 auto;
+    background: white;
+    border-radius: 16px;
+    padding: 2rem;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.02);
+}
+
+/* Кнопка назад */
+.back-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    text-decoration: none;
+    color: #5a5a5a;
+    font-size: 0.9rem;
+    font-weight: 400;
+    margin-bottom: 1.5rem;
+    padding: 8px 0;
+    transition: color 0.2s;
+}
+
+.back-btn:hover {
+    color: #2c2c2c;
+}
+
+/* Заголовок - ТОНКИЙ ШРИФТ */
+.gallery-page h1 {
+    font-size: 2.2rem;
+    font-weight: 300;  /* тонкий */
+    color: #2c2c2c;
+    margin-bottom: 0.5rem;
+    padding-bottom: 0.75rem;
+    border-bottom: 1px solid #e8e8e8;
+    letter-spacing: -0.3px;
+}
+
+/* Дата мероприятия */
+.event-date {
+    font-size: 0.9rem;
+    font-weight: 400;
+    color: #8a8a8a;
+    margin-bottom: 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.event-date::before {
+    font-size: 1rem;
+}
+
+/* Описание мероприятия */
+.event-description {
+    background: #f0f0f0;
+    padding: 1.5rem;
+    margin-bottom: 2rem;
+}
+
+.event-description p {
+    color: #797979;
+    line-height: 1.6;
+    font-size: 1rem;
+    font-weight: 400;
+}
+
+/* СЕТКА ДЛЯ ФОТО */
+.gallery-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1.5rem;
+    margin-top: 2rem;
+}
+
+/* Карточка фото */
+.gallery-item {
+    background: #ffffff;
+    overflow: hidden;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.gallery-item:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+}
+
+.gallery-item a {
+    display: block;
+    position: relative;
+    overflow: hidden;
+    aspect-ratio: 1 / 1;
+}
+
+.gallery-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s;
+}
+
+.gallery-item:hover img {
+    transform: scale(1.05);
+}
+
+/* Подпись под фото */
+.photo-caption {
+    padding: 0.75rem;
+    font-size: 0.8rem;
+    font-weight: 400;
+    color: #5a5a5a;
+    text-align: center;
+    background: #fafaf8;
+    border-top: 1px solid #e8e8e8;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* Нет фото */
+.no-photos {
+    grid-column: 1 / -1;
+    text-align: center;
+    padding: 4rem;
+    color: #9a9a9a;
+    font-weight: 400;
+    background: #fafaf8;
+    border-radius: 12px;
+    border: 1px dashed #d0d0d0;
+}
+
+.no-photos p {
+    font-size: 1rem;
+}
+
+/* --- ПОДКЛЮЧЕНИЕ НОРМАЛЬНЫХ ШРИФТОВ --- */
+@import url('https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600&display=swap');
+
+.gallery-page {
+    font-family: 'Inter', 'Segoe UI', 'Roboto', sans-serif;
+}
+
+/* Адаптивность */
+@media (max-width: 1000px) {
+    .gallery-grid {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 1rem;
+    }
+    
+    .gallery-page {
+        padding: 1rem;
+    }
+    
+    .gallery-page .container {
+        padding: 1.5rem;
+    }
+    
+    .gallery-page h1 {
+        font-size: 1.8rem;
+    }
+}
+
+@media (max-width: 700px) {
+    .gallery-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1rem;
+    }
+    
+    .gallery-page h1 {
+        font-size: 1.5rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .gallery-grid {
+        grid-template-columns: repeat(1, 1fr);
+    }
+    
+    .event-description {
+        padding: 1rem;
+    }
+    
+    .gallery-page h1 {
+        font-size: 1.3rem;
+        font-weight: 400;
+    }
+}

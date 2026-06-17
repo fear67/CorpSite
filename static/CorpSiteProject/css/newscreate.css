@@ -1,0 +1,151 @@
+body{
+    font-family: sans-serif;
+}
+
+
+.form-page {
+    min-height: 100vh;
+    background: #eeeeee;  /* ← светло-серый фон */
+    padding: 2rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.form-container {
+    max-width: 800px;
+    width: 100%;
+    background: white;
+    border-radius: 20px;
+    padding: 2rem;
+    border: 1px solid #e8e8e8;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04);
+}
+
+.back-link {
+    display: inline-block;
+    margin-bottom: 1.5rem;
+    color: #7a7a7a;
+    text-decoration: none;
+    transition: color 0.2s;
+}
+
+.back-link:hover {
+    color: #2c2c2c;
+}
+
+.form-container h1 {
+    font-size: 1.8rem;
+    font-weight: 400;
+    color: #2c2c2c;
+    margin-bottom: 2rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 2px solid #e8e8e8;
+}
+
+.form-group {
+    margin-bottom: 1.5rem;
+}
+
+.form-group label {
+    display: block;
+    font-weight: 500;
+    color: #4a4a4a;
+    margin-bottom: 0.5rem;
+}
+
+/* Стили для текстового поля */
+.form-input, .form-textarea {
+    width: 100%;
+    padding: 12px 16px;
+    border: 1px solid #d0d0d0;
+    border-radius: 12px;
+    font-size: 1rem;
+    font-family: inherit;
+    transition: border-color 0.2s;
+    box-sizing: border-box;
+    background: white;
+}
+
+.form-input:focus, .form-textarea:focus {
+    outline: none;
+    border-color: #2c2c2c;
+}
+
+.form-textarea {
+    resize: vertical;
+}
+
+/* СТИЛИ ДЛЯ КНОПКИ ВЫБОРА ФАЙЛА */
+input[type="file"] {
+    display: none;  /* прячем стандартную кнопку */
+}
+
+/* Кастомная кнопка для файла */
+.custom-file-label {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: #f0f0f0;
+    color: #4a4a4a;
+    padding: 10px 20px;
+    border-radius: 12px;
+    font-size: 0.9rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s;
+    border: 1px solid #d0d0d0;
+}
+
+.custom-file-label:hover {
+    background: #e0e0e0;
+    border-color: #b0b0b0;
+}
+
+/* Имя выбранного файла */
+.file-name {
+    margin-left: 1rem;
+    font-size: 0.85rem;
+    color: #7a7a7a;
+}
+
+.form-error {
+    color: #c72a2a;
+    font-size: 0.8rem;
+    margin-top: 0.25rem;
+}
+
+.form-buttons {
+    display: flex;
+    gap: 1rem;
+    margin-top: 2rem;
+}
+
+.btn-submit, .btn-reset {
+    padding: 12px 24px;
+    border: none;
+    border-radius: 12px;
+    font-size: 1rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.btn-submit {
+    background: #2c2c2c;
+    color: white;
+}
+
+.btn-submit:hover {
+    background: #1a1a1a;
+}
+
+.btn-reset {
+    background: #f0f0f0;
+    color: #4a4a4a;
+    border: 1px solid #d0d0d0;
+}
+
+.btn-reset:hover {
+    background: #e0e0e0;
+}

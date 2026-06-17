@@ -1,0 +1,332 @@
+*, *::before, *::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'Segoe UI', 'Arial', sans-serif;
+    background: #ffffff;
+    min-height: 100vh;
+    padding: 2rem;
+}
+body{
+    margin-bottom: 200px;
+}
+
+
+.home-btn {
+    display: inline-block;
+    text-decoration: none;
+    color: #4a4a4a;
+    font-size: 14px;
+    font-weight: 500;
+    padding: 8px 16px;
+    margin-left: 2rem;
+    transition: color 0.2s ease;
+}
+
+.home-btn:hover {
+    color: #2c2c2c;
+}
+
+.departments-page {
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+.page-title {
+    font-size: 2rem;
+    font-weight: 300;
+    color: #2c2c2c;
+    margin-bottom: 0.5rem;
+}
+
+.page-subtitle {
+    color: #8a8a8a;
+    font-weight: 300;
+    margin-bottom: 2rem;
+}
+
+/* СЕТКА КАРТОЧЕК */
+.departments-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+    gap: 1.5rem;
+}
+
+/* КАРТОЧКА */
+.dep-card {
+    border-left: 1px solid #e0e0e0;
+    padding: 1.5rem 1.8rem 1.5rem 1.8rem;
+    transition: transform 0.3s, box-shadow 0.3s;
+    text-decoration: none;
+    color: inherit;
+    display: block;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+}
+
+.dep-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.08);
+}
+
+/* Название - крупно, тонко */
+.dep-group-name {
+    font-size: 2rem;
+    font-weight: 300;
+    color: #7c5237;
+    margin-bottom: 0.5rem;
+    letter-spacing: -0.5px;
+}
+
+/* Адрес */
+.dep-address {
+    font-size: 0.95rem;
+    color: #4a4a4a;
+    padding-bottom: 1.5rem;
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+}
+
+.dep-address i {
+    color: #9a9a9a;
+    font-size: 0.9rem;
+    margin-top: 3px;
+    width: 18px;
+}
+
+/* Режим работы */
+.dep-timework {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 0.95rem;
+    color: #5a5a5a;
+    margin-bottom: 0.5rem;
+}
+
+.dep-timework i {
+    color: #9a9a9a;
+    font-size: 0.9rem;
+    width: 18px;
+}
+
+.dep-timework strong {
+    font-weight: 500;
+    color: #2c2c2c;
+}
+
+/* Телефон */
+.dep-phone {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 0.95rem;
+    color: #5a5a5a;
+    margin-bottom: 1.5rem;
+}
+
+.dep-phone i {
+    color: #9a9a9a;
+    font-size: 0.9rem;
+    width: 18px;
+}
+
+.dep-phone a {
+    color: #5a5a5a;
+    text-decoration: none;
+    transition: color 0.2s;
+}
+
+.dep-phone a:hover {
+    color: #7c5237;
+}
+
+/* Блок сотрудников внизу */
+.dep-bottom {
+    padding-top: 1rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.dep-employees-link {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: #7c5237;
+    font-weight: 400;
+    font-size: 0.9rem;
+    text-decoration: none;
+    transition: color 0.2s;
+}
+
+.dep-employees-link:hover {
+    color: #2c2c2c;
+}
+
+.dep-employees-link i {
+    font-size: 1rem;
+}
+
+.dep-employees-count {
+    background: #f0f0f0;
+    padding: 2px 12px;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    color: #6a6a6a;
+}
+
+.no-data {
+    grid-column: 1 / -1;
+    text-align: center;
+    padding: 3rem;
+    background: #ffffff;
+    border-radius: 16px;
+    border: 1px solid #e8e8e8;
+    color: #8a8a8a;
+}
+
+/* Адаптив */
+@media (max-width: 700px) {
+    body {
+        padding: 1rem;
+    }
+
+    .header {
+        margin: -1rem -1rem 1.5rem -1rem;
+    }
+
+    .departments-grid {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+
+    .dep-group-name {
+        font-size: 1.6rem;
+    }
+
+    .page-title {
+        font-size: 1.5rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .dep-card {
+        padding: 1.2rem;
+    }
+
+    .dep-group-name {
+        font-size: 1.3rem;
+    }
+
+    .dep-bottom {
+        flex-direction: column;
+        gap: 0.5rem;
+        align-items: flex-start;
+    }
+}
+
+
+
+
+/* ========== ХЕДЕР ========== */
+
+.header {
+    display: flex;             
+    flex-direction: column;
+    gap: 20px;
+    padding: 0.1rem 0.1rem;
+    background-color: #ffffff;
+    max-width: 1600px;
+    margin: 0 auto;
+}
+
+.header-top {
+    display: flex;
+    justify-content: space-between; 
+    align-items: center;            
+    width: 93%;
+    border-bottom: 1px solid rgb(231, 231, 231);
+    margin: 1rem 3rem 1.5rem 3rem;
+}
+
+.header-nav {
+    display: flex;
+    justify-content: center;  
+    width: 100%; 
+    margin-top: -1rem;
+}
+
+.header h1 {
+    margin-left: 2rem;
+    margin-bottom: 1rem;
+    font-size: 2.5rem;
+}
+
+/* ========== НАВИГАЦИЯ ========== */
+
+.nav-list {
+    display: flex;                
+    gap: 5rem;                     
+    list-style: none;              
+    padding: 0;
+    margin-bottom: 0.5rem;
+}
+
+.nav-list {
+    display: flex;
+    justify-content: flex-end;
+    margin-right: 2rem;
+}
+
+/* ========== КНОПКИ В ХЕДЕРЕ ========== */
+
+.profile-btn {
+    text-decoration: none; 
+    color: #333333;
+    transition: 0.3s;
+    display: inline-block; 
+}
+
+.profile-btn:hover {
+    transform: scale(1.05);
+}
+
+.profile-btn:active {
+    transform: scale(0.98); 
+}
+
+.nav-btn {
+    margin-left: 1rem;
+    font-size: 1.2rem;
+    margin-left: 2rem;
+    text-decoration: none; 
+    color: #333333;
+    transition: transform 0.2s ease-in-out, background-color 0.2s;
+    display: inline-block; 
+}  
+
+.nav-btn:hover {
+    transform: scale(1.05);
+}
+
+.nav-btn:active {
+    transform: scale(0.98); 
+}
+
+/* ========== ССЫЛКИ ========== */
+
+a {
+    font-size: 1.15rem;
+    text-decoration: none;
+    color: #333333;
+}
+
+a:hover {
+    color: #7c5237;       
+}

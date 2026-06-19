@@ -36,6 +36,9 @@ urlpatterns = [
     path('create_news/', views.news_create, name='news_create'),
     path('create_events/', views.event_create, name='event_create'),
     path('workplace/<int:workplace_id>/employees/', views.Deppersonal, name='personal'),
+
+    path('event/<int:event_id>/photos/upload/', views.event_photos_upload, name='event_photos_upload'),
+    path('api/photo/<int:photo_id>/delete/', views.photo_delete_ajax, name='photo_delete_ajax'),
     
 ]
 

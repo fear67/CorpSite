@@ -4,6 +4,12 @@ from django.contrib import messages
 from django.shortcuts import render, get_object_or_404
 from django.contrib.auth.decorators import permission_required
 from .forms import NewsForm, EventCreateForm
+from django.contrib.auth.decorators import login_required
+from .forms import EventPhotoForm
+from django.db import models
+from django.views.decorators.csrf import csrf_exempt
+import traceback
+from django.http import JsonResponse
 
 def home_output(request):
     news = News.objects.all().order_by('-date')  # все новости, свежие сверху
@@ -56,6 +62,54 @@ def event_detail(request, event_id):
         'event': event,
         'photos': photos,
     })
+
+@login_required
+def event_photos_upload(request, event_id):
+    """Обработка загрузки фото (AJAX + обычная)"""
+    event = get_object_or_404(CorpLife, id=event_id)
+    
+    if request.method == 'POST':
+        form = EventPhotoForm(request.POST, request.FILES)
+        if form.is_valid():
+            photo = form.save(commit=False)
+            photo.event = event
+            photo.order = event.photos.count() + 1
+            photo.save()
+            
+            # Если AJAX запрос — возвращаем JSON
+            if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
+                return JsonResponse({
+                    'success': True,
+                    'photo': {
+                        'id': photo.id,
+                        'url': photo.image.url,
+                        'caption': photo.caption,
+                    }
+                })
+            
+            messages.success(request, 'Фото добавлено!')
+            return redirect('module_project:event_detail', event_id=event.id)
+    else:
+        form = EventPhotoForm()
+    
+    # Если не AJAX — показываем страницу галереи с формой
+    photos = event.photos.all()
+    return render(request, 'module_project/eventGal.html', {
+        'event': event,
+        'photos': photos,
+        'form': form,
+    })
+
+
+@login_required
+def photo_delete(request, photo_id):
+    """Удаление фото (AJAX)"""
+    if request.method == 'POST':
+        photo = get_object_or_404(EventPhoto, id=photo_id)
+        photo.delete()
+        return JsonResponse({'success': True})
+    return JsonResponse({'success': False}, status=400)
+
 
 
 @permission_required('module_project.add_news', raise_exception=True)
@@ -117,3 +171,49 @@ def Deppersonal(request, workplace_id):
         'employees': employees,
     })
 
+
+
+@login_required
+def event_photos_upload(request, event_id):
+    """Страница добавления множества фото с drag-and-drop"""
+    event = get_object_or_404(CorpLife, id=event_id)
+    photos = event.photos.all().order_by('order')
+    
+    if request.method == 'POST' and request.FILES.get('photo'):
+        # Загружаем одно фото
+        photo = request.FILES['photo']
+        new_photo = EventPhoto.objects.create(
+            event=event,
+            image=photo,
+            order=event.photos.count() + 1
+        )
+        return JsonResponse({
+            'success': True,
+            'photo': {
+                'id': new_photo.id,
+                'url': new_photo.image.url,
+                'caption': new_photo.caption or '',
+            }
+        })
+    
+    return render(request, 'module_project/photos_upload.html', {
+        'event': event,
+        'photos': photos,
+    })
+
+
+@csrf_exempt  # 👈 ВРЕМЕННО для теста
+@login_required
+def photo_delete_ajax(request, photo_id):
+    """Удаление фото через AJAX"""
+    try:
+        print(f"Удаление фото {photo_id}")
+        photo = get_object_or_404(EventPhoto, id=photo_id)
+        print(f"Найдено фото: {photo}")
+        photo.delete()
+        print("Фото удалено")
+        return JsonResponse({'success': True})
+    except Exception as e:
+        print("ОШИБКА:")
+        print(traceback.format_exc())
+        return JsonResponse({'success': False, 'error': str(e)}, status=500)

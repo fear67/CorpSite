@@ -23,6 +23,7 @@
             </div>
         {% endif %}
         
+        <a class="back-btn" href="{% url 'event_photos_upload' event.id %}">+ Добавить фотографии</a>
         <div class="gallery-grid">
             {% for photo in photos %}
                 <div class="gallery-item">

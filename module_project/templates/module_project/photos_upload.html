@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Добавление фото - {{ event.title }}</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="{% static 'CorpSiteProject/css/galstyle.css' %}">
+
+</head>
+
+{% block content %}
+<div class="upload-page">
+    <div class="upload-container">
+        <div class="upload-header">
+            <div>
+                <a href="{% url 'event' event.id %}" class="back-btn">
+                    <i></i> Назад к галерее
+                </a>
+                <h1>{{ event.title }}</h1>
+                <span class="subtitle">Загружено фото: {{ photos.count }}</span>
+            </div>
+        </div>
+
+        <!-- DRAG-AND-DROP ЗОНА -->
+        <div class="drop-zone" id="dropZone">
+            <span class="icon"><i class="fas fa-cloud-upload-alt"></i></span>
+            <div class="text">Перетащите фото сюда</div>
+            <div class="hint">или нажмите кнопку ниже</div>
+            <button class="btn-select" id="selectBtn">
+                <i class="fas fa-plus"></i> Выбрать фото
+            </button>
+            <input type="file" id="fileInput" accept="image/*" multiple>
+        </div>
+
+        <!-- Прогресс загрузки -->
+        <div class="upload-progress" id="uploadProgress">
+            <span style="font-size:0.9rem; color:#4a4a4a;">Загрузка... <span id="progressText">0</span>%</span>
+            <div class="progress-bar">
+                <div class="fill" id="progressFill"></div>
+            </div>
+        </div>
+
+        <div class="gallery-grid" id="photoGrid">
+            {% for photo in photos %}
+                <div class="gallery-item" data-id="{{ photo.id }}">
+                    <img src="{{ photo.image.url }}" alt="Фото {{ forloop.counter }}">
+                    <div class="photo-actions">
+                        <button class="btn-delete" data-id="{{ photo.id }}" title="Удалить">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </div>
+                    <span class="photo-order">#{{ forloop.counter }}</span>
+                </div>
+            {% empty %}
+                <div class="empty-state" id="emptyState">
+                    <i class="fas fa-camera" style="font-size:2rem; opacity:0.3; display:block; margin-bottom:0.5rem;"></i>
+                    <p>Нет загруженных фото</p>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+    const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]')?.value || '{{ csrf_token }}';
+    const dropZone = document.getElementById('dropZone');
+    const fileInput = document.getElementById('fileInput');
+    const selectBtn = document.getElementById('selectBtn');
+    const photoGrid = document.getElementById('photoGrid');
+    const progressDiv = document.getElementById('uploadProgress');
+    const progressFill = document.getElementById('progressFill');
+    const progressText = document.getElementById('progressText');
+    const uploadUrl = window.location.href;
+
+    // ============================================
+    // КЛИК ПО КНОПКЕ "Выбрать фото"
+    // ============================================
+    if (selectBtn) {
+        selectBtn.addEventListener('click', function(e) {
+            e.stopPropagation();
+            fileInput.click();
+        });
+    }
+
+    // ============================================
+    // КЛИК ПО ВСЕЙ ЗОНЕ
+    // ============================================
+    if (dropZone) {
+        dropZone.addEventListener('click', function(e) {
+            if (!e.target.closest('#selectBtn')) {
+                fileInput.click();
+            }
+        });
+
+        dropZone.addEventListener('dragover', function(e) {
+            e.preventDefault();
+            this.classList.add('dragover');
+        });
+
+        dropZone.addEventListener('dragleave', function(e) {
+            e.preventDefault();
+            this.classList.remove('dragover');
+        });
+
+        dropZone.addEventListener('drop', function(e) {
+            e.preventDefault();
+            this.classList.remove('dragover');
+            const files = e.dataTransfer.files;
+            if (files.length > 0) {
+                uploadFiles(files);
+            }
+        });
+    }
+
+    // ============================================
+    // ВЫБОР ФАЙЛОВ ЧЕРЕЗ INPUT
+    // ============================================
+    if (fileInput) {
+        fileInput.addEventListener('change', function() {
+            if (this.files.length > 0) {
+                uploadFiles(this.files);
+                this.value = '';
+            }
+        });
+    }
+
+    // ============================================
+    // УДАЛЕНИЕ ФОТО (делегирование)
+    // ============================================
+    if (photoGrid) {
+        photoGrid.addEventListener('click', function(e) {
+            const deleteBtn = e.target.closest('.btn-delete');
+            if (!deleteBtn) return;
+
+            const photoId = deleteBtn.dataset.id;
+            if (!photoId) return;
+
+            if (!confirm('Удалить это фото?')) return;
+
+            const item = deleteBtn.closest('.gallery-item');
+
+            fetch(`/api/photo/${photoId}/delete/`, {
+                method: 'POST',
+                headers: {
+                    'X-CSRFToken': csrfToken,
+                    'Content-Type': 'application/json',
+                },
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Сервер вернул ошибку ' + response.status);
+                }
+                return response.json();
+            })
+            .then(data => {
+                if (data.success) {
+                    // Плавное удаление
+                    item.style.transition = 'opacity 0.3s, transform 0.3s';
+                    item.style.opacity = '0';
+                    item.style.transform = 'scale(0.9)';
+                    setTimeout(() => {
+                        item.remove();
+                        updateOrderNumbers();
+                        updatePhotoCount();
+                        checkEmpty();
+                    }, 300);
+                } else {
+                    alert('Ошибка: ' + (data.error || 'Неизвестная ошибка'));
+                }
+            })
+            .catch(error => {
+                console.error('Ошибка удаления:', error);
+                alert('Ошибка при удалении. Фото будет удалено после обновления страницы.');
+                // Принудительно удаляем элемент визуально, даже если сервер вернул ошибку
+                item.style.transition = 'opacity 0.3s';
+                item.style.opacity = '0';
+                setTimeout(() => {
+                    item.remove();
+                    updateOrderNumbers();
+                    updatePhotoCount();
+                    checkEmpty();
+                }, 300);
+            });
+        });
+    }
+
+    // ============================================
+    // ФУНКЦИЯ ЗАГРУЗКИ ФАЙЛОВ
+    // ============================================
+    function uploadFiles(files) {
+        let uploaded = 0;
+        const total = files.length;
+
+        if (progressDiv) {
+            progressDiv.style.display = 'block';
+        }
+        updateProgress(0);
+
+        const emptyState = document.getElementById('emptyState');
+        if (emptyState) emptyState.remove();
+
+        for (let i = 0; i < files.length; i++) {
+            const file = files[i];
+            const formData = new FormData();
+            formData.append('photo', file);
+
+            fetch(uploadUrl, {
+                method: 'POST',
+                body: formData,
+                headers: {
+                    'X-CSRFToken': csrfToken,
+                },
+            })
+            .then(response => response.json())
+            .then(data => {
+                uploaded++;
+                updateProgress(Math.round((uploaded / total) * 100));
+
+                if (data.success) {
+                    addPhotoToGallery(data.photo);
+                } else {
+                    console.warn('Ошибка загрузки:', data.error);
+                }
+            })
+            .catch(() => {
+                uploaded++;
+                updateProgress(Math.round((uploaded / total) * 100));
+            })
+            .finally(() => {
+                if (uploaded === total) {
+                    setTimeout(() => {
+                        if (progressDiv) progressDiv.style.display = 'none';
+                    }, 500);
+                }
+            });
+        }
+    }
+
+    // ============================================
+    // ОБНОВЛЕНИЕ ПРОГРЕССА
+    // ============================================
+    function updateProgress(percent) {
+        if (progressFill) progressFill.style.width = percent + '%';
+        if (progressText) progressText.textContent = percent;
+    }
+
+    // ============================================
+    // ДОБАВЛЕНИЕ ФОТО В ГАЛЕРЕЮ
+    // ============================================
+    function addPhotoToGallery(photo) {
+        if (!photoGrid) return;
+
+        const emptyState = photoGrid.querySelector('.empty-state');
+        if (emptyState) emptyState.remove();
+
+        const item = document.createElement('div');
+        item.className = 'gallery-item';
+        item.dataset.id = photo.id;
+
+        item.innerHTML = `
+            <img src="${photo.url}" alt="Фото">
+            <div class="photo-actions">
+                <button class="btn-delete" data-id="${photo.id}" title="Удалить">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <span class="photo-order">#${photoGrid.children.length + 1}</span>
+        `;
+
+        photoGrid.appendChild(item);
+        updateOrderNumbers();
+        updatePhotoCount();
+    }
+
+    // ============================================
+    // ОБНОВЛЕНИЕ НОМЕРОВ
+    // ============================================
+    function updateOrderNumbers() {
+        if (!photoGrid) return;
+        const items = photoGrid.querySelectorAll('.gallery-item');
+        items.forEach((item, index) => {
+            const orderSpan = item.querySelector('.photo-order');
+            if (orderSpan) orderSpan.textContent = '#' + (index + 1);
+        });
+    }
+
+    // ============================================
+    // ОБНОВЛЕНИЕ СЧЁТЧИКА ФОТО
+    // ============================================
+    function updatePhotoCount() {
+        if (!photoGrid) return;
+        const count = photoGrid.querySelectorAll('.gallery-item').length;
+        const subtitle = document.querySelector('.subtitle');
+        if (subtitle) subtitle.textContent = 'Загружено фото: ' + count;
+    }
+
+    // ============================================
+    // ПРОВЕРКА НА ПУСТУЮ ГАЛЕРЕЮ
+    // ============================================
+    function checkEmpty() {
+        if (!photoGrid) return;
+        if (photoGrid.querySelectorAll('.gallery-item').length === 0) {
+            photoGrid.innerHTML = `
+                <div class="empty-state" id="emptyState">
+                    <i class="fas fa-camera" style="font-size:2rem; opacity:0.3; display:block; margin-bottom:0.5rem;"></i>
+                    <p>Нет загруженных фото</p>
+                </div>
+            `;
+        }
+    }
+
+    // Обновляем счётчик при загрузке
+    updatePhotoCount();
+});
+</script>
+{% endblock %}

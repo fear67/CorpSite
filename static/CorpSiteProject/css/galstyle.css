@@ -1,29 +1,22 @@
+/* ============================================
+   ОБЩИЕ СТИЛИ
+   ============================================ */
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
 }
 
-body{
+body {
+    font-family: 'Inter', 'Segoe UI', 'Roboto', 'Helvetica Neue', Arial, sans-serif;
     margin-bottom: 200px;
 }
 
-.gallery-page {
-    min-height: 100vh;
-    padding: 2rem;
-    font-family: 'Segoe UI', 'Roboto', 'Helvetica Neue', Arial, sans-serif;
-}
+@import url('https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600&display=swap');
 
-.gallery-page .container {
-    max-width: 1200px;
-    margin: 0 auto;
-    background: white;
-    border-radius: 16px;
-    padding: 2rem;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.02);
-}
-
-/* Кнопка назад */
+/* ============================================
+   КНОПКА НАЗАД (общая)
+   ============================================ */
 .back-btn {
     display: inline-flex;
     align-items: center;
@@ -41,10 +34,26 @@ body{
     color: #2c2c2c;
 }
 
-/* Заголовок - ТОНКИЙ ШРИФТ */
+/* ============================================
+   СТРАНИЦА ГАЛЕРЕИ (.gallery-page)
+   ============================================ */
+.gallery-page {
+    min-height: 100vh;
+    padding: 2rem;
+}
+
+.gallery-page .container {
+    max-width: 1200px;
+    margin: 0 auto;
+    background: white;
+    border-radius: 16px;
+    padding: 2rem;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.02);
+}
+
 .gallery-page h1 {
     font-size: 2.2rem;
-    font-weight: 300;  /* тонкий */
+    font-weight: 300;
     color: #2c2c2c;
     margin-bottom: 0.5rem;
     padding-bottom: 0.75rem;
@@ -52,8 +61,7 @@ body{
     letter-spacing: -0.3px;
 }
 
-/* Дата мероприятия */
-.event-date {
+.gallery-page .event-date {
     font-size: 0.9rem;
     font-weight: 400;
     color: #8a8a8a;
@@ -63,36 +71,35 @@ body{
     gap: 8px;
 }
 
-.event-date::before {
-    font-size: 1rem;
-}
-
-/* Описание мероприятия */
-.event-description {
+.gallery-page .event-description {
     background: #f0f0f0;
-    padding: 1.5rem;
+    padding: 2rem 3rem;
+    border-radius: 1rem;
     margin-bottom: 2rem;
 }
 
-.event-description p {
+.gallery-page .event-description p {
     color: #797979;
     line-height: 1.6;
     font-size: 1rem;
     font-weight: 400;
 }
 
-/* СЕТКА ДЛЯ ФОТО */
+/* ============================================
+   ГАЛЕРЕЯ (общая сетка)
+   ============================================ */
 .gallery-grid {
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
     gap: 1.5rem;
     margin-top: 2rem;
 }
 
-/* Карточка фото */
+/* Стили для карточек фото (общие) */
 .gallery-item {
     background: #ffffff;
     overflow: hidden;
+    border-radius: 12px;
+    border: 1px solid #e8e8e8;
     transition: transform 0.2s, box-shadow 0.2s;
 }
 
@@ -149,55 +156,296 @@ body{
     font-size: 1rem;
 }
 
-/* --- ПОДКЛЮЧЕНИЕ НОРМАЛЬНЫХ ШРИФТОВ --- */
-@import url('https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600&display=swap');
-
-.gallery-page {
-    font-family: 'Inter', 'Segoe UI', 'Roboto', sans-serif;
+.upload-page {
+    min-height: 100vh;
+    padding: 2rem;
 }
 
-/* Адаптивность */
+.upload-page .upload-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    background: white;
+    border-radius: 20px;
+    padding: 2rem;
+}
+
+.upload-page .upload-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+    padding-bottom: 1rem;
+    border-bottom: 2px solid #e8e8e8;
+}
+
+.upload-page .upload-header h1 {
+    font-size: 1.8rem;
+    font-weight: 300;
+    color: #2c2c2c;
+    margin: 0;
+}
+
+.upload-page .upload-header .subtitle {
+    color: #8a8a8a;
+    font-size: 0.9rem;
+}
+
+/* DRAG-AND-DROP ЗОНА */
+.upload-page .drop-zone {
+    border: 2px dashed #d0d0d0;
+    border-radius: 16px;
+    padding: 3rem 2rem;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    background: #fafaf8;
+    margin-bottom: 2rem;
+}
+
+.upload-page .drop-zone:hover {
+    border-color: #7c5237;
+    background: #eeeeee;
+}
+
+.upload-page .drop-zone.dragover {
+    border-color: #7c5237;
+    background: #f0e8e0;
+    transform: scale(1.01);
+}
+
+.upload-page .drop-zone .icon {
+    font-size: 4rem;
+    color: #bbb;
+    display: block;
+    margin-bottom: 1rem;
+}
+
+.upload-page .drop-zone .text {
+    font-size: 1.2rem;
+    color: #4a4a4a;
+    font-weight: 400;
+}
+
+.upload-page .drop-zone .hint {
+    font-size: 0.9rem;
+    color: #9a9a9a;
+    margin-top: 0.5rem;
+}
+
+.upload-page .drop-zone .btn-select {
+    margin-top: 1.5rem;
+    padding: 10px 30px;
+    background: #2c2c2c;
+    color: white;
+    border: none;
+    border-radius: 30px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    font-weight: 500;
+    transition: background 0.2s;
+}
+
+.upload-page .drop-zone .btn-select:hover {
+    background: #1a1a1a;
+}
+
+.upload-page #fileInput {
+    display: none;
+}
+
+/* Прогресс загрузки */
+.upload-page .upload-progress {
+    display: none;
+    margin-bottom: 2rem;
+    padding: 1rem;
+    background: #fafaf8;
+    border-radius: 12px;
+    border: 1px solid #e8e8e8;
+}
+
+.upload-page .upload-progress .progress-bar {
+    width: 100%;
+    height: 6px;
+    background: #e8e8e8;
+    border-radius: 3px;
+    overflow: hidden;
+    margin-top: 0.5rem;
+}
+
+.upload-page .upload-progress .progress-bar .fill {
+    height: 100%;
+    background: #7c5237;
+    width: 0%;
+    transition: width 0.3s;
+}
+
+/* Галерея на странице загрузки (миниатюры) */
+.upload-page .gallery-grid {
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    gap: 1rem;
+    margin-top: 1rem;
+}
+
+.upload-page .gallery-item {
+    position: relative;
+    border-radius: 12px;
+    overflow: hidden;
+    aspect-ratio: 1;
+    border: 1px solid #e8e8e8;
+    background: #f3f3f3;
+    transform: none;
+}
+
+.upload-page .gallery-item:hover {
+    transform: none;
+    box-shadow: none;
+}
+
+.upload-page .gallery-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.upload-page .gallery-item .photo-actions {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    display: flex;
+    gap: 6px;
+    opacity: 0;
+    transition: opacity 0.3s;
+}
+
+.upload-page .gallery-item:hover .photo-actions {
+    opacity: 1;
+}
+
+.upload-page .gallery-item .photo-actions button {
+    width: 32px;
+    height: 32px;
+    border: none;
+    border-radius: 50%;
+    background: rgba(0, 0, 0, 0.6);
+    color: white;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.upload-page .gallery-item .photo-actions .btn-delete:hover {
+    background: #c72a2a;
+}
+
+.upload-page .gallery-item .photo-order {
+    position: absolute;
+    bottom: 8px;
+    left: 8px;
+    background: rgba(0, 0, 0, 0.5);
+    color: white;
+    font-size: 0.7rem;
+    padding: 2px 10px;
+    border-radius: 10px;
+}
+
+.upload-page .empty-state {
+    grid-column: 1 / -1;
+    text-align: center;
+    padding: 2rem;
+    color: #9a9a9a;
+}
+
+.gallery-page .gallery-grid {
+        grid-template-columns: repeat(5, 1fr);
+        gap: 1rem;
+    }
+
+/* ============================================
+   АДАПТИВНОСТЬ
+   ============================================ */
 @media (max-width: 1000px) {
-    .gallery-grid {
+    .gallery-page .gallery-grid {
         grid-template-columns: repeat(3, 1fr);
         gap: 1rem;
     }
-    
+
     .gallery-page {
         padding: 1rem;
     }
-    
+
     .gallery-page .container {
         padding: 1.5rem;
     }
-    
+
     .gallery-page h1 {
         font-size: 1.8rem;
     }
 }
 
+@media (max-width: 800px) {
+    /* Специально для страницы загрузки */
+    .upload-page .gallery-grid {
+        grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+        gap: 0.7rem;
+    }
+}
+
 @media (max-width: 700px) {
-    .gallery-grid {
+    .gallery-page .gallery-grid {
         grid-template-columns: repeat(2, 1fr);
         gap: 1rem;
     }
-    
+
     .gallery-page h1 {
         font-size: 1.5rem;
+    }
+
+    .gallery-page .event-description {
+        padding: 1.2rem 1.5rem;
+    }
+
+    .upload-page {
+        padding: 1rem;
+    }
+
+    .upload-page .upload-container {
+        padding: 1.5rem;
+    }
+
+    .upload-page .drop-zone {
+        padding: 2rem 1rem;
+    }
+
+    .upload-page .drop-zone .icon {
+        font-size: 3rem;
+    }
+
+    .upload-page .upload-header h1 {
+        font-size: 1.3rem;
     }
 }
 
 @media (max-width: 480px) {
-    .gallery-grid {
-        grid-template-columns: repeat(1, 1fr);
+    .gallery-page .gallery-grid {
+        grid-template-columns: 1fr;
     }
-    
-    .event-description {
-        padding: 1rem;
-    }
-    
+
     .gallery-page h1 {
         font-size: 1.3rem;
         font-weight: 400;
+    }
+
+    .gallery-page .event-description {
+        padding: 1rem;
+    }
+
+    .upload-page .gallery-grid {
+        grid-template-columns: 1fr 1fr;
+        gap: 0.5rem;
     }
 }

@@ -60,4 +60,22 @@ class EventCreateForm(forms.ModelForm):
         }
 
 
+class EventPhotoForm(forms.ModelForm):
+    class Meta:
+        model = EventPhoto
+        fields = ['image', 'caption']
+        widgets = {
+            'image': forms.ClearableFileInput(attrs={
+                'class': 'form-control',
+                'accept': 'image/*'
+            }),
+            'caption': forms.TextInput(attrs={
+                'class': 'form-control',
+                'placeholder': 'Подпись к фото (необязательно)'
+            })
+        }
+        labels = {
+            'image': 'Фото',
+            'caption': 'Подпись'
+        }
 

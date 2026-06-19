@@ -25,7 +25,6 @@ from django.contrib.auth.views import LoginView
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', views.home_output,  name='Home'),
-    # path('LogIn/', views.login, name='LogIn'),
     path('Departments/', views.departments_info,  name='Departments'),
     path('Profile/', views.profile_info,  name='Profile'),
     path('Docs/', views.documents_info, name="Docs"),
@@ -36,9 +35,12 @@ urlpatterns = [
     path('create_news/', views.news_create, name='news_create'),
     path('create_events/', views.event_create, name='event_create'),
     path('workplace/<int:workplace_id>/employees/', views.Deppersonal, name='personal'),
-
     path('event/<int:event_id>/photos/upload/', views.event_photos_upload, name='event_photos_upload'),
     path('api/photo/<int:photo_id>/delete/', views.photo_delete_ajax, name='photo_delete_ajax'),
+    path('users/', views.user_list, name='user_list'),
+    path('users/create/', views.user_create, name='user_create'),
+    path('users/<int:user_id>/edit/', views.user_edit, name='user_edit'),
+    path('users/<int:user_id>/delete/', views.user_delete, name='user_delete'),
     
 ]
 

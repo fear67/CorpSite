@@ -3,13 +3,14 @@ from .models import CorpLife, Post, Group, Place, Workplace, Profile, News, Work
 from django.contrib import messages
 from django.shortcuts import render, get_object_or_404
 from django.contrib.auth.decorators import permission_required
-from .forms import NewsForm, EventCreateForm
+from .forms import NewsForm, EventCreateForm, UserCreateForm, UserEditForm
 from django.contrib.auth.decorators import login_required
 from .forms import EventPhotoForm
 from django.db import models
 from django.views.decorators.csrf import csrf_exempt
 import traceback
 from django.http import JsonResponse
+from django.contrib.auth.models import User
 
 def home_output(request):
     news = News.objects.all().order_by('-date')  # все новости, свежие сверху
@@ -88,7 +89,7 @@ def event_photos_upload(request, event_id):
                 })
             
             messages.success(request, 'Фото добавлено!')
-            return redirect('module_project:event_detail', event_id=event.id)
+            return redirect('event', event_id=event.id)
     else:
         form = EventPhotoForm()
     
@@ -217,3 +218,79 @@ def photo_delete_ajax(request, photo_id):
         print("ОШИБКА:")
         print(traceback.format_exc())
         return JsonResponse({'success': False, 'error': str(e)}, status=500)
+
+@login_required
+def user_list(request):
+    """Список пользователей (без суперпользователей)"""
+    if not request.user.is_staff:
+        messages.error(request, 'У вас нет доступа к этой странице')
+        return redirect('home')
+    
+    users = User.objects.filter(is_superuser=False)
+    return render(request, 'module_project/user_list.html', {'users': users})
+
+
+@login_required
+def user_create(request):
+    """Создание пользователя"""
+    if not request.user.is_staff:
+        messages.error(request, 'У вас нет доступа к этой странице')
+        return redirect('home')
+    
+    if request.method == 'POST':
+        form = UserCreateForm(request.POST)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Пользователь успешно создан!')
+            return redirect('user_list')
+    else:
+        form = UserCreateForm()
+    
+    return render(request, 'module_project/user_form.html', {
+        'form': form,
+        'title': 'Создание пользователя',
+        'action': 'create'
+    })
+
+
+@login_required
+def user_edit(request, user_id):
+    """Редактирование пользователя"""
+    if not request.user.is_staff:
+        messages.error(request, 'У вас нет доступа к этой странице')
+        return redirect('home')
+    
+    user = get_object_or_404(User, id=user_id, is_superuser=False)
+    
+    if request.method == 'POST':
+        form = UserEditForm(request.POST, instance=user)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Пользователь обновлён!')
+            return redirect('user_list')
+    else:
+        form = UserEditForm(instance=user)
+    
+    return render(request, 'module_project/user_form.html', {
+        'form': form,
+        'title': 'Редактирование пользователя',
+        'action': 'edit',
+        'user': user
+    })
+
+
+@login_required
+def user_delete(request, user_id):
+    """Удаление пользователя"""
+    if not request.user.is_staff:
+        messages.error(request, 'У вас нет доступа к этой странице')
+        return redirect('home')
+    
+    user = get_object_or_404(User, id=user_id, is_superuser=False)
+    
+    if request.method == 'POST':
+        user.delete()
+        messages.success(request, 'Пользователь удалён!')
+        return redirect('user_list')
+    
+    return render(request, 'module_project/user_confirm_delete.html', {'user': user})

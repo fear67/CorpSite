@@ -94,8 +94,24 @@ class Workplace(models.Model):
         verbose_name = "Рабочее место"
         verbose_name_plural = "Рабочие места"
     
+    def save(self, *args, **kwargs):
+        # Автоматически заполняем name из group и place
+        group_name = self.group.name if self.group else ""
+        place_name = self.place.name if self.place else ""
+        
+        if group_name and place_name:
+            self.name = f"{group_name} {place_name}"
+        elif group_name:
+            self.name = group_name
+        elif place_name:
+            self.name = place_name
+        else:
+            self.name = "Без названия"
+        
+        super().save(*args, **kwargs)
+    
     def __str__(self):
-        return self.name
+        return self.name or "Без названия"
 
 
 class Profile(models.Model):

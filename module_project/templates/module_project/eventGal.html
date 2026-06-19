@@ -22,8 +22,9 @@
                 <p>{{ event.text }}</p>
             </div>
         {% endif %}
-        
-        <a class="back-btn" href="{% url 'event_photos_upload' event.id %}">+ Добавить фотографии</a>
+        {% if perms.module_project.add_eventphoto %}
+            <a class="back-btn" href="{% url 'event_photos_upload' event.id %}">+ Добавить фотографии</a>
+        {% endif %}
         <div class="gallery-grid">
             {% for photo in photos %}
                 <div class="gallery-item">

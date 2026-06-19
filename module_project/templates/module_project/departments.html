@@ -18,7 +18,8 @@
                 <ul class="nav-list" >
                     {% if user.is_authenticated %}
                         {% if perms.auth.add_user %}
-                            <li><a href="{% url 'admin:index' %}" class="profile-btn">Раздел администратора</a></li>
+                            <li><a href="{% url 'user_list' %}" class="profile-btn">Пользователи</a></li>
+                            <li><a href="{% url 'admin:index' %}" class="profile-btn">Админ панель</a></li>
                         {% endif %}
                         <li><a href="{% url 'Profile' %}" class="profile-btn">Личный кабинет</a></li>
                     {% else %}

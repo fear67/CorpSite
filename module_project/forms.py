@@ -1,9 +1,10 @@
 from django import forms
 from .models import News
-from django import forms
 from .models import CorpLife, EventPhoto
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
+from .models import Profile, Workplace, Post
+
 
 class NewsForm(forms.ModelForm):
     class Meta:
@@ -79,3 +80,103 @@ class EventPhotoForm(forms.ModelForm):
             'caption': 'Подпись'
         }
 
+class UserCreateForm(UserCreationForm):
+    """Форма создания пользователя"""
+    email = forms.EmailField(required=False, label='Email')
+    phone_number = forms.CharField(max_length=20, required=False, label='Номер телефона')
+    firstname = forms.CharField(max_length=100, required=False, label='Имя')
+    lastname = forms.CharField(max_length=100, required=False, label='Фамилия')
+    patronumic = forms.CharField(max_length=100, required=False, label='Отчество')
+    workplace = forms.ModelChoiceField(
+        queryset=Workplace.objects.all(),
+        required=False,
+        label='Рабочее место'
+    )
+    post = forms.ModelChoiceField(
+        queryset=Post.objects.all(),
+        required=False,
+        label='Должность'
+    )
+    is_staff = forms.BooleanField(required=False, label='Администратор')
+    
+    class Meta(UserCreationForm.Meta):
+        model = User
+        fields = ('username', 'email', 'password1', 'password2')
+    
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        if 'is_active' in self.fields:
+            del self.fields['is_active']
+        self.instance.is_active = True
+
+    def save(self, commit=True):
+        user = super().save(commit=False)
+        user.is_active = True
+        user.email = self.cleaned_data.get('email', '')
+        user.is_staff = self.cleaned_data.get('is_staff', False)
+        if commit:
+            user.save()
+            Profile.objects.create(
+                user=user,
+                phone_number=self.cleaned_data.get('phone_number', ''),
+                firstname=self.cleaned_data.get('firstname', ''),
+                lastname=self.cleaned_data.get('lastname', ''),
+                patronumic=self.cleaned_data.get('patronumic', ''),
+                workplace=self.cleaned_data.get('workplace'),
+                post=self.cleaned_data.get('post'),
+            )
+        return user
+
+
+class UserEditForm(forms.ModelForm):
+    """Форма редактирования пользователя"""
+    email = forms.EmailField(required=False, label='Email')
+    phone_number = forms.CharField(max_length=20, required=False, label='Номер телефона')
+    firstname = forms.CharField(max_length=100, required=False, label='Имя')
+    lastname = forms.CharField(max_length=100, required=False, label='Фамилия')
+    patronumic = forms.CharField(max_length=100, required=False, label='Отчество')
+    workplace = forms.ModelChoiceField(
+        queryset=Workplace.objects.all(),
+        required=False,
+        label='Рабочее место'
+    )
+    post = forms.ModelChoiceField(
+        queryset=Post.objects.all(),
+        required=False,
+        label='Должность'
+    )
+    is_staff = forms.BooleanField(required=False, label='Администратор')
+    is_active = forms.BooleanField(required=False, label='Активен')
+    
+    class Meta:
+        model = User
+        fields = ('username', 'email', 'first_name', 'last_name', 'is_active', 'is_staff')
+    
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        if self.instance:
+            try:
+                profile = self.instance.profile
+                self.fields['phone_number'].initial = profile.phone_number
+                self.fields['firstname'].initial = profile.firstname
+                self.fields['lastname'].initial = profile.lastname
+                self.fields['patronumic'].initial = profile.patronumic
+                self.fields['workplace'].initial = profile.workplace
+                self.fields['post'].initial = profile.post
+            except Profile.DoesNotExist:
+                pass
+    
+    def save(self, commit=True):
+        user = super().save(commit=False)
+        user.email = self.cleaned_data.get('email', '')
+        if commit:
+            user.save()
+            profile, created = Profile.objects.get_or_create(user=user)
+            profile.phone_number = self.cleaned_data.get('phone_number', '')
+            profile.firstname = self.cleaned_data.get('firstname', '')
+            profile.lastname = self.cleaned_data.get('lastname', '')
+            profile.patronumic = self.cleaned_data.get('patronumic', '')
+            profile.workplace = self.cleaned_data.get('workplace')
+            profile.post = self.cleaned_data.get('post')
+            profile.save()
+        return user

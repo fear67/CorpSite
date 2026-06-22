@@ -1,7 +1,7 @@
 @echo off
 chcp 65001 >nul
 title Запуск сайта Пламенея
-color 0A
+color 07
 
 echo ============================================
 echo   Запуск сайта Пламенея
@@ -22,7 +22,7 @@ cd /d "C:\Users\videooperator1\Desktop\CorpSite\CorpSiteProject"
 echo.
 echo ============================================
 echo   Запускаем сервер...
-echo   http://127.0.0.1:8000
+echo   http://10.2.0.54:7350
 echo   Нажми Ctrl+C для остановки
 echo ============================================
 echo.

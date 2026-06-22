@@ -89,6 +89,21 @@ class Workplace(models.Model):
         blank=True,
         verbose_name="Адрес"
     )
+
+    latitude = models.DecimalField(
+        max_digits=10, 
+        decimal_places=7, 
+        null=True, 
+        blank=True,
+        verbose_name="Широта"
+    )
+    longitude = models.DecimalField(
+        max_digits=10, 
+        decimal_places=7, 
+        null=True, 
+        blank=True,
+        verbose_name="Долгота"
+    )
     
     class Meta:
         verbose_name = "Рабочее место"

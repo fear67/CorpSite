@@ -30,7 +30,7 @@ class PlaceAdmin(admin.ModelAdmin):
 
 @admin.register(Workplace)
 class WorkplaceAdmin(admin.ModelAdmin):
-    list_display = ['id', 'name', 'group', 'place', 'phone_number']
+    list_display = ['id', 'name', 'group', 'place', 'phone_number', 'latitude','longitude']
     list_filter = ['group', 'place']
     search_fields = ['name', 'address']
 

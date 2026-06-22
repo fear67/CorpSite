@@ -83,3 +83,48 @@
 
 </body>
 </html>
+
+<div id="map" style="width: 1400px; height: 800px; margin: 5rem auto ;"></div>
+
+<script src="https://api-maps.yandex.ru/2.1/?apikey={{ YANDEX_MAPS_API_KEY }}&lang=ru_RU"></script>
+<script>
+    ymaps.ready(function () {
+        var map = new ymaps.Map("map", {
+            center: [56.328, 44.002],
+            zoom: 11
+        });
+
+        var clusterer = new ymaps.Clusterer({
+            groupByCoordinates: false,
+            clusterDisableClickZoom: true
+        });
+
+        {% for workplace in workplaces %}
+            {% if workplace.latitude and workplace.longitude %}
+                var placemark = new ymaps.Placemark(
+                    [{{ workplace.latitude }}, {{ workplace.longitude }}],
+                    {
+                        balloonContentHeader: "{{ workplace.group.name|default:workplace.name }}",
+                        balloonContentBody: "{{ workplace.address|default:'' }}",
+                        balloonContentFooter: "{{ workplace.phone_number|default:'' }}"
+                    },
+                    {
+                        preset: 'islands#redDotIconWithCaption',
+                        iconCaption: "{{ workplace.group.name|default:workplace.name }}"
+                    }
+                );
+                clusterer.add(placemark);
+            {% endif %}
+        {% endfor %}
+
+        map.geoObjects.add(clusterer);
+
+        // Автоматически центрируем карту по всем точкам
+        if (clusterer.getBounds()) {
+            map.setBounds(clusterer.getBounds(), {
+                checkZoomRange: true,
+                zoomMargin: 30
+            });
+        }
+    });
+</script>

@@ -1,0 +1,26 @@
+{% load static %}
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Удаление пользователя</title>
+    <link rel="stylesheet" href="{% static 'CorpSiteProject/css/users.css' %}">
+</head>
+
+{% block content %}
+<div class="delete-page">
+    <div class="delete-container">
+        <h1>Удаление пользователя</h1>
+        <p>Вы уверены, что хотите удалить пользователя <strong>{{ user.username }}</strong>?</p>
+        <p class="hint">Это действие нельзя отменить.</p>
+
+        <form method="post">
+            {% csrf_token %}
+            <div class="buttons">
+                <a href="{% url 'user_list' %}" class="btn-cancel">Отмена</a>
+                <button type="submit" class="btn-delete-red">Удалить</button>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,250 @@
+/* documents.css - только для documents.html */
+
+/* ============================================
+   СТРАНИЦА ДОКУМЕНТОВ
+   ============================================ */
+.docs-page {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 3rem 1.5rem;
+}
+
+.docs-hero {
+    text-align: center;
+    margin-bottom: 3rem;
+}
+
+.docs-hero h1 {
+    font-size: 2.5rem;
+    font-weight: 400;
+    color: rgb(143, 0, 0);
+    margin-bottom: 0.5rem;
+}
+
+.docs-hero .subtitle {
+    color: #666;
+    font-size: 1.1rem;
+}
+
+/* ============================================
+   КАТЕГОРИИ ДОКУМЕНТОВ
+   ============================================ */
+.docs-category {
+    margin-bottom: 2.5rem;
+}
+
+.category-title {
+    font-size: 1.3rem;
+    font-weight: 400;
+    color: rgb(143, 0, 0);
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.category-title i {
+    color: #7c5237;
+}
+
+/* ============================================
+   СПИСОК ДОКУМЕНТОВ
+   ============================================ */
+.docs-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+/* ============================================
+   КАРТОЧКА ДОКУМЕНТА
+   ============================================ */
+.doc-item {
+    background-color: #ffffff;
+    padding: 1rem 1.5rem;
+    border-radius: 6px;
+    border: 1px solid #eaeaea;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    transition: background-color 0.2s, box-shadow 0.2s;
+}
+
+.doc-item:hover {
+    background-color: #fbf9f6;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.02);
+}
+
+/* ============================================
+   ИКОНКИ ТИПОВ ФАЙЛОВ
+   ============================================ */
+.doc-icon {
+    font-size: 1.8rem;
+    width: 45px;
+    display: flex;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.doc-icon.pdf {
+    color: #dc3545;
+}
+
+.doc-icon.word {
+    color: #0056b3;
+}
+
+.doc-icon.excel {
+    color: #28a745;
+}
+
+/* ============================================
+   ИНФОРМАЦИЯ О ДОКУМЕНТЕ
+   ============================================ */
+.doc-info {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    min-width: 0;
+}
+
+.doc-name {
+    color: #222;
+    font-weight: 500;
+    text-decoration: none;
+    font-size: 1.05rem;
+    transition: color 0.2s;
+    word-break: break-word;
+}
+
+.doc-name:hover {
+    color: #7c5237;
+}
+
+.doc-meta {
+    font-size: 0.85rem;
+    color: #888;
+}
+
+/* ============================================
+   КНОПКА СКАЧИВАНИЯ
+   ============================================ */
+.download-btn {
+    color: #888;
+    font-size: 1.2rem;
+    text-decoration: none;
+    padding: 8px;
+    border-radius: 50%;
+    transition: background-color 0.2s, color 0.2s;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-shrink: 0;
+    width: 40px;
+    height: 40px;
+}
+
+.download-btn:hover {
+    background-color: #eaeaea;
+    color: #333;
+}
+
+/* ============================================
+   ПУСТОЕ СОСТОЯНИЕ (если нет документов)
+   ============================================ */
+.no-docs {
+    text-align: center;
+    padding: 3rem;
+    color: #9a9a9a;
+    background: #fafaf8;
+    border-radius: 12px;
+    border: 1px dashed #d0d0d0;
+}
+
+/* ============================================
+   АДАПТИВ
+   ============================================ */
+@media (max-width: 768px) {
+    .docs-page {
+        padding: 2rem 1rem;
+    }
+
+    .docs-hero h1 {
+        font-size: 2rem;
+    }
+
+    .doc-item {
+        padding: 0.8rem 1rem;
+        gap: 10px;
+        flex-wrap: wrap;
+    }
+
+    .doc-icon {
+        font-size: 1.5rem;
+        width: 35px;
+    }
+
+    .doc-name {
+        font-size: 0.95rem;
+    }
+
+    .doc-meta {
+        font-size: 0.75rem;
+    }
+
+    .download-btn {
+        width: 34px;
+        height: 34px;
+        font-size: 1rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .docs-page {
+        padding: 1rem;
+    }
+
+    .docs-hero h1 {
+        font-size: 1.6rem;
+    }
+
+    .docs-hero .subtitle {
+        font-size: 0.95rem;
+    }
+
+    .category-title {
+        font-size: 1.1rem;
+    }
+
+    .doc-item {
+        flex-wrap: nowrap;
+        padding: 0.7rem 0.8rem;
+        gap: 8px;
+    }
+
+    .doc-icon {
+        font-size: 1.2rem;
+        width: 28px;
+    }
+
+    .doc-info {
+        flex: 1;
+        min-width: 0;
+    }
+
+    .doc-name {
+        font-size: 0.85rem;
+    }
+
+    .doc-meta {
+        font-size: 0.7rem;
+    }
+
+    .download-btn {
+        width: 30px;
+        height: 30px;
+        font-size: 0.85rem;
+        padding: 4px;
+    }
+}

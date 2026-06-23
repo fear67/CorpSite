@@ -1,0 +1,170 @@
+/* base.css - общие стили для всех страниц */
+
+*, *::before, *::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'Segoe UI', 'Arial', sans-serif;
+    color: #333333;
+    background-color: #ffffff;
+    padding: 2rem;
+    margin-bottom: 200px;
+    font-size: 1.4rem;
+    line-height: 1.6;
+}
+
+ul, ol {
+    list-style-type: none;
+}
+
+a {
+    font-size: 1.15rem;
+    text-decoration: none;
+    color: #333333;
+    transition: color 0.2s ease;
+}
+
+a:hover {
+    color: #7c5237;
+}
+
+/* ========== ХЕДЕР ========== */
+.header {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    padding: 0.1rem 0.1rem;
+    background-color: #ffffff;
+    max-width: 1600px;
+    margin: 0 auto;
+}
+
+.header-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 93%;
+    border-bottom: 1px solid rgb(231, 231, 231);
+    margin: 1rem 3rem 1.5rem 3rem;
+}
+
+.header h1 {
+    margin-left: 2rem;
+    margin-bottom: 1rem;
+    font-size: 2.5rem;
+    font-weight: 100;
+    color: rgb(143, 0, 0);
+}
+
+.header-nav {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    margin-top: -1rem;
+}
+
+.nav-list {
+    display: flex;
+    gap: 5rem;
+    list-style: none;
+    padding: 0;
+    margin-bottom: 0.5rem;
+    justify-content: flex-end;
+    margin-right: 2rem;
+}
+
+/* ========== КНОПКИ ========== */
+.profile-btn {
+    text-decoration: none;
+    color: #333333;
+    transition: transform 0.3s ease;
+    display: inline-block;
+}
+
+.profile-btn:hover {
+    transform: scale(1.05);
+}
+
+.profile-btn:active {
+    transform: scale(0.98);
+}
+
+.nav-btn {
+    margin-left: 2rem;
+    font-size: 1.2rem;
+    text-decoration: none;
+    color: #333333;
+    transition: transform 0.2s ease-in-out;
+    display: inline-block;
+}
+
+.nav-btn:hover {
+    transform: scale(1.05);
+}
+
+.nav-btn:active {
+    transform: scale(0.98);
+}
+
+.home-btn {
+    display: inline-block;
+    text-decoration: none;
+    color: #4a4a4a;
+    font-size: 1.3rem;
+    font-weight: 500;
+    padding: 8px 16px;
+    margin-left: 2rem;
+    transition: color 0.2s ease;
+}
+
+.home-btn:hover {
+    color: #2c2c2c;
+}
+
+/* ========== ОБЩИЕ КОМПОНЕНТЫ ========== */
+.back-link {
+    display: inline-block;
+    margin-bottom: 1.5rem;
+    color: #7a7a7a;
+    text-decoration: none;
+    transition: color 0.2s;
+}
+
+.back-link:hover {
+    color: #2c2c2c;
+}
+
+.btn-submit {
+    padding: 12px 24px;
+    background: #2c2c2c;
+    color: white;
+    border: none;
+    border-radius: 12px;
+    font-size: 1rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.btn-submit:hover {
+    background: #1a1a1a;
+}
+
+.btn-reset {
+    padding: 12px 24px;
+    background: #f0f0f0;
+    color: #4a4a4a;
+    border: 1px solid #d0d0d0;
+    border-radius: 12px;
+    font-size: 1rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.btn-reset:hover {
+    background: #e0e0e0;
+}

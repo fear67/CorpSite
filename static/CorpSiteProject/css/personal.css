@@ -71,7 +71,6 @@ body{
     display: flex;
     align-items: center;
     gap: 1.5rem;
-    padding: 1.5rem;
     border-left: 1px solid #e5e5e5;
     transition: all 0.2s;
 }
@@ -82,9 +81,8 @@ body{
 }
 
 .employee-avatar {
-    width: 80px;
-    height: 80px;
-    border-radius: 50%;
+    width: 120px;
+    height: 100%;
     overflow: hidden;
     background: #e8e8e8;
     flex-shrink: 0;

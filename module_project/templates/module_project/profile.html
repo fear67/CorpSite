@@ -7,14 +7,18 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Профиль</title>
     <link rel="stylesheet" href="{% static 'CorpSiteProject/css/profile.css' %}">
+    
+    <!-- ===== ПОДКЛЮЧАЕМ LIGHTBOX ===== -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.4/css/lightbox.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.4/js/lightbox.min.js"></script>
 </head>
 
 <body>
     <header class="header" style="display: flex; ">
-        <a href="{% url 'Home' %}" class="home-btn" >На главную</a>
+        <a href="{% url 'Home' %}" class="home-btn">На главную</a>
         <form action="{% url 'logout' %}" method="post" style="margin-left: auto;">
             {% csrf_token %}
-            <button type="submit" style=" background: none; border: none;  cursor: pointer; text-decoration: none; font-size: 1.3rem; ">
+            <button type="submit" style="background: none; border: none; cursor: pointer; text-decoration: none; font-size: 1.3rem;">
                 <a class="home-btn">Выйти</a>
             </button>
         </form>
@@ -29,9 +33,11 @@
                     <div class="avatar-container">
                         <div class="avatar-preview">
                             {% if user.profile.avatar %}
-                                <img id="avatar-image" src="{{ user.profile.avatar.url }}" alt="Аватар">
+                                <a href="{{ user.profile.avatar.url }}" data-lightbox="avatar" data-title="Аватар пользователя">
+                                    <img id="avatar-image" src="{{ user.profile.avatar.url }}" alt="Аватар">
+                                </a>
                             {% else %}
-                                <img id="avatar-image" src="{{ user.profile.avatar_url }}" alt="Аватар">
+                                <img id="avatar-image" src="/static/CorpSiteProject/images/default_avatar.png" alt="Аватар по умолчанию">
                             {% endif %}
                         </div>
                         <label for="avatar-input" class="avatar-label">Выбрать фото</label>
@@ -65,3 +71,4 @@
         </section>
     </main>
 </body>
+</html>

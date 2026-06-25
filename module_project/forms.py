@@ -168,6 +168,7 @@ class UserEditForm(forms.ModelForm):
     
     def save(self, commit=True):
         user = super().save(commit=False)
+        user.is_active = True
         user.email = self.cleaned_data.get('email', '')
         if commit:
             user.save()

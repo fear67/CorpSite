@@ -30,6 +30,9 @@
                     {% if perms.auth.add_user %}
                         <li><a href="{% url 'user_list' %}" class="profile-btn">Пользователи</a></li>
                     {% endif %}
+                    {% if user.is_staff %}
+                            <a href="{% url 'admin:index' %}" class="profile-btn">Админ-панель</a>
+                        {% endif %}
                     <li>
                         <form action="{% url 'logout' %}" method="post" style="display: inline;">
                             {% csrf_token %}
@@ -53,24 +56,27 @@
     </nav>
     
     <!-- Мобильное меню -->
-    <div class="mobile-nav" id="mobileNav">
-        <a href="{% url 'Home' %}">Главная</a>
-        <a href="{% url 'Departments' %}">Подразделения</a>
-        <a href="{% url 'Events' %}">Мероприятия</a>
-        <a href="{% url 'Docs' %}">Документы</a>
-        {% if user.is_authenticated %}
-            <a href="{% url 'Profile' %}">Личный кабинет</a>
-            {% if perms.auth.add_user %}
-                <a href="{% url 'user_list' %}">Пользователи</a>
+        <div class="mobile-nav" id="mobileNav">
+            <a href="{% url 'Home' %}" class="profile-btn">Главная</a>
+            <a href="{% url 'Departments' %}" class="profile-btn">Подразделения</a>
+            <a href="{% url 'Events' %}" class="profile-btn">Мероприятия</a>
+            <a href="{% url 'Docs' %}" class="profile-btn">Документы</a>
+            {% if user.is_authenticated %}
+                <a href="{% url 'Profile' %}" class="profile-btn">Личный кабинет</a>
+                {% if perms.auth.add_user %}
+                    <a href="{% url 'user_list' %}" class="profile-btn">Пользователи</a>
+                {% endif %}
+                {% if user.is_staff %}
+                    <a href="{% url 'admin:index' %}" class="profile-btn">Админ-панель</a>
+                {% endif %}
+                <a class="profile-btn" href="#" onclick="document.getElementById('logout-form-mobile').submit();">Выйти</a>
+                <form id="logout-form-mobile" action="{% url 'logout' %}" method="post" style="display: none;">
+                    {% csrf_token %}
+                </form>
+            {% else %}
+                <a href="{% url 'login' %}">Войти</a>
             {% endif %}
-            <a href="#" onclick="document.getElementById('logout-form-mobile').submit();">Выйти</a>
-            <form id="logout-form-mobile" action="{% url 'logout' %}" method="post" style="display: none;">
-                {% csrf_token %}
-            </form>
-        {% else %}
-            <a href="{% url 'login' %}">Войти</a>
-        {% endif %}
-    </div>
+        </div>
 </header>
 
     <main>

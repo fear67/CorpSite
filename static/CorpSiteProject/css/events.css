@@ -70,7 +70,7 @@
 }
 
 .filter-group label {
-    font-size: 0.9rem;
+    font-size: 1rem;
     font-weight: 600;
     color: #444;
 }
@@ -187,21 +187,21 @@
 }
 
 .card-date {
-    font-size: 0.85rem;
+    font-size: 1rem;
     color: #7c5237;
     font-weight: 600;
     margin-bottom: 8px;
 }
 
 .card-content h3 {
-    font-size: 1.25rem;
+    font-size: 1.5rem;
     color: #222;
     margin-bottom: 10px;
     line-height: 1.4;
 }
 
 .card-text {
-    font-size: 0.95rem;
+    font-size: 1.1rem;
     color: #666;
     line-height: 1.5;
     margin-bottom: 1.5rem;

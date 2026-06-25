@@ -13,23 +13,6 @@ body {
 body{
     margin-bottom: 200px;
 }
-
-
-.home-btn {
-    display: inline-block;
-    text-decoration: none;
-    color: #4a4a4a;
-    font-size: 14px;
-    font-weight: 500;
-    padding: 8px 16px;
-    margin-left: 2rem;
-    transition: color 0.2s ease;
-}
-
-.home-btn:hover {
-    color: #2c2c2c;
-}
-
 .departments-page {
     max-width: 1400px;
     margin: 0 auto;
@@ -84,7 +67,7 @@ body{
 
 /* Адрес */
 .dep-address {
-    font-size: 0.95rem;
+    font-size: 1.2rem;
     color: #4a4a4a;
     padding-bottom: 1.5rem;
     display: flex;
@@ -94,24 +77,14 @@ body{
 
 .dep-address i {
     color: #9a9a9a;
-    font-size: 0.9rem;
+    font-size: 1.2rem;
     margin-top: 3px;
     width: 18px;
 }
 
-/* Режим работы */
-.dep-timework {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    font-size: 0.95rem;
-    color: #5a5a5a;
-    margin-bottom: 0.5rem;
-}
-
 .dep-timework i {
     color: #9a9a9a;
-    font-size: 0.9rem;
+    font-size: 1.1rem;
     width: 18px;
 }
 

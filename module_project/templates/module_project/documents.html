@@ -11,17 +11,31 @@
 </head>
 
 <body>
-    <header class="header">
+        <header class="header">
         <div class="header-top">
-            <h1 style="font-weight: 100; color: rgb(143, 0, 0); margin-left: 0;"><i class="Main"></i>Пламенея корпоративный портал</h1>
+            <h1>Пламенея корпоративный портал</h1>
+            
+            <!-- Бургер-меню -->
+            <button class="burger-menu" id="burgerMenu" aria-label="Меню">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+            
+            <!-- Правая часть: только Войти / Личный кабинет -->
             <nav>
-                <ul class="nav-list" >
+                <ul class="nav-list">
                     {% if user.is_authenticated %}
+                        <li><a href="{% url 'Profile' %}" class="profile-btn">Личный кабинет</a></li>
                         {% if perms.auth.add_user %}
                             <li><a href="{% url 'user_list' %}" class="profile-btn">Пользователи</a></li>
-                            <li><a href="{% url 'admin:index' %}" class="profile-btn">Админ панель</a></li>
                         {% endif %}
-                        <li><a href="{% url 'Profile' %}" class="profile-btn">Личный кабинет</a></li>
+                        <li>
+                            <form action="{% url 'logout' %}" method="post" style="display: inline;">
+                                {% csrf_token %}
+                                <button type="submit" class="logout-btn">Выйти</button>
+                            </form>
+                        </li>
                     {% else %}
                         <li><a href="{% url 'login' %}" class="profile-btn">Войти</a></li>
                     {% endif %}
@@ -29,13 +43,34 @@
             </nav>
         </div>
         
+        <!-- Основная навигация (десктоп) -->
         <nav class="header-nav">
             <ul class="nav-list">
-                <li><a href="{% url 'Departments' %}" class="nav-btn">Подразделения и контакты</a></li>
-                <li><a href="{% url 'Events' %}" class="nav-btn">Корпоративная жизнь</a></li>
-                <li><a href="{% url 'Home' %}" class="nav-btn">Главная страница с новостями </a></li>
+                <li><a href="{% url 'Home' %}" class="nav-btn">Главная</a></li>
+                <li><a href="{% url 'Departments' %}" class="nav-btn">Подразделения</a></li>
+                <li><a href="{% url 'Events' %}" class="nav-btn">Мероприятия</a></li>
             </ul>
-         </nav>
+        </nav>
+        
+        <!-- Мобильное меню -->
+        <div class="mobile-nav" id="mobileNav">
+            <a href="{% url 'Home' %}">Главная</a>
+            <a href="{% url 'Departments' %}">Подразделения</a>
+            <a href="{% url 'Events' %}">Мероприятия</a>
+            <a href="{% url 'Docs' %}">Документы</a>
+            {% if user.is_authenticated %}
+                <a href="{% url 'Profile' %}">Личный кабинет</a>
+                {% if perms.auth.add_user %}
+                    <a href="{% url 'user_list' %}">Пользователи</a>
+                {% endif %}
+                <a href="#" onclick="document.getElementById('logout-form-mobile').submit();">Выйти</a>
+                <form id="logout-form-mobile" action="{% url 'logout' %}" method="post" style="display: none;">
+                    {% csrf_token %}
+                </form>
+            {% else %}
+                <a href="{% url 'login' %}">Войти</a>
+            {% endif %}
+        </div>
     </header>
 
     <main class="docs-page">
@@ -117,6 +152,6 @@
         </section>
 
     </main>
-
+    <script src="{% static 'CorpSiteProject/js/script.js' %}" defer></script>
 </body>
 </html>

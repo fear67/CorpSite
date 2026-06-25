@@ -26,19 +26,19 @@ body {
 
 .login-header {
     text-align: center;
-    margin-bottom: 30px;
+    margin-bottom: 2rem;
 }
 
 .login-header h2 {
     color: #2c2c2c;
-    font-size: 24px;
-    font-weight: 500;
+    font-size: 2rem;
+    font-weight: 300;
     margin-bottom: 8px;
 }
 
 .login-header p {
     color: #8a8a8a;
-    font-size: 14px;
+    font-size: 1.1rem;
 }
 
 .form-group {
@@ -58,7 +58,7 @@ body {
     padding: 12px 14px;
     border: 1px solid #d0d0d0;
     border-radius: 8px;
-    font-size: 15px;
+    font-size: 1rem;
     transition: all 0.2s ease;
     outline: none;
     font-family: inherit;
@@ -111,18 +111,6 @@ body {
     margin-top: 24px;
     padding-top: 20px;
     border-top: 1px solid #e8e8e8;
-}
-
-.footer-links a {
-    color: #6a6a6a;
-    text-decoration: none;
-    font-size: 13px;
-    transition: color 0.2s ease;
-}
-
-.footer-links a:hover {
-    color: #2c2c2c;
-    text-decoration: underline;
 }
 
 ::placeholder {

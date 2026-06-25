@@ -56,3 +56,35 @@ document.addEventListener('DOMContentLoaded', function() {
             });
         }
     });
+
+
+
+
+document.addEventListener('DOMContentLoaded', function() {
+    const burger = document.getElementById('burgerMenu');
+    const mobileNav = document.getElementById('mobileNav');
+    
+    if (burger && mobileNav) {
+        burger.addEventListener('click', function(e) {
+            e.stopPropagation();
+            this.classList.toggle('active');
+            mobileNav.classList.toggle('open');
+        });
+        
+        // Закрываем меню при клике на ссылку
+        mobileNav.querySelectorAll('a').forEach(function(link) {
+            link.addEventListener('click', function() {
+                burger.classList.remove('active');
+                mobileNav.classList.remove('open');
+            });
+        });
+        
+        // Закрываем меню при клике вне его
+        document.addEventListener('click', function(e) {
+            if (!mobileNav.contains(e.target) && !burger.contains(e.target)) {
+                burger.classList.remove('active');
+                mobileNav.classList.remove('open');
+            }
+        });
+    }
+});

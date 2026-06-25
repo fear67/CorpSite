@@ -80,7 +80,7 @@ class Workplace(models.Model):
         max_length=20, 
         null=True, 
         blank=True,
-        validators=[RegexValidator(regex=r'^\+?1?\d{9,15}$', message="Некорректный номер телефона")],
+        # validators=[RegexValidator(regex=r'^\+?1?\d{9,15}$', message="Некорректный номер телефона")],
         verbose_name="Телефон"
     )
     address = models.CharField(
@@ -232,6 +232,7 @@ class News(models.Model):
     
     def __str__(self):
         return self.title
+
 
 
 class CorpLife(models.Model):

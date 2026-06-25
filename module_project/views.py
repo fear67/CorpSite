@@ -163,9 +163,20 @@ def event_create(request):
 
 
 def Deppersonal(request, workplace_id):
-    """Страница со списком сотрудников рабочего места"""
     workplace = get_object_or_404(Workplace, id=workplace_id)
-    employees = Profile.objects.filter(workplace=workplace).select_related('user', 'post')
+    
+    employees = Profile.objects.filter(
+        workplace=workplace
+    ).select_related('user', 'post')
+    
+    # Сортируем: сначала Руководитель, потом остальные по алфавиту
+    def sort_key(profile):
+        post_name = profile.post.name if profile.post else ''
+        # Руководитель получает приоритет 0, все остальные - 1
+        priority = 0 if post_name == 'Руководитель' else 1
+        return (priority, post_name, profile.lastname or '', profile.firstname or '')
+    
+    employees = sorted(employees, key=sort_key)
     
     return render(request, 'module_project/personal.html', {
         'workplace': workplace,

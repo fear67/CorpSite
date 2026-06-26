@@ -83,10 +83,14 @@
         <div class="top-banner">
             <img src="{% static 'images/banner.webp' %}" >
         </div>
-        <h1 id="korp-life" style="font-weight: 200; font-size: 2rem; margin-top: 3rem; ">Новости</h1>
+        <div class="news-grid" style="margin-bottom: 0; margin-top: 0; padding: 0;">
+            <h1 id="korp-life" style="font-weight: 200; font-size: 1.2rem; margin-top: 3rem; ">НОВОСТИ КОМПАНИИ</h1>
+        </div>
+        <div class="news-grid" style="margin-bottom: 0; margin-top: 0; padding: 0;">
         {% if perms.module_project.add_news %}
             <a href="{% url 'news_create' %}" class="add-news-btn" >+ Добавить новость</a>
         {% endif %}
+        </div>
         <div class="news-grid">
             {% for item in news %}
             <article class="news-card">
@@ -135,9 +139,7 @@
             {% endfor %}
         </div>
     </main>
-    <footer class="footer">
 
-    </footer>
     <script src="{% static 'CorpSiteProject/js/script.js' %}" defer></script>
 </body>
 

@@ -7,6 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Документы и бланки</title>
     <link rel="stylesheet" href="{% static 'CorpSiteProject/css/personal.css' %}">
+    
 </head>
 
 {% block content %}
@@ -35,7 +36,7 @@
                 {% endif %}
                 {% if workplace.timework %}
                     <p class="workplace-timework">
-                        <i class="fas fa-clock"></i> {{ workplace.timework }}
+                        <i class="fas fa-clock"></i> Время работы: {{ workplace.timework }}
                     </p>
                 {% endif %}
             </div>
@@ -43,7 +44,7 @@
         </div>
         
         <div class="employees-section">
-            <h2>Сотрудники ({{ employees.count }})</h2>
+            <h2>Сотрудники ({{ employees_count }})</h2>
             
             {% if employees %}
                 <div class="employees-grid">
@@ -51,7 +52,15 @@
                         <div class="employee-card">
                             <div class="employee-avatar">
                                 {% if employee.avatar %}
-                                    <img src="{{ employee.avatar.url }}" alt="{{ employee.full_name }}">
+                                <div class="employee-avatar" onclick="openMyLightbox('{{ employee.avatar.url }}', '{{ employee.full_name }}')">
+                                    {% if employee.avatar %}
+                                        <img src="{{ employee.avatar.url }}" alt="{{ employee.full_name }}">
+                                    {% else %}
+                                        <div class="avatar-placeholder">
+                                            <i class="fas fa-user"></i>
+                                        </div>
+                                    {% endif %}
+                                </div>
                                 {% else %}
                                     <div class="avatar-placeholder">
                                         <i class="fas fa-user"></i>
@@ -84,4 +93,11 @@
     </div>
 </div>
 
+<div class="my-lightbox-overlay" id="myLightboxOverlay">
+    <span class="close-btn" id="lightboxCloseBtn">&times;</span>
+    <img id="myLightboxImg" src="" alt="">
+    <div class="caption" id="myLightboxCaption"></div>
+</div>
+
+<script src="{% static 'CorpSiteProject/js/script.js' %}" defer></script>
 {% endblock %}

@@ -88,3 +88,45 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 });
+
+
+
+function openMyLightbox(url, caption) {
+        const overlay = document.getElementById('myLightboxOverlay');
+        const img = document.getElementById('myLightboxImg');
+        const cap = document.getElementById('myLightboxCaption');
+
+        img.src = url;
+        cap.textContent = caption || '';
+        overlay.classList.add('active');
+        document.body.style.overflow = 'hidden';
+    }
+
+    // ЗАКРЫТЬ
+    function closeMyLightbox() {
+        const overlay = document.getElementById('myLightboxOverlay');
+        overlay.classList.remove('active');
+        document.body.style.overflow = 'auto';
+    }
+
+    // ===== СОБЫТИЯ =====
+
+    // 1. КРЕСТИК
+    document.getElementById('lightboxCloseBtn').addEventListener('click', function(e) {
+        e.stopPropagation();
+        closeMyLightbox();
+    });
+
+    // 2. КЛИК ПО ФОНУ (затемнению)
+    document.getElementById('myLightboxOverlay').addEventListener('click', function(e) {
+        if (e.target === this) {
+            closeMyLightbox();
+        }
+    });
+
+    // 3. ESC
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape') {
+            closeMyLightbox();
+        }
+    });

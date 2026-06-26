@@ -17,15 +17,17 @@
 /* ========== ЗАГОЛОВКИ ========== */
 #korp-life {
     font-weight: 200;
-    font-size: 2rem;
-    margin-top: 3rem;
-    text-align: center;
+    font-size: 1.3rem;
+    margin-top: 4rem;
+    margin-left: 1rem;
+    margin-bottom: 1rem;
+    color:rgb(85, 85, 85);
 }
 
 /* ========== КНОПКА ДОБАВЛЕНИЯ НОВОСТИ ========== */
 .add-news-btn {
     display: inline-block;
-    margin: 1rem 0 2rem 2rem;
+    margin: 1rem 0 2rem 1rem;
     padding: 10px 24px;
     background: #2c2c2c;
     color: white;

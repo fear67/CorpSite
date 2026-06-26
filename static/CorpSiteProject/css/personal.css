@@ -38,11 +38,17 @@
 }
 
 .workplace-header p {
-    margin: 0.5rem 0;
     color: #5a5a5a;
-    display: flex;
     align-items: center;
-    gap: 8px;
+    font-size: 1.1rem;
+}
+
+.workplace-location{
+    font-size: 2rem !important;
+}
+
+.workplace-timework{
+    margin-left: 2rem;
 }
 
 .workplace-header i {
@@ -71,7 +77,6 @@ body{
     display: flex;
     align-items: center;
     gap: 1.5rem;
-    border-left: 1px solid #e5e5e5;
     transition: all 0.2s;
 }
 
@@ -81,17 +86,19 @@ body{
 }
 
 .employee-avatar {
-    width: 120px;
-    height: 100%;
+    width: 140px;
+    height: 140px;
     overflow: hidden;
     background: #e8e8e8;
     flex-shrink: 0;
+    
 }
 
 .employee-avatar img {
     width: 100%;
     height: 100%;
     object-fit: cover;
+    object-position: top center;
 }
 
 .avatar-placeholder {
@@ -126,10 +133,8 @@ body{
 .employee-phone, .employee-email {
     font-size: 0.85rem;
     color: #6a6a6a;
-    margin: 0.25rem 0;
-    display: flex;
+    margin: 0.7rem 0;
     align-items: center;
-    gap: 8px;
 }
 
 .employee-phone i, .employee-email i {
@@ -144,6 +149,54 @@ body{
     color: #9a9a9a;
     background: #fafaf8;
     border-radius: 16px;
+}
+
+.my-lightbox-overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.9);
+    z-index: 9999;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.my-lightbox-overlay.active {
+    display: flex;
+}
+
+.my-lightbox-overlay img {
+    max-width: 90%;
+    max-height: 85%;
+    object-fit: contain;
+    border-radius: 8px;
+}
+
+/* КРЕСТИК */
+.my-lightbox-overlay .close-btn {
+    position: absolute;
+    top: 30px;
+    right: 40px;
+    color: #ffffff;
+    font-size: 48px;
+    font-weight: 300;
+    cursor: pointer;
+    font-family: 'Arial', sans-serif;
+    transition: all 0.3s ease;
+    z-index: 10000;
+    line-height: 1;
+    user-select: none;
+    opacity: 0.8;
+}
+
+.my-lightbox-overlay .close-btn:hover {
+    opacity: 1;
+    transform: rotate(90deg);
+    color: #ff4444;
 }
 
 @media (max-width: 700px) {

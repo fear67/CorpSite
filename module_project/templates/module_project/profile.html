@@ -33,11 +33,17 @@
                     <div class="avatar-container">
                         <div class="avatar-preview">
                             {% if user.profile.avatar %}
-                                <a href="{{ user.profile.avatar.url }}" data-lightbox="avatar" data-title="Аватар пользователя">
-                                    <img id="avatar-image" src="{{ user.profile.avatar.url }}" alt="Аватар">
-                                </a>
+                                <div class="avatar-preview">
+                                    {% if user.profile.avatar %}
+                                        <a href="javascript:void(0)" onclick="openMyLightbox('{{ user.profile.avatar.url }}', 'Аватар пользователя')">
+                                            <img id="avatar-image" src="{{ user.profile.avatar.url }}" alt="Аватар">
+                                        </a>
+                                    {% else %}
+                                        <img id="avatar-image" src="/static/CorpSiteProject/images/default_avatar.png" alt="Аватар по умолчанию">
+                                    {% endif %}
+                                </div>
                             {% else %}
-                                <img id="avatar-image" src="/static/CorpSiteProject/images/default_avatar.png" alt="Аватар по умолчанию">
+                                <img id="avatar-image" src="/static/CorpSiteProject/images/default_avatar.png" >
                             {% endif %}
                         </div>
                         <label for="avatar-input" class="avatar-label">Выбрать фото</label>
@@ -70,5 +76,56 @@
             </div>
         </section>
     </main>
+
+<div class="my-lightbox-overlay" id="myLightboxOverlay">
+    <span class="close-btn" id="lightboxCloseBtn">&times;</span>
+    <img id="myLightboxImg" src="" alt="">
+    <div class="caption" id="myLightboxCaption"></div>
+</div>
+
+<script>
+    // ============================================
+    // ЛАЙТБОКС ДЛЯ АВАТАРКИ
+    // ============================================
+
+    // ОТКРЫТЬ
+    function openMyLightbox(url, caption) {
+        document.getElementById('myLightboxImg').src = url;
+        document.getElementById('myLightboxCaption').textContent = caption || '';
+        document.getElementById('myLightboxOverlay').classList.add('active');
+        document.body.style.overflow = 'hidden';
+    }
+
+    // ЗАКРЫТЬ
+    function closeMyLightbox() {
+        document.getElementById('myLightboxOverlay').classList.remove('active');
+        document.body.style.overflow = 'auto';
+    }
+
+    // ============================================
+    // СОБЫТИЯ
+    // ============================================
+    document.addEventListener('DOMContentLoaded', function() {
+        // Крестик
+        document.getElementById('lightboxCloseBtn').addEventListener('click', function(e) {
+            e.stopPropagation();
+            closeMyLightbox();
+        });
+
+        // Клик по фону
+        document.getElementById('myLightboxOverlay').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeMyLightbox();
+            }
+        });
+
+        // ESC
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                closeMyLightbox();
+            }
+        });
+    });
+</script>
 </body>
 </html>

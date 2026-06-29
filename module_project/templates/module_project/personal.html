@@ -5,54 +5,59 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Документы и бланки</title>
+    <title>Сотрудники подразделения</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link rel="stylesheet" href="{% static 'CorpSiteProject/css/personal.css' %}">
-    
 </head>
 
-{% block content %}
-<div class="employees-page">
-    <div class="container">
-        <a href="{% url 'Departments' %}" class="back-link">Назад к подразделениям</a>
-        
-        <div class="workplace-header">
-            <h1>{{ workplace.group.name }}</h1>
-            
-            {% if workplace.place %}
-                <p class="workplace-location">
-                    <i class="fas fa-map-marker-alt"></i> {{ workplace.place.name }}
-                </p>
-            {% endif %}
-            <div style="display:flex;">
-                {% if workplace.phone_number %}
-                    <p class="workplace-phone">
-                        <i class="fas fa-phone"></i> {{ workplace.phone_number }}
-                    </p>
-                {% endif %}
-                {% if workplace.address %}
-                    <p class="workplace-address">
-                        <i class="fas fa-building"></i> {{ workplace.address }}
-                    </p>
-                {% endif %}
-                {% if workplace.timework %}
-                    <p class="workplace-timework">
-                        <i class="fas fa-clock"></i> Время работы: {{ workplace.timework }}
-                    </p>
-                {% endif %}
+<body>
+
+    <!-- ===== ОСНОВНОЙ КОНТЕНТ ===== -->
+    <div class="employees-page">
+        <div class="container">
+            <a href="{% url 'Departments' %}" class="back-link">
+                <i class="fas fa-arrow-left"></i> Назад к подразделениям
+            </a>
+
+            <!-- ===== ИНФОРМАЦИЯ О ПОДРАЗДЕЛЕНИИ ===== -->
+            <div class="workplace-header">
+                <h1>{{ workplace.group.name|default:workplace.name }}</h1>
+                <div class="workplace-meta">
+                    {% if workplace.place %}
+                        <span>
+                            <i class="fas fa-map-marker-alt"></i> {{ workplace.place.name }}
+                        </span>
+                    {% endif %}
+                    {% if workplace.address %}
+                        <span>
+                            <i class="fas fa-building"></i> {{ workplace.address }}
+                        </span>
+                    {% endif %}
+                    {% if workplace.phone_number %}
+                        <span>
+                            <i class="fas fa-phone"></i> {{ workplace.phone_number }}
+                        </span>
+                    {% endif %}
+                    {% if workplace.timework %}
+                        <span>
+                            <i class="fas fa-clock"></i> {{ workplace.timework }}
+                        </span>
+                    {% endif %}
+                </div>
             </div>
-            
-        </div>
-        
-        <div class="employees-section">
-            <h2>Сотрудники ({{ employees_count }})</h2>
-            
-            {% if employees %}
-                <div class="employees-grid">
-                    {% for employee in employees %}
-                        <div class="employee-card">
-                            <div class="employee-avatar">
-                                {% if employee.avatar %}
-                                <div class="employee-avatar" onclick="openMyLightbox('{{ employee.avatar.url }}', '{{ employee.full_name }}')">
+
+            <!-- ===== СПИСОК СОТРУДНИКОВ ===== -->
+            <div class="employees-section">
+                <h2>
+                    Сотрудники 
+                    <span>({{ employees_count }})</span>
+                </h2>
+
+                {% if employees %}
+                    <div class="employees-grid">
+                        {% for employee in employees %}
+                            <div class="employee-card">
+                                <div class="employee-avatar" onclick="openAvatarLightbox('{{ employee.avatar.url|default:'' }}', '{{ employee.full_name }}')">
                                     {% if employee.avatar %}
                                         <img src="{{ employee.avatar.url }}" alt="{{ employee.full_name }}">
                                     {% else %}
@@ -61,43 +66,86 @@
                                         </div>
                                     {% endif %}
                                 </div>
-                                {% else %}
-                                    <div class="avatar-placeholder">
-                                        <i class="fas fa-user"></i>
+                                <div class="employee-info">
+                                    <h3>{{ employee.full_name }}</h3>
+                                    {% if employee.post %}
+                                        <p class="employee-post">{{ employee.post.name }}</p>
+                                    {% endif %}
+                                    <div class="employee-contacts">
+                                        {% if employee.phone_number %}
+                                            <span>
+                                                <i class="fas fa-phone"></i> {{ employee.phone_number }}
+                                            </span>
+                                        {% endif %}
+                                        <span>
+                                            <i class="fas fa-envelope"></i> {{ employee.user.email }}
+                                        </span>
                                     </div>
-                                {% endif %}
+                                </div>
                             </div>
-                            <div class="employee-info">
-                                <h3>{{ employee.full_name }}</h3>
-                                {% if employee.post %}
-                                    <p class="employee-post">{{ employee.post.name }}</p>
-                                {% endif %}
-                                {% if employee.phone_number %}
-                                    <p class="employee-phone">
-                                        <i class="fas fa-phone"></i> {{ employee.phone_number }}
-                                    </p>
-                                {% endif %}
-                                <p class="employee-email">
-                                    <i class="fas fa-envelope"></i> {{ employee.user.email }}
-                                </p>
-                            </div>
-                        </div>
-                    {% endfor %}
-                </div>
-            {% else %}
-                <div class="no-employees">
-                    <p>В этом подразделении пока нет сотрудников</p>
-                </div>
-            {% endif %}
+                        {% endfor %}
+                    </div>
+                {% else %}
+                    <div class="no-employees">
+                        <i class="fas fa-users-slash"></i>
+                        <p>В этом подразделении пока нет сотрудников</p>
+                    </div>
+                {% endif %}
+            </div>
         </div>
     </div>
-</div>
 
-<div class="my-lightbox-overlay" id="myLightboxOverlay">
-    <span class="close-btn" id="lightboxCloseBtn">&times;</span>
-    <img id="myLightboxImg" src="" alt="">
-    <div class="caption" id="myLightboxCaption"></div>
-</div>
+    <!-- ===== ЛАЙТБОКС ДЛЯ АВАТАРКИ ===== -->
+    <div class="my-lightbox-overlay" id="avatarLightbox">
+        <span class="close-btn" id="lightboxCloseBtn">&times;</span>
+        <img id="lightboxImg" src="" alt="Аватар">
+        <div class="caption" id="lightboxCaption"></div>
+    </div>
 
-<script src="{% static 'CorpSiteProject/js/script.js' %}" defer></script>
-{% endblock %}
+    <script>
+        // ============================================
+        // ЛАЙТБОКС ДЛЯ АВАТАРКИ
+        // ============================================
+        function openAvatarLightbox(url, name) {
+            if (!url) return;
+            
+            const img = document.getElementById('lightboxImg');
+            const caption = document.getElementById('lightboxCaption');
+            
+            img.src = url;
+            caption.textContent = name || 'Аватар сотрудника';
+            
+            document.getElementById('avatarLightbox').classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeAvatarLightbox() {
+            document.getElementById('avatarLightbox').classList.remove('active');
+            document.body.style.overflow = 'auto';
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            // Крестик
+            document.getElementById('lightboxCloseBtn').addEventListener('click', function(e) {
+                e.stopPropagation();
+                closeAvatarLightbox();
+            });
+
+            // Клик по фону
+            document.getElementById('avatarLightbox').addEventListener('click', function(e) {
+                if (e.target === this) {
+                    closeAvatarLightbox();
+                }
+            });
+
+            // ESC
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'Escape') {
+                    closeAvatarLightbox();
+                }
+            });
+        });
+    </script>
+
+</body>
+</html>

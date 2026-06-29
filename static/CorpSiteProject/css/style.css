@@ -1,42 +1,45 @@
-/* ============================================
-   STYLE.CSS — Главная страница (home.html)
-   ============================================ */
+/* style.css - только для home.html */
 
-/* ---------- БАННЕР ---------- */
+/* ========== БАННЕР ========== */
 .top-banner {
     width: 100%;
     display: flex;
     justify-content: center;
-    margin-bottom: 2rem;
+    box-sizing: border-box;
 }
 
 .top-banner img {
     width: 100%;
     height: auto;
-    max-height: 400px;
-    object-fit: cover;
-    border-radius: 0 0 24px 24px;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
+    display: block;
 }
 
-/* ---------- ЗАГОЛОВОК ---------- */
+/* ========== ЗАГОЛОВКИ ========== */
+.news-grid-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    max-width: 1400px;
+    margin: 3rem auto 0.5rem auto;
+    padding: 0 1rem;
+}
+
 #korp-life {
     font-weight: 300;
-    font-size: 1.4rem;
-    letter-spacing: 1px;
+    font-size: 1.3rem;
     color: rgb(143, 0, 0);
-    margin: 3rem 0 0.5rem 0;
-    padding-bottom: 0.5rem;
+    margin: 0;
+    letter-spacing: 0.5px;
 }
 
-/* ---------- КНОПКА ДОБАВЛЕНИЯ НОВОСТИ ---------- */
+/* ========== КНОПКА ДОБАВЛЕНИЯ НОВОСТИ ========== */
 .add-news-btn {
     display: inline-block;
-    margin: 0.5rem 0 2rem 0;
     padding: 10px 28px;
     background: rgb(143, 0, 0);
-    color: #fff;
-    border-radius: 40px;
+    color: white;
+    border-radius: 30px;
     text-decoration: none;
     font-weight: 500;
     font-size: 0.95rem;
@@ -48,35 +51,35 @@
     background: #7c5237;
     transform: translateY(-2px);
     box-shadow: 0 6px 16px rgba(143, 0, 0, 0.2);
-    color: #fff;
+    color: white;
 }
 
-/* ---------- СЕТКА НОВОСТЕЙ ---------- */
+/* ========== СЕТКА НОВОСТЕЙ ========== */
 .news-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
     gap: 2.5rem;
     max-width: 1400px;
     margin: 0 auto;
     padding: 0 1rem 2rem 1rem;
 }
 
-/* ---------- КАРТОЧКА НОВОСТИ (ЭЛЕГАНТНАЯ) ---------- */
+/* ========== КАРТОЧКА НОВОСТИ ========== */
 .news-card {
     background: #ffffff;
     border-radius: 16px;
     overflow: hidden;
-    border: 1px solid #eaeaea;
     transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.02);
+    border: 1px solid #eaeaea;
     display: flex;
     flex-direction: column;
-    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.02);
     opacity: 0;
     transform: translateY(30px);
     animation: fadeUp 0.6s ease forwards;
 }
 
-/* Задержка для каждой карточки */
+/* Анимация появления */
 .news-card:nth-child(1) { animation-delay: 0.05s; }
 .news-card:nth-child(2) { animation-delay: 0.10s; }
 .news-card:nth-child(3) { animation-delay: 0.15s; }
@@ -97,12 +100,11 @@
     border-color: #d8d8d8;
 }
 
-/* ---------- ИЗОБРАЖЕНИЕ ---------- */
+/* Изображение */
 .news-card__image {
     height: 220px;
     overflow: hidden;
     background: #f7f7f5;
-    position: relative;
 }
 
 .news-card__image img {
@@ -116,7 +118,6 @@
     transform: scale(1.05);
 }
 
-/* Плейсхолдер "Нет фото" */
 .news-card__no-image {
     height: 100%;
     display: flex;
@@ -126,16 +127,14 @@
     gap: 0.5rem;
     color: #bbb;
     font-size: 0.85rem;
-    background: #f7f7f5;
 }
 
 .news-card__no-image svg {
     width: 48px;
     height: 48px;
-    opacity: 0.3;
 }
 
-/* ---------- КОНТЕНТ КАРТОЧКИ ---------- */
+/* Контент */
 .news-card__content {
     padding: 1.5rem 1.8rem 1.8rem 1.8rem;
     flex: 1;
@@ -148,12 +147,11 @@
     font-size: 1.25rem;
     font-weight: 600;
     line-height: 1.4;
-    color: #222;
 }
 
 .news-card__title a {
     text-decoration: none;
-    color: inherit;
+    color: #2c2c2c;
     transition: color 0.2s;
 }
 
@@ -161,7 +159,7 @@
     color: rgb(143, 0, 0);
 }
 
-/* ---------- МЕТА (ДАТА / АВТОР) ---------- */
+/* Мета-информация */
 .news-card__meta {
     display: flex;
     gap: 1.2rem;
@@ -169,7 +167,6 @@
     font-size: 0.75rem;
     color: #9a9a9a;
     flex-wrap: wrap;
-    letter-spacing: 0.3px;
 }
 
 .news-card__date,
@@ -186,24 +183,25 @@
     opacity: 0.6;
 }
 
-/* ---------- ТЕКСТ (ОБРЕЗКА) ---------- */
-.news-card__desc {
+/* 👇 ВАЖНО: правильный класс для текста */
+.promo-desc {
     font-size: 0.95rem;
     line-height: 1.7;
     color: #5a5a5a;
-    margin: 0 0 0.8rem 0;
+    margin: 0 0 0.5rem 0;
     display: -webkit-box;
     -webkit-line-clamp: 3;
     -webkit-box-orient: vertical;
     overflow: hidden;
+    transition: all 0.3s ease;
 }
 
-.news-card__desc.expanded {
+.promo-desc.expanded {
     display: block;
     -webkit-line-clamp: unset;
 }
 
-/* ---------- КНОПКА "ЕЩЁ" (ЭЛЕГАНТНАЯ) ---------- */
+/* Кнопка "Ещё" */
 .read-more-btn {
     display: inline-flex;
     align-items: center;
@@ -211,7 +209,7 @@
     background: none;
     border: none;
     color: #7c5237;
-    font-size: 0.82rem;
+    font-size: 0.85rem;
     font-weight: 500;
     cursor: pointer;
     padding: 0.4rem 0 0 0;
@@ -239,7 +237,7 @@
     transform: translateX(4px);
 }
 
-/* ---------- ФУТЕР ---------- */
+/* ========== ФУТЕР ========== */
 .footer {
     border-top: 1px solid #eeeeee;
     margin: 2rem 3rem 0 3rem;
@@ -275,19 +273,24 @@
         font-size: 1.05rem;
     }
     
-    .news-card__desc {
+    .promo-desc {
         font-size: 0.85rem;
-        -webkit-line-clamp: 2;
+    }
+    
+    .news-grid-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.5rem;
+        margin-top: 2rem;
+        padding: 0 0.5rem;
     }
     
     #korp-life {
-        font-size: 1.2rem;
-        margin: 2rem 0 0 0;
+        font-size: 1.1rem;
     }
     
     .top-banner img {
         max-height: 200px;
-        border-radius: 0;
     }
 }
 

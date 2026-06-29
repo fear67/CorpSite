@@ -1,97 +1,166 @@
+/* personal.css - страница сотрудников подразделения */
+
+/* ============================================
+   ПОДКЛЮЧЕНИЕ ШРИФТА
+   ============================================ */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
+/* ============================================
+   ОБЩИЕ СТИЛИ
+   ============================================ */
 .employees-page {
     min-height: 100vh;
-    padding: 2rem;
-    font-family: sans-serif;
+    padding: 2rem 1.5rem;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    background: #fafaf8;
 }
 
 .employees-page .container {
     max-width: 1200px;
     margin: 0 auto;
-    background: white;
+    background: #ffffff;
     border-radius: 20px;
-    padding: 2rem;
+    padding: 2.5rem 3rem;
+    border: 1px solid #eaeaea;
+    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.02);
 }
 
+/* ---------- КНОПКА НАЗАД ---------- */
 .back-link {
-    display: inline-block;
-    margin-bottom: 1.5rem;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
     color: #7a7a7a;
     text-decoration: none;
-    transition: color 0.2s;
+    font-size: 0.9rem;
+    font-weight: 400;
+    margin-bottom: 1.5rem;
+    transition: all 0.3s ease;
+}
+
+.back-link i {
+    font-size: 0.85rem;
+    transition: transform 0.3s ease;
 }
 
 .back-link:hover {
-    color: #2c2c2c;
+    color: rgb(143, 0, 0);
+    gap: 12px;
 }
 
+.back-link:hover i {
+    transform: translateX(-4px);
+}
+
+/* ---------- ИНФОРМАЦИЯ О ПОДРАЗДЕЛЕНИИ ---------- */
 .workplace-header {
-    margin-bottom: 2rem;
+    margin-bottom: 2.5rem;
     padding-bottom: 1.5rem;
-    border-bottom: 2px solid #e8e8e8;
+    border-bottom: 2px solid #f0f0f0;
 }
 
 .workplace-header h1 {
     font-size: 2rem;
-    font-weight: 400;
-    color: #2c2c2c;
+    font-weight: 300;
+    color: rgb(143, 0, 0);
     margin-bottom: 0.5rem;
+    letter-spacing: -0.3px;
 }
 
-.workplace-header p {
-    color: #5a5a5a;
+.workplace-header .workplace-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.5rem 2rem;
+    margin-top: 0.5rem;
+}
+
+.workplace-header .workplace-meta span {
+    display: inline-flex;
     align-items: center;
-    font-size: 1.1rem;
+    gap: 8px;
+    font-size: 0.95rem;
+    color: #5a5a5a;
 }
 
-.workplace-location{
-    font-size: 2rem !important;
-}
-
-.workplace-timework{
-    margin-left: 2rem;
-}
-
-.workplace-header i {
-    width: 20px;
+.workplace-header .workplace-meta i {
     color: #9a9a9a;
+    width: 18px;
+    font-size: 0.9rem;
 }
 
+/* ---------- ЗАГОЛОВОК СПИСКА ---------- */
 .employees-section h2 {
-    font-size: 1.3rem;
+    font-size: 1.2rem;
     font-weight: 500;
-    margin-bottom: 1.5rem;
     color: #2c2c2c;
+    margin-bottom: 1.5rem;
 }
 
-body{
-    margin-bottom: 200px;
+.employees-section h2 span {
+    color: #9a9a9a;
+    font-weight: 400;
+    font-size: 0.95rem;
 }
 
+/* ---------- СЕТКА СОТРУДНИКОВ ---------- */
 .employees-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
     gap: 1.5rem;
 }
 
+/* ---------- КАРТОЧКА СОТРУДНИКА ---------- */
 .employee-card {
     display: flex;
     align-items: center;
     gap: 1.5rem;
-    transition: all 0.2s;
+    padding: 1.2rem 1.5rem;
+    border: 1px solid #eaeaea;
+    border-radius: 14px;
+    transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    background: #ffffff;
+    opacity: 0;
+    transform: translateY(20px);
+    animation: fadeUp 0.5s ease forwards;
+}
+
+.employee-card:nth-child(1) { animation-delay: 0.05s; }
+.employee-card:nth-child(2) { animation-delay: 0.10s; }
+.employee-card:nth-child(3) { animation-delay: 0.15s; }
+.employee-card:nth-child(4) { animation-delay: 0.20s; }
+.employee-card:nth-child(5) { animation-delay: 0.25s; }
+.employee-card:nth-child(6) { animation-delay: 0.30s; }
+.employee-card:nth-child(7) { animation-delay: 0.35s; }
+.employee-card:nth-child(8) { animation-delay: 0.40s; }
+
+@keyframes fadeUp {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
 .employee-card:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    transform: translateY(-4px) scale(1.01);
+    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.05);
+    border-color: #d0d0d0;
 }
 
+/* ---------- АВАТАР ---------- */
 .employee-avatar {
-    width: 140px;
-    height: 140px;
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
     overflow: hidden;
-    background: #e8e8e8;
+    background: #f0f0f0;
     flex-shrink: 0;
-    
+    cursor: pointer;
+    border: 2px solid transparent;
+    transition: all 0.3s ease;
+}
+
+.employee-card:hover .employee-avatar {
+    border-color: rgb(143, 0, 0);
 }
 
 .employee-avatar img {
@@ -107,50 +176,76 @@ body{
     display: flex;
     align-items: center;
     justify-content: center;
-    background: #d0d0d0;
-    color: #8a8a8a;
+    background: #e8e8e8;
+    color: #b0b0b0;
     font-size: 2rem;
 }
 
+/* ---------- ИНФОРМАЦИЯ ---------- */
 .employee-info {
     flex: 1;
+    min-width: 0;
 }
 
 .employee-info h3 {
-    font-size: 1.2rem;
+    font-size: 1.1rem;
     font-weight: 600;
     color: #2c2c2c;
-    margin-bottom: 0.25rem;
+    margin-bottom: 2px;
 }
 
 .employee-post {
     color: #7c5237;
-    font-size: 0.85rem;
+    font-size: 0.8rem;
     font-weight: 500;
     margin-bottom: 0.5rem;
 }
 
-.employee-phone, .employee-email {
-    font-size: 0.85rem;
-    color: #6a6a6a;
-    margin: 0.7rem 0;
-    align-items: center;
+.employee-contacts {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
 }
 
-.employee-phone i, .employee-email i {
-    width: 16px;
+.employee-contacts span {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
     font-size: 0.8rem;
+    color: #6a6a6a;
+}
+
+.employee-contacts i {
+    width: 14px;
+    font-size: 0.75rem;
     color: #9a9a9a;
 }
 
+/* ---------- ПУСТОЕ СОСТОЯНИЕ ---------- */
 .no-employees {
+    grid-column: 1 / -1;
     text-align: center;
-    padding: 3rem;
+    padding: 4rem 2rem;
     color: #9a9a9a;
     background: #fafaf8;
-    border-radius: 16px;
+    border-radius: 14px;
+    border: 1px dashed #d0d0d0;
 }
 
+.no-employees i {
+    display: block;
+    font-size: 3rem;
+    opacity: 0.3;
+    margin-bottom: 1rem;
+}
+
+.no-employees p {
+    font-size: 1rem;
+}
+
+/* ============================================
+   ЛАЙТБОКС ДЛЯ АВАТАРКИ
+   ============================================ */
 .my-lightbox-overlay {
     display: none;
     position: fixed;
@@ -158,7 +253,7 @@ body{
     left: 0;
     width: 100%;
     height: 100%;
-    background: rgba(0, 0, 0, 0.9);
+    background: rgba(0, 0, 0, 0.92);
     z-index: 9999;
     justify-content: center;
     align-items: center;
@@ -176,21 +271,19 @@ body{
     border-radius: 8px;
 }
 
-/* КРЕСТИК */
 .my-lightbox-overlay .close-btn {
     position: absolute;
-    top: 30px;
-    right: 40px;
+    top: 25px;
+    right: 35px;
     color: #ffffff;
-    font-size: 48px;
+    font-size: 44px;
     font-weight: 300;
     cursor: pointer;
-    font-family: 'Arial', sans-serif;
     transition: all 0.3s ease;
     z-index: 10000;
     line-height: 1;
     user-select: none;
-    opacity: 0.8;
+    opacity: 0.7;
 }
 
 .my-lightbox-overlay .close-btn:hover {
@@ -199,21 +292,106 @@ body{
     color: #ff4444;
 }
 
-@media (max-width: 700px) {
+.my-lightbox-overlay .caption {
+    color: #ccc;
+    font-size: 16px;
+    margin-top: 18px;
+    font-family: 'Inter', 'Segoe UI', Arial, sans-serif;
+    text-align: center;
+    max-width: 80%;
+}
+
+/* ============================================
+   АДАПТИВ
+   ============================================ */
+@media (max-width: 1024px) {
+    .employees-grid {
+        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+        gap: 1.2rem;
+    }
+}
+
+@media (max-width: 768px) {
     .employees-page {
         padding: 1rem;
     }
-    
+
     .employees-page .container {
         padding: 1.5rem;
+        border-radius: 16px;
     }
-    
+
+    .employees-grid {
+        grid-template-columns: 1fr 1fr;
+        gap: 1rem;
+    }
+
     .employee-card {
-        flex-direction: column;
-        text-align: center;
+        padding: 1rem 1.2rem;
+        gap: 1rem;
     }
-    
-    .employee-phone, .employee-email {
-        justify-content: center;
+
+    .employee-avatar {
+        width: 60px;
+        height: 60px;
+    }
+
+    .workplace-header h1 {
+        font-size: 1.5rem;
+    }
+
+    .workplace-header .workplace-meta {
+        gap: 0.8rem 1.5rem;
+    }
+
+    .workplace-header .workplace-meta span {
+        font-size: 0.85rem;
+    }
+}
+
+@media (max-width: 500px) {
+    .employees-page .container {
+        padding: 1rem;
+        border-radius: 12px;
+    }
+
+    .employees-grid {
+        grid-template-columns: 1fr;
+        gap: 0.8rem;
+    }
+
+    .employee-card {
+        padding: 0.8rem 1rem;
+        gap: 0.8rem;
+    }
+
+    .employee-avatar {
+        width: 50px;
+        height: 50px;
+    }
+
+    .employee-info h3 {
+        font-size: 0.95rem;
+    }
+
+    .employee-post {
+        font-size: 0.7rem;
+    }
+
+    .employee-contacts span {
+        font-size: 0.7rem;
+    }
+
+    .workplace-header h1 {
+        font-size: 1.2rem;
+    }
+
+    .workplace-header .workplace-meta {
+        flex-direction: column;
+        gap: 0.3rem;
+    }
+
+    .workplace-header .workplace-meta span {
+        font-size: 0.8rem;
     }
 }

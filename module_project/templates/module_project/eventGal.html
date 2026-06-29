@@ -6,18 +6,24 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Галерея мероприятия</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link rel="stylesheet" href="{% static 'CorpSiteProject/css/base.css' %}">
     <link rel="stylesheet" href="{% static 'CorpSiteProject/css/galstyle.css' %}">
 </head>
 
 <body>
-    {% block content %}
+
+    <!-- ===== ОСНОВНОЙ КОНТЕНТ (БЕЗ ХЕДЕРА) ===== -->
     <div class="gallery-page">
         <div class="container">
-            <a href="{% url 'Events' %}" class="back-btn">Назад к мероприятиям</a>
+            <a href="{% url 'Events' %}" class="back-btn">
+                <i class="fas fa-arrow-left"></i> Назад к мероприятиям
+            </a>
 
             <h1>{{ event.title }}</h1>
-            <p class="event-date">{{ event.date|date:"d E Y, H:i" }}</p>
+            <p class="event-date">
+                <i class="far fa-calendar-alt"></i> {{ event.date|date:"d E Y, H:i" }}
+            </p>
 
             {% if event.text %}
                 <div class="event-description">
@@ -26,21 +32,24 @@
             {% endif %}
 
             {% if perms.module_project.add_eventphoto %}
-                <a class="back-btn" href="{% url 'event_photos_upload' event.id %}">+ Добавить фотографии</a>
+                <a class="add-photo-btn" href="{% url 'event_photos_upload' event.id %}">
+                    <i class="fas fa-plus"></i> Добавить фотографии
+                </a>
             {% endif %}
 
             <div class="gallery-grid" id="galleryGrid">
                 {% for photo in photos %}
                     <div class="gallery-item" data-index="{{ forloop.counter0 }}">
-                        <a href="javascript:void(0)" onclick="openMyLightbox('{{ photo.image.url }}', '{{ photo.caption|default:event.title }}', {{ forloop.counter0 }})">
+                        <a href="javascript:void(0)" onclick="openLightbox({{ forloop.counter0 }})">
                             <img src="{{ photo.image.url }}" alt="{{ photo.caption|default:event.title }}">
-                            {% if photo.caption %}
-                                <div class="photo-caption-overlay">{{ photo.caption }}</div>
-                            {% endif %}
                         </a>
+                        {% if photo.caption %}
+                            <div class="photo-caption">{{ photo.caption }}</div>
+                        {% endif %}
                     </div>
                 {% empty %}
                     <div class="no-photos">
+                        <i class="fas fa-camera"></i>
                         <p>В этом мероприятии пока нет фотографий</p>
                     </div>
                 {% endfor %}
@@ -48,7 +57,7 @@
         </div>
     </div>
 
-    <!-- ЛАЙТБОКС -->
+    <!-- ===== ЛАЙТБОКС ===== -->
     <div class="my-lightbox-overlay" id="myLightboxOverlay">
         <span class="close-btn" id="lightboxCloseBtn">&times;</span>
         <span class="prev" id="lightboxPrev">&#10094;</span>
@@ -57,68 +66,72 @@
         <div class="caption" id="myLightboxCaption"></div>
         <div class="counter" id="myLightboxCounter"></div>
     </div>
-    {% endblock %}
 
+    <script src="{% static 'CorpSiteProject/js/script.js' %}" defer></script>
     <script>
-        var photoList = [];
-        var currentIndex = 0;
-
-        // Собираем все фото из базы
-        var galleryPhotos = [
+        // ============================================
+        // ДАННЫЕ ФОТОГРАФИЙ ИЗ БАЗЫ
+        // ============================================
+        var photosData = [
             {% for photo in photos %}
                 {
                     url: "{{ photo.image.url }}",
-                    caption: "{{ photo.caption|default:event.title }}"
+                    caption: "{{ photo.caption|default:event.title|escapejs }}"
                 }{% if not forloop.last %},{% endif %}
             {% endfor %}
         ];
 
-        // ОТКРЫТЬ
-        function openMyLightbox(url, caption, index) {
-            photoList = galleryPhotos;
+        var currentIndex = 0;
+
+        // ============================================
+        // ОТКРЫТЬ ЛАЙТБОКС
+        // ============================================
+        function openLightbox(index) {
+            if (photosData.length === 0) return;
+            
             currentIndex = index || 0;
-            
-            // Если передан конкретный URL, но его нет в списке — добавляем
-            if (photoList.length === 0) {
-                photoList = [{ url: url, caption: caption || '' }];
-                currentIndex = 0;
-            }
-            
             updateLightbox();
+            
             document.getElementById('myLightboxOverlay').classList.add('active');
             document.body.style.overflow = 'hidden';
         }
 
-        // ОБНОВИТЬ
+        // ============================================
+        // ОБНОВИТЬ ЛАЙТБОКС
+        // ============================================
         function updateLightbox() {
             const img = document.getElementById('myLightboxImg');
             const cap = document.getElementById('myLightboxCaption');
             const counter = document.getElementById('myLightboxCounter');
             
-            if (photoList.length === 0) return;
+            if (photosData.length === 0) return;
             
-            img.src = photoList[currentIndex].url;
-            cap.textContent = photoList[currentIndex].caption || '';
-            counter.textContent = (currentIndex + 1) + ' / ' + photoList.length;
+            img.src = photosData[currentIndex].url;
+            cap.textContent = photosData[currentIndex].caption || '';
+            counter.textContent = (currentIndex + 1) + ' / ' + photosData.length;
         }
 
+        // ============================================
         // ЛИСТАТЬ
+        // ============================================
         function changePhoto(direction) {
-            if (photoList.length <= 1) return;
+            if (photosData.length <= 1) return;
             
             currentIndex += direction;
             
             if (currentIndex < 0) {
-                currentIndex = photoList.length - 1;
-            } else if (currentIndex >= photoList.length) {
+                currentIndex = photosData.length - 1;
+            } else if (currentIndex >= photosData.length) {
                 currentIndex = 0;
             }
             
             updateLightbox();
         }
 
+        // ============================================
         // ЗАКРЫТЬ
-        function closeMyLightbox() {
+        // ============================================
+        function closeLightbox() {
             document.getElementById('myLightboxOverlay').classList.remove('active');
             document.body.style.overflow = 'auto';
         }
@@ -130,7 +143,7 @@
             // Крестик
             document.getElementById('lightboxCloseBtn').addEventListener('click', function(e) {
                 e.stopPropagation();
-                closeMyLightbox();
+                closeLightbox();
             });
 
             // Стрелка влево
@@ -148,14 +161,14 @@
             // Клик по фону
             document.getElementById('myLightboxOverlay').addEventListener('click', function(e) {
                 if (e.target === this) {
-                    closeMyLightbox();
+                    closeLightbox();
                 }
             });
 
-            // ESC и стрелки клавиатуры
+            // Клавиатура
             document.addEventListener('keydown', function(e) {
                 if (e.key === 'Escape') {
-                    closeMyLightbox();
+                    closeLightbox();
                 }
                 if (e.key === 'ArrowLeft') {
                     e.preventDefault();
@@ -168,6 +181,6 @@
             });
         });
     </script>
-</body>
 
+</body>
 </html>

@@ -6,158 +6,276 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Документы и бланки</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link rel="stylesheet" href="{% static 'CorpSiteProject/css/base.css' %}">
     <link rel="stylesheet" href="{% static 'CorpSiteProject/css/docs.css' %}">
 </head>
 
 <body>
-        <header class="header">
+
+    <!-- ===== ХЕДЕР ===== -->
+    <header class="header">
         <div class="header-top">
             <h1>Пламенея корпоративный портал</h1>
             
-            <!-- Бургер-меню -->
             <button class="burger-menu" id="burgerMenu" aria-label="Меню">
                 <span></span>
                 <span></span>
                 <span></span>
             </button>
             
-            <!-- Правая часть: только Войти / Личный кабинет -->
             <nav>
                 <ul class="nav-list">
                     {% if user.is_authenticated %}
-                        <li><a href="{% url 'Profile' %}" class="profile-btn">Личный кабинет</a></li>
+                        <li>
+                            <a href="{% url 'Profile' %}" class="profile-btn">
+                                <i class="fas fa-user-circle"></i> Личный кабинет
+                            </a>
+                        </li>
                         {% if perms.auth.add_user %}
-                            <li><a href="{% url 'user_list' %}" class="profile-btn">Пользователи</a></li>
+                            <li>
+                                <a href="{% url 'user_list' %}" class="profile-btn">
+                                    <i class="fas fa-users-cog"></i> Пользователи
+                                </a>
+                            </li>
                         {% endif %}
                         {% if user.is_staff %}
-                            <a href="{% url 'admin:index' %}" class="profile-btn">Админ-панель</a>
+                            <li>
+                                <a href="{% url 'admin:index' %}" class="profile-btn">
+                                    <i class="fas fa-shield-alt"></i> Админ-панель
+                                </a>
+                            </li>
                         {% endif %}
                         <li>
                             <form action="{% url 'logout' %}" method="post" style="display: inline;">
                                 {% csrf_token %}
-                                <button type="submit" class="logout-btn">Выйти</button>
+                                <button type="submit" class="logout-btn">
+                                    <i class="fas fa-sign-out-alt"></i> Выйти
+                                </button>
                             </form>
                         </li>
                     {% else %}
-                        <li><a href="{% url 'login' %}" class="profile-btn">Войти</a></li>
+                        <li>
+                            <a href="{% url 'login' %}" class="profile-btn">
+                                <i class="fas fa-sign-in-alt"></i> Войти
+                            </a>
+                        </li>
                     {% endif %}
                 </ul>
             </nav>
         </div>
         
-        <!-- Основная навигация (десктоп) -->
         <nav class="header-nav">
             <ul class="nav-list">
                 <li><a href="{% url 'Home' %}" class="nav-btn">Главная</a></li>
                 <li><a href="{% url 'Departments' %}" class="nav-btn">Подразделения</a></li>
                 <li><a href="{% url 'Events' %}" class="nav-btn">Мероприятия</a></li>
+                <li><a href="{% url 'Docs' %}" class="nav-btn">Документы</a></li>
             </ul>
         </nav>
         
-        <!-- Мобильное меню -->
         <div class="mobile-nav" id="mobileNav">
-            <a href="{% url 'Home' %}" class="profile-btn">Главная</a>
-            <a href="{% url 'Departments' %}" class="profile-btn">Подразделения</a>
-            <a href="{% url 'Events' %}" class="profile-btn">Мероприятия</a>
-            <a href="{% url 'Docs' %}" class="profile-btn">Документы</a>
+            <a href="{% url 'Home' %}"><i class="fas fa-home"></i> Главная</a>
+            <a href="{% url 'Departments' %}"><i class="fas fa-building"></i> Подразделения</a>
+            <a href="{% url 'Events' %}"><i class="fas fa-calendar-alt"></i> Мероприятия</a>
+            <a href="{% url 'Docs' %}"><i class="fas fa-file-alt"></i> Документы</a>
             {% if user.is_authenticated %}
-                <a href="{% url 'Profile' %}" class="profile-btn">Личный кабинет</a>
+                <a href="{% url 'Profile' %}"><i class="fas fa-user-circle"></i> Личный кабинет</a>
                 {% if perms.auth.add_user %}
-                    <a href="{% url 'user_list' %}" class="profile-btn">Пользователи</a>
+                    <a href="{% url 'user_list' %}"><i class="fas fa-users-cog"></i> Пользователи</a>
                 {% endif %}
                 {% if user.is_staff %}
-                    <a href="{% url 'admin:index' %}" class="profile-btn">Админ-панель</a>
+                    <a href="{% url 'admin:index' %}"><i class="fas fa-shield-alt"></i> Админ-панель</a>
                 {% endif %}
-                <a class="profile-btn" href="#" onclick="document.getElementById('logout-form-mobile').submit();">Выйти</a>
+                <a href="#" onclick="document.getElementById('logout-form-mobile').submit();">
+                    <i class="fas fa-sign-out-alt"></i> Выйти
+                </a>
                 <form id="logout-form-mobile" action="{% url 'logout' %}" method="post" style="display: none;">
                     {% csrf_token %}
                 </form>
             {% else %}
-                <a href="{% url 'login' %}">Войти</a>
+                <a href="{% url 'login' %}"><i class="fas fa-sign-in-alt"></i> Войти</a>
             {% endif %}
         </div>
     </header>
 
+    <!-- ===== ОСНОВНОЙ КОНТЕНТ ===== -->
     <main class="docs-page">
-        <!-- Заголовок страницы -->
-        <section class="docs-hero">
-            <h1 style="font-weight: 400; color: rgb(143, 0, 0);">Документы и бланки</h1>
-            <p class="subtitle">Здесь вы можете найти и скачать официальные документы, бланки заявлений и образцы договоров</p>
-        </section>
+        <div class="docs-header">
+            <h1>Документы и бланки</h1>
+            <p class="subtitle">Официальные документы, бланки заявлений и образцы договоров</p>
+        </div>
 
-        <!-- Категория 1: Официальные документы -->
+        <!-- ===== КАТЕГОРИЯ 1 ===== -->
         <section class="docs-category">
-            <h2 class="category-title" style="font-weight: 400; color: rgb(143, 0, 0);"><i class="fas fa-folder-open"></i> Учредительные документы</h2>
+            <h2 class="category-title">
+                <i class="fas fa-landmark"></i> Учредительные документы
+            </h2>
             
             <div class="docs-list">
-                <!-- Карточка документа 1 -->
                 <div class="doc-item">
-                    <div class="doc-icon pdf"><i class="far fa-file-pdf"></i></div>
+                    <div class="doc-icon pdf"><i class="fas fa-file-pdf"></i></div>
                     <div class="doc-info">
-                        <a href="docs/ustav.pdf" download class="doc-name">Устав организации (редакция 2026 года)</a>
-                        <span class="doc-meta">PDF, 2.4 MB • Обновлено: 10.01.2026</span>
+                        <a href="#" class="doc-name">Устав организации (редакция 2026 года)</a>
+                        <span class="doc-meta">PDF, 2.4 МБ • Обновлено: 10.01.2026</span>
                     </div>
-                    <a href="docs/ustav.pdf" download class="download-btn" title="Скачать"><i class="fas fa-download"></i></a>
+                    <a href="#" class="download-btn" title="Скачать">
+                        <i class="fas fa-download"></i>
+                    </a>
                 </div>
 
-                <!-- Карточка документа 2 -->
                 <div class="doc-item">
-                    <div class="doc-icon pdf"><i class="far fa-file-pdf"></i></div>
+                    <div class="doc-icon pdf"><i class="fas fa-file-pdf"></i></div>
                     <div class="doc-info">
-                        <a href="docs/svidetelstvo.pdf" download class="doc-name">Свидетельство о постановке на учет (ИНН)</a>
-                        <span class="doc-meta">PDF, 1.1 MB • Обновлено: 15.03.2024</span>
+                        <a href="#" class="doc-name">Свидетельство о постановке на учёт (ИНН)</a>
+                        <span class="doc-meta">PDF, 1.1 МБ • Обновлено: 15.03.2024</span>
                     </div>
-                    <a href="docs/svidetelstvo.pdf" download class="download-btn" title="Скачать"><i class="fas fa-download"></i></a>
+                    <a href="#" class="download-btn" title="Скачать">
+                        <i class="fas fa-download"></i>
+                    </a>
+                </div>
+
+                <div class="doc-item">
+                    <div class="doc-icon pdf"><i class="fas fa-file-pdf"></i></div>
+                    <div class="doc-info">
+                        <a href="#" class="doc-name">Положение о корпоративной этике</a>
+                        <span class="doc-meta">PDF, 856 КБ • Обновлено: 20.05.2025</span>
+                    </div>
+                    <a href="#" class="download-btn" title="Скачать">
+                        <i class="fas fa-download"></i>
+                    </a>
                 </div>
             </div>
         </section>
 
-        <!-- Категория 2: Бланки и заявления -->
+        <!-- ===== КАТЕГОРИЯ 2 ===== -->
         <section class="docs-category">
-            <h2 class="category-title" style="font-weight: 400; color: rgb(143, 0, 0);"><i class="fas fa-folder-open"></i> Бланки заявлений</h2>
+            <h2 class="category-title">
+                <i class="fas fa-file-signature"></i> Бланки заявлений
+            </h2>
             
             <div class="docs-list">
-                <!-- Карточка документа 3 -->
                 <div class="doc-item">
-                    <div class="doc-icon word"><i class="far fa-file-word"></i></div>
+                    <div class="doc-icon word"><i class="fas fa-file-word"></i></div>
                     <div class="doc-info">
-                        <a href="docs/zayavlenie-priem.docx" download class="doc-name">Заявление о приеме на работу</a>
-                        <span class="doc-meta">DOCX, 45 KB • Образец заполнения</span>
+                        <a href="#" class="doc-name">Заявление о приёме на работу</a>
+                        <span class="doc-meta">DOCX, 45 КБ • Образец заполнения</span>
                     </div>
-                    <a href="docs/zayavlenie-priem.docx" download class="download-btn" title="Скачать"><i class="fas fa-download"></i></a>
+                    <a href="#" class="download-btn" title="Скачать">
+                        <i class="fas fa-download"></i>
+                    </a>
                 </div>
 
-                <!-- Карточка документа 4 -->
                 <div class="doc-item">
-                    <div class="doc-icon word"><i class="far fa-file-word"></i></div>
+                    <div class="doc-icon word"><i class="fas fa-file-word"></i></div>
                     <div class="doc-info">
-                        <a href="docs/zayavlenie-otpusk.docx" download class="doc-name">Заявление на ежегодный оплачиваемый отпуск</a>
-                        <span class="doc-meta">DOCX, 38 KB • Бланк для заполнения</span>
+                        <a href="#" class="doc-name">Заявление на ежегодный оплачиваемый отпуск</a>
+                        <span class="doc-meta">DOCX, 38 КБ • Бланк для заполнения</span>
                     </div>
-                    <a href="docs/zayavlenie-otpusk.docx" download class="download-btn" title="Скачать"><i class="fas fa-download"></i></a>
+                    <a href="#" class="download-btn" title="Скачать">
+                        <i class="fas fa-download"></i>
+                    </a>
+                </div>
+
+                <div class="doc-item">
+                    <div class="doc-icon word"><i class="fas fa-file-word"></i></div>
+                    <div class="doc-info">
+                        <a href="#" class="doc-name">Заявление на увольнение по собственному желанию</a>
+                        <span class="doc-meta">DOCX, 32 КБ • Образец</span>
+                    </div>
+                    <a href="#" class="download-btn" title="Скачать">
+                        <i class="fas fa-download"></i>
+                    </a>
                 </div>
             </div>
         </section>
 
-        <!-- Категория 3: Отчеты и аналитика -->
+        <!-- ===== КАТЕГОРИЯ 3 ===== -->
         <section class="docs-category">
-            <h2 class="category-title" style="font-weight: 400; color: rgb(143, 0, 0);"><i class="fas fa-folder-open"></i> Сметы и отчетность</h2>
+            <h2 class="category-title">
+                <i class="fas fa-chart-bar"></i> Отчётность и аналитика
+            </h2>
             
             <div class="docs-list">
-                <!-- Карточка документа 5 -->
                 <div class="doc-item">
-                    <div class="doc-icon excel"><i class="far fa-file-excel"></i></div>
+                    <div class="doc-icon excel"><i class="fas fa-file-excel"></i></div>
                     <div class="doc-info">
-                        <a href="docs/otchet-2025.xlsx" download class="doc-name">Финансовый отчет за IV квартал 2025 года</a>
-                        <span class="doc-meta">XLSX, 420 KB • Утвержденный оригинал</span>
+                        <a href="#" class="doc-name">Финансовый отчёт за IV квартал 2025 года</a>
+                        <span class="doc-meta">XLSX, 420 КБ • Утверждённый оригинал</span>
                     </div>
-                    <a href="docs/otchet-2025.xlsx" download class="download-btn" title="Скачать"><i class="fas fa-download"></i></a>
+                    <a href="#" class="download-btn" title="Скачать">
+                        <i class="fas fa-download"></i>
+                    </a>
+                </div>
+
+                <div class="doc-item">
+                    <div class="doc-icon excel"><i class="fas fa-file-excel"></i></div>
+                    <div class="doc-info">
+                        <a href="#" class="doc-name">Годовой отчёт о деятельности за 2025 год</a>
+                        <span class="doc-meta">XLSX, 680 КБ • Утверждён</span>
+                    </div>
+                    <a href="#" class="download-btn" title="Скачать">
+                        <i class="fas fa-download"></i>
+                    </a>
                 </div>
             </div>
         </section>
 
+        <!-- ===== КАТЕГОРИЯ 4 ===== -->
+        <section class="docs-category">
+            <h2 class="category-title">
+                <i class="fas fa-file-contract"></i> Договоры и соглашения
+            </h2>
+            
+            <div class="docs-list">
+                <div class="doc-item">
+                    <div class="doc-icon word"><i class="fas fa-file-word"></i></div>
+                    <div class="doc-info">
+                        <a href="#" class="doc-name">Типовой договор поставки</a>
+                        <span class="doc-meta">DOCX, 156 КБ • Шаблон</span>
+                    </div>
+                    <a href="#" class="download-btn" title="Скачать">
+                        <i class="fas fa-download"></i>
+                    </a>
+                </div>
+
+                <div class="doc-item">
+                    <div class="doc-icon word"><i class="fas fa-file-word"></i></div>
+                    <div class="doc-info">
+                        <a href="#" class="doc-name">Договор оказания услуг (типовая форма)</a>
+                        <span class="doc-meta">DOCX, 142 КБ • Шаблон</span>
+                    </div>
+                    <a href="#" class="download-btn" title="Скачать">
+                        <i class="fas fa-download"></i>
+                    </a>
+                </div>
+
+                <div class="doc-item">
+                    <div class="doc-icon image"><i class="fas fa-file-image"></i></div>
+                    <div class="doc-info">
+                        <a href="#" class="doc-name">Скан-копия доверенности (образец)</a>
+                        <span class="doc-meta">JPG, 2.1 МБ • Образец</span>
+                    </div>
+                    <a href="#" class="download-btn" title="Скачать">
+                        <i class="fas fa-download"></i>
+                    </a>
+                </div>
+            </div>
+        </section>
     </main>
+
+    <!-- ===== ФУТЕР ===== -->
+    <footer class="site-footer">
+        <span class="footer-copy">© Пламенея корпоративный портал</span>
+        <div class="footer-links">
+            <a href="{% url 'Home' %}">Главная</a>
+            <a href="{% url 'Departments' %}">Подразделения</a>
+            <a href="{% url 'Events' %}">Мероприятия</a>
+            <a href="{% url 'Docs' %}">Документы</a>
+        </div>
+        <span class="footer-year">2026</span>
+    </footer>
+
     <script src="{% static 'CorpSiteProject/js/script.js' %}" defer></script>
 </body>
 </html>

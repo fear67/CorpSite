@@ -12,84 +12,102 @@
 {% block content %}
 <body>
     <header class="header">
-    <div class="header-top">
-        <h1>Пламенея корпоративный портал</h1>
-        
-        <!-- Бургер-меню -->
-        <button class="burger-menu" id="burgerMenu" aria-label="Меню">
-            <span></span>
-            <span></span>
-            <span></span>
-        </button>
-        
-        <!-- Правая часть: только Войти / Личный кабинет -->
-        <nav>
-            <ul class="nav-list">
-                {% if user.is_authenticated %}
-                    <li><a href="{% url 'Profile' %}" class="profile-btn">Личный кабинет</a></li>
-                    {% if perms.auth.add_user %}
-                        <li><a href="{% url 'user_list' %}" class="profile-btn">Пользователи</a></li>
-                    {% endif %}
-                    {% if user.is_staff %}
-                            <a href="{% url 'admin:index' %}" class="profile-btn">Админ-панель</a>
+        <div class="header-top">
+            <h1>Пламенея корпоративный портал</h1>
+            
+            <button class="burger-menu" id="burgerMenu" aria-label="Меню">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+            
+            <!-- 👇 ПРАВАЯ ЧАСТЬ С ИКОНКАМИ -->
+            <nav>
+                <ul class="nav-list">
+                    {% if user.is_authenticated %}
+                        <li>
+                            <a href="{% url 'Profile' %}" class="profile-btn">
+                                <i class="fas fa-user-circle"></i> Личный кабинет
+                            </a>
+                        </li>
+                        {% if perms.auth.add_user %}
+                            <li>
+                                <a href="{% url 'user_list' %}" class="profile-btn">
+                                    <i class="fas fa-users-cog"></i> Пользователи
+                                </a>
+                            </li>
                         {% endif %}
-                    <li>
-                        <form action="{% url 'logout' %}" method="post" style="display: inline;">
-                            {% csrf_token %}
-                            <button type="submit" class="logout-btn">Выйти</button>
-                        </form>
-                    </li>
-                {% else %}
-                    <li><a href="{% url 'login' %}" class="profile-btn">Войти</a></li>
-                {% endif %}
+                        {% if user.is_staff %}
+                            <li>
+                                <a href="{% url 'admin:index' %}" class="profile-btn">
+                                    <i class="fas fa-shield-alt"></i> Админ-панель
+                                </a>
+                            </li>
+                        {% endif %}
+                        <li>
+                            <form action="{% url 'logout' %}" method="post" style="display: inline;">
+                                {% csrf_token %}
+                                <button type="submit" class="logout-btn">
+                                    <i class="fas fa-sign-out-alt"></i> Выйти
+                                </button>
+                            </form>
+                        </li>
+                    {% else %}
+                        <li>
+                            <a href="{% url 'login' %}" class="profile-btn">
+                                <i class="fas fa-sign-in-alt"></i> Войти
+                            </a>
+                        </li>
+                    {% endif %}
+                </ul>
+            </nav>
+        </div>
+        
+        <!-- 👇 ОСНОВНАЯ НАВИГАЦИЯ (БЕЗ ИКОНОК) -->
+        <nav class="header-nav">
+            <ul class="nav-list">
+                <li><a href="{% url 'Home' %}" class="nav-btn">Главная</a></li>
+                <li><a href="{% url 'Departments' %}" class="nav-btn">Подразделения</a></li>
+                <li><a href="{% url 'Events' %}" class="nav-btn">Мероприятия</a></li>
+                <li><a href="{% url 'Docs' %}" class="nav-btn">Документы</a></li>
             </ul>
         </nav>
-    </div>
-    
-    <!-- Основная навигация (десктоп) -->
-    <nav class="header-nav">
-        <ul class="nav-list">
-            <li><a href="{% url 'Departments' %}" class="nav-btn">Подразделения</a></li>
-            <li><a href="{% url 'Events' %}" class="nav-btn">Мероприятия</a></li>
-            <li><a href="{% url 'Docs' %}" class="nav-btn">Документы</a></li>
-        </ul>
-    </nav>
-    
-    <!-- Мобильное меню -->
+        
+        <!-- 👇 МОБИЛЬНОЕ МЕНЮ (С ИКОНКАМИ) -->
         <div class="mobile-nav" id="mobileNav">
-            <a href="{% url 'Home' %}" class="profile-btn">Главная</a>
-            <a href="{% url 'Departments' %}" class="profile-btn">Подразделения</a>
-            <a href="{% url 'Events' %}" class="profile-btn">Мероприятия</a>
-            <a href="{% url 'Docs' %}" class="profile-btn">Документы</a>
+            <a href="{% url 'Home' %}"><i class="fas fa-home"></i> Главная</a>
+            <a href="{% url 'Departments' %}"><i class="fas fa-building"></i> Подразделения</a>
+            <a href="{% url 'Events' %}"><i class="fas fa-calendar-alt"></i> Мероприятия</a>
+            <a href="{% url 'Docs' %}"><i class="fas fa-file-alt"></i> Документы</a>
             {% if user.is_authenticated %}
-                <a href="{% url 'Profile' %}" class="profile-btn">Личный кабинет</a>
+                <a href="{% url 'Profile' %}"><i class="fas fa-user-circle"></i> Личный кабинет</a>
                 {% if perms.auth.add_user %}
-                    <a href="{% url 'user_list' %}" class="profile-btn">Пользователи</a>
+                    <a href="{% url 'user_list' %}"><i class="fas fa-users-cog"></i> Пользователи</a>
                 {% endif %}
                 {% if user.is_staff %}
-                    <a href="{% url 'admin:index' %}" class="profile-btn">Админ-панель</a>
+                    <a href="{% url 'admin:index' %}"><i class="fas fa-shield-alt"></i> Админ-панель</a>
                 {% endif %}
-                <a class="profile-btn" href="#" onclick="document.getElementById('logout-form-mobile').submit();">Выйти</a>
+                <a href="#" onclick="document.getElementById('logout-form-mobile').submit();">
+                    <i class="fas fa-sign-out-alt"></i> Выйти
+                </a>
                 <form id="logout-form-mobile" action="{% url 'logout' %}" method="post" style="display: none;">
                     {% csrf_token %}
                 </form>
             {% else %}
-                <a href="{% url 'login' %}">Войти</a>
+                <a href="{% url 'login' %}"><i class="fas fa-sign-in-alt"></i> Войти</a>
             {% endif %}
         </div>
-</header>
+    </header>
 
     <main>
         <div class="top-banner">
             <img src="{% static 'images/banner.webp' %}" >
         </div>
-        <div class="news-grid" style="margin-bottom: 0; margin-top: 0; padding: 0;">
-            <h1 id="korp-life" style="font-weight: 200; font-size: 1.2rem; margin-top: 3rem; ">НОВОСТИ КОМПАНИИ</h1>
-        </div>
-        <div class="news-grid" style="margin-bottom: 0; margin-top: 0; padding: 0;">
-        {% if perms.module_project.add_news %}
-            <a href="{% url 'news_create' %}" class="add-news-btn" >+ Добавить новость</a>
-        {% endif %}
+        <div class="news-grid-header">
+            <h1 id="korp-life">НОВОСТИ КОМПАНИИ</h1>
+            {% if perms.module_project.add_news %}
+                <a href="{% url 'news_create' %}" class="add-news-btn">+ Добавить новость</a>
+            {% endif %}
         </div>
         <div class="news-grid">
             {% for item in news %}
@@ -130,7 +148,7 @@
                             {{ item.author.full_name|default:"Автор" }}
                         </span>
                     </div>
-                    <p class="promo-desc news-card__desc">
+                    <p class="news-card__desc">
                         {{ item.text }}
                     </p>
                     <button type="button" class="read-more-btn">Ещё</button>
@@ -139,7 +157,16 @@
             {% endfor %}
         </div>
     </main>
-
+    <footer class="site-footer">
+        <span class="footer-copy">© Пламенея корпоративный портал</span>
+        <div class="footer-links">
+            <a href="{% url 'Home' %}">Главная</a>
+            <a href="{% url 'Departments' %}">Подразделения</a>
+            <a href="{% url 'Events' %}">Мероприятия</a>
+            <a href="{% url 'Docs' %}">Документы</a>
+        </div>
+        <span class="footer-year">2026</span>
+    </footer>
     <script src="{% static 'CorpSiteProject/js/script.js' %}" defer></script>
 </body>
 

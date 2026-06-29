@@ -6,82 +6,100 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Подразделения и контакты</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link rel="stylesheet" href="{% static 'CorpSiteProject/css/departments.css' %}">
     <link rel="stylesheet" href="{% static 'CorpSiteProject/css/base.css' %}">
 </head>
 
 <body>
 
-        <header class="header">
+    <header class="header">
         <div class="header-top">
             <h1>Пламенея корпоративный портал</h1>
             
-            <!-- Бургер-меню -->
             <button class="burger-menu" id="burgerMenu" aria-label="Меню">
                 <span></span>
                 <span></span>
                 <span></span>
             </button>
             
-            <!-- Правая часть: только Войти / Личный кабинет -->
             <nav>
                 <ul class="nav-list">
                     {% if user.is_authenticated %}
-                        <li><a href="{% url 'Profile' %}" class="profile-btn">Личный кабинет</a></li>
+                        <li>
+                            <a href="{% url 'Profile' %}" class="profile-btn">
+                                <i class="fas fa-user-circle"></i> Личный кабинет
+                            </a>
+                        </li>
                         {% if perms.auth.add_user %}
-                            <li><a href="{% url 'user_list' %}" class="profile-btn">Пользователи</a></li>
+                            <li>
+                                <a href="{% url 'user_list' %}" class="profile-btn">
+                                    <i class="fas fa-users-cog"></i> Пользователи
+                                </a>
+                            </li>
                         {% endif %}
                         {% if user.is_staff %}
-                            <a href="{% url 'admin:index' %}" class="profile-btn">Админ-панель</a>
+                            <li>
+                                <a href="{% url 'admin:index' %}" class="profile-btn">
+                                    <i class="fas fa-shield-alt"></i> Админ-панель
+                                </a>
+                            </li>
                         {% endif %}
                         <li>
                             <form action="{% url 'logout' %}" method="post" style="display: inline;">
                                 {% csrf_token %}
-                                <button type="submit" class="logout-btn">Выйти</button>
+                                <button type="submit" class="logout-btn">
+                                    <i class="fas fa-sign-out-alt"></i> Выйти
+                                </button>
                             </form>
                         </li>
                     {% else %}
-                        <li><a href="{% url 'login' %}" class="profile-btn">Войти</a></li>
+                        <li>
+                            <a href="{% url 'login' %}" class="profile-btn">
+                                <i class="fas fa-sign-in-alt"></i> Войти
+                            </a>
+                        </li>
                     {% endif %}
                 </ul>
             </nav>
         </div>
         
-        <!-- Основная навигация (десктоп) -->
         <nav class="header-nav">
             <ul class="nav-list">
                 <li><a href="{% url 'Home' %}" class="nav-btn">Главная</a></li>
+                <li><a href="{% url 'Departments' %}" class="nav-btn">Подразделения</a></li>
                 <li><a href="{% url 'Events' %}" class="nav-btn">Мероприятия</a></li>
                 <li><a href="{% url 'Docs' %}" class="nav-btn">Документы</a></li>
             </ul>
         </nav>
         
-        <!-- Мобильное меню -->
         <div class="mobile-nav" id="mobileNav">
-            <a href="{% url 'Home' %}" class="profile-btn">Главная</a>
-            <a href="{% url 'Departments' %}" class="profile-btn">Подразделения</a>
-            <a href="{% url 'Events' %}" class="profile-btn">Мероприятия</a>
-            <a href="{% url 'Docs' %}" class="profile-btn">Документы</a>
+            <a href="{% url 'Home' %}"><i class="fas fa-home"></i> Главная</a>
+            <a href="{% url 'Departments' %}"><i class="fas fa-building"></i> Подразделения</a>
+            <a href="{% url 'Events' %}"><i class="fas fa-calendar-alt"></i> Мероприятия</a>
+            <a href="{% url 'Docs' %}"><i class="fas fa-file-alt"></i> Документы</a>
             {% if user.is_authenticated %}
-                <a href="{% url 'Profile' %}" class="profile-btn">Личный кабинет</a>
+                <a href="{% url 'Profile' %}"><i class="fas fa-user-circle"></i> Личный кабинет</a>
                 {% if perms.auth.add_user %}
-                    <a href="{% url 'user_list' %}" class="profile-btn">Пользователи</a>
+                    <a href="{% url 'user_list' %}"><i class="fas fa-users-cog"></i> Пользователи</a>
                 {% endif %}
                 {% if user.is_staff %}
-                    <a href="{% url 'admin:index' %}" class="profile-btn">Админ-панель</a>
+                    <a href="{% url 'admin:index' %}"><i class="fas fa-shield-alt"></i> Админ-панель</a>
                 {% endif %}
-                <a class="profile-btn" href="#" onclick="document.getElementById('logout-form-mobile').submit();">Выйти</a>
+                <a href="#" onclick="document.getElementById('logout-form-mobile').submit();">
+                    <i class="fas fa-sign-out-alt"></i> Выйти
+                </a>
                 <form id="logout-form-mobile" action="{% url 'logout' %}" method="post" style="display: none;">
                     {% csrf_token %}
                 </form>
             {% else %}
-                <a href="{% url 'login' %}">Войти</a>
+                <a href="{% url 'login' %}"><i class="fas fa-sign-in-alt"></i> Войти</a>
             {% endif %}
         </div>
     </header>
 
-    <main class="departments-page" style="margin-top: 4rem;">
-        <h1 class="page-title" style="font-weight: 400; color: #7c5237;">Подразделения и контакты</h1>
+    <main class="departments-page">
+        <h1 class="page-title">Подразделения и контакты</h1>
         <p class="page-subtitle">Свяжитесь с нужным отделом напрямую</p>
 
         <div class="departments-grid">
@@ -92,82 +110,103 @@
                         {{ workplace.group.name|default:workplace.name }}
                     </div>
 
-                    <!-- Адрес -->
+                    <!-- Адрес (место) -->
                     {% if workplace.place %}
                         <div class="dep-address">
+                            <i class="fas fa-map-marker-alt"></i>
                             <span>{{ workplace.place.name }}</span>
                         </div>
                     {% endif %}
 
-                    <!-- Режим работы -->
-                    {% if workplace.timework %}
+                    <!-- Адрес (улица) -->
+                    {% if workplace.address %}
                         <div class="dep-timework">
+                            <i class="fas fa-building"></i>
                             <strong>Адрес:</strong> {{ workplace.address }}
                         </div>
                     {% endif %}
 
-                    <!-- Телефон -->
+                    <!-- Телефон (БЕЗ ССЫЛКИ) -->
                     {% if workplace.phone_number %}
                         <div class="dep-phone">
-                            <strong>Номер телефона:</strong> {{ workplace.phone_number }}
+                            <i class="fas fa-phone"></i>
+                            <span>{{ workplace.phone_number }}</span>
                         </div>
                     {% endif %}
 
-                
+                    <!-- Нижняя часть -->
+                    <div class="dep-bottom">
+                        <span class="dep-employees-link">
+                            <i class="fas fa-arrow-right"></i> Смотреть сотрудников
+                        </span>
+                        {% if workplace.employee_count %}
+                            <span class="dep-employees-count">{{ workplace.employee_count }} чел.</span>
+                        {% endif %}
+                    </div>
                 </a>
             {% empty %}
                 <div class="no-data">
+                    <i class="fas fa-building"></i>
                     Нет данных о подразделениях
                 </div>
             {% endfor %}
         </div>
     </main>
 
+    <!-- КАРТА -->
+    <div id="map"></div>
+
+    <script src="https://api-maps.yandex.ru/2.1/?apikey={{ YANDEX_MAPS_API_KEY }}&lang=ru_RU"></script>
+    <script>
+        ymaps.ready(function () {
+            var map = new ymaps.Map("map", {
+                center: [56.328, 44.002],
+                zoom: 11
+            });
+
+            var clusterer = new ymaps.Clusterer({
+                groupByCoordinates: false,
+                clusterDisableClickZoom: true
+            });
+
+            {% for workplace in workplaces %}
+                {% if workplace.latitude and workplace.longitude %}
+                    var placemark = new ymaps.Placemark(
+                        [{{ workplace.latitude }}, {{ workplace.longitude }}],
+                        {
+                            balloonContentHeader: "{{ workplace.group.name|default:workplace.name }}",
+                            balloonContentBody: "{{ workplace.address|default:'' }}",
+                            balloonContentFooter: "{{ workplace.phone_number|default:'' }}"
+                        },
+                        {
+                            preset: 'islands#redDotIconWithCaption',
+                            iconCaption: "{{ workplace.group.name|default:workplace.name }}"
+                        }
+                    );
+                    clusterer.add(placemark);
+                {% endif %}
+            {% endfor %}
+
+            map.geoObjects.add(clusterer);
+
+            if (clusterer.getBounds()) {
+                map.setBounds(clusterer.getBounds(), {
+                    checkZoomRange: true,
+                    zoomMargin: 30
+                });
+            }
+        });
+    </script>
+    <footer class="site-footer">
+        <span class="footer-copy">© Пламенея корпоративный портал</span>
+        <div class="footer-links">
+            <a href="{% url 'Home' %}">Главная</a>
+            <a href="{% url 'Departments' %}">Подразделения</a>
+            <a href="{% url 'Events' %}">Мероприятия</a>
+            <a href="{% url 'Docs' %}">Документы</a>
+        </div>
+        <span class="footer-year">2026</span>
+    </footer>
+    <script src="{% static 'CorpSiteProject/js/script.js' %}" defer></script>
 </body>
 </html>
-
-<div id="map" style="width: 1400px; height: 800px; margin: 5rem auto ;"></div>
-
-<script src="https://api-maps.yandex.ru/2.1/?apikey={{ YANDEX_MAPS_API_KEY }}&lang=ru_RU"></script>
-<script>
-    ymaps.ready(function () {
-        var map = new ymaps.Map("map", {
-            center: [56.328, 44.002],
-            zoom: 11
-        });
-
-        var clusterer = new ymaps.Clusterer({
-            groupByCoordinates: false,
-            clusterDisableClickZoom: true
-        });
-
-        {% for workplace in workplaces %}
-            {% if workplace.latitude and workplace.longitude %}
-                var placemark = new ymaps.Placemark(
-                    [{{ workplace.latitude }}, {{ workplace.longitude }}],
-                    {
-                        balloonContentHeader: "{{ workplace.group.name|default:workplace.name }}",
-                        balloonContentBody: "{{ workplace.address|default:'' }}",
-                        balloonContentFooter: "{{ workplace.phone_number|default:'' }}"
-                    },
-                    {
-                        preset: 'islands#redDotIconWithCaption',
-                        iconCaption: "{{ workplace.group.name|default:workplace.name }}"
-                    }
-                );
-                clusterer.add(placemark);
-            {% endif %}
-        {% endfor %}
-
-        map.geoObjects.add(clusterer);
-
-        // Автоматически центрируем карту по всем точкам
-        if (clusterer.getBounds()) {
-            map.setBounds(clusterer.getBounds(), {
-                checkZoomRange: true,
-                zoomMargin: 30
-            });
-        }
-    });
-</script>
-<script src="{% static 'CorpSiteProject/js/script.js' %}" defer></script>

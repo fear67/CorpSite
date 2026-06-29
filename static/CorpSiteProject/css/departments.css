@@ -1,91 +1,119 @@
-*, *::before, *::after {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-}
+/* departments.css - страница подразделений */
 
-body {
-    font-family: 'Segoe UI', 'Arial', sans-serif;
-    background: #ffffff;
-    min-height: 100vh;
-    padding: 2rem;
-}
-body{
-    margin-bottom: 200px;
-}
+/* ============================================
+   ОБЩИЕ СТИЛИ
+   ============================================ */
 .departments-page {
     max-width: 1400px;
     margin: 0 auto;
+    padding: 2rem 0;
 }
 
+/* ---------- ЗАГОЛОВОК ---------- */
 .page-title {
-    font-size: 2rem;
+    font-size: 2.2rem;
     font-weight: 300;
-    color: #2c2c2c;
-    margin-bottom: 0.5rem;
+    color: rgb(143, 0, 0);
+    margin-bottom: 0.3rem;
+    letter-spacing: -0.5px;
 }
 
 .page-subtitle {
     color: #8a8a8a;
     font-weight: 300;
-    margin-bottom: 2rem;
+    font-size: 1.1rem;
+    margin-bottom: 3rem;
 }
 
-/* СЕТКА КАРТОЧЕК */
+/* ---------- СЕТКА КАРТОЧЕК ---------- */
 .departments-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
-    gap: 1.5rem;
+    grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
+    gap: 2rem;
 }
 
-/* КАРТОЧКА */
+/* ---------- КАРТОЧКА ПОДРАЗДЕЛЕНИЯ (ПРАВЫЙ БОРДЕР) ---------- */
 .dep-card {
-    border-left: 1px solid #e0e0e0;
-    padding: 1.5rem 1.8rem 1.5rem 1.8rem;
-    transition: transform 0.3s, box-shadow 0.3s;
+    background: #ffffff;
+    border: 1px solid #eaeaea;
+    border-right: 4px solid rgb(143, 0, 0); /* 👈 ФИРМЕННЫЙ ПРАВЫЙ БОРДЕР */
+    border-radius: 0; /* 👈 БЕЗ СКРУГЛЕНИЙ */
+    padding: 1.8rem 2rem 2rem 2rem;
+    transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
     text-decoration: none;
     color: inherit;
-    display: block;
-    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.02);
+    opacity: 0;
+    transform: translateY(30px);
+    animation: fadeUp 0.6s ease forwards;
     position: relative;
-    overflow: hidden;
+}
+
+/* Анимация появления */
+.dep-card:nth-child(1) { animation-delay: 0.05s; }
+.dep-card:nth-child(2) { animation-delay: 0.10s; }
+.dep-card:nth-child(3) { animation-delay: 0.15s; }
+.dep-card:nth-child(4) { animation-delay: 0.20s; }
+.dep-card:nth-child(5) { animation-delay: 0.25s; }
+.dep-card:nth-child(6) { animation-delay: 0.30s; }
+
+@keyframes fadeUp {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
 .dep-card:hover {
     transform: translateY(-4px);
-    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.08);
+    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.06);
+    border-color: #d0d0d0;
+    border-right-color: #7c5237; /* 👈 БОРДЕР СТАНОВИТСЯ ТЕМНЕЕ */
 }
 
-/* Название - крупно, тонко */
+/* ---------- НАЗВАНИЕ ---------- */
 .dep-group-name {
-    font-size: 2rem;
-    font-weight: 300;
-    color: #7c5237;
-    margin-bottom: 0.5rem;
-    letter-spacing: -0.5px;
+    font-size: 1.6rem;
+    font-weight: 400;
+    color: #2c2c2c;
+    margin-bottom: 0.8rem;
+    letter-spacing: -0.3px;
+    transition: color 0.3s ease;
 }
 
-/* Адрес */
+.dep-card:hover .dep-group-name {
+    color: rgb(143, 0, 0);
+}
+
+/* ---------- АДРЕС ---------- */
 .dep-address {
-    font-size: 1.2rem;
-    color: #4a4a4a;
-    padding-bottom: 1.5rem;
+    font-size: 1rem;
+    color: #5a5a5a;
+    padding: 0.6rem 0;
     display: flex;
     align-items: flex-start;
     gap: 10px;
+    border-bottom: 1px solid #f0f0f0;
 }
 
 .dep-address i {
     color: #9a9a9a;
-    font-size: 1.2rem;
-    margin-top: 3px;
-    width: 18px;
+    font-size: 1rem;
+    margin-top: 2px;
+    width: 20px;
+    text-align: center;
 }
 
-.dep-timework i {
-    color: #9a9a9a;
-    font-size: 1.1rem;
-    width: 18px;
+/* ---------- РЕЖИМ РАБОТЫ ---------- */
+.dep-timework {
+    font-size: 0.95rem;
+    color: #5a5a5a;
+    padding: 0.6rem 0 0.4rem 0;
+    display: flex;
+    align-items: center;
+    gap: 10px;
 }
 
 .dep-timework strong {
@@ -93,38 +121,42 @@ body{
     color: #2c2c2c;
 }
 
-/* Телефон */
+.dep-timework i {
+    color: #9a9a9a;
+    font-size: 1rem;
+    width: 20px;
+    text-align: center;
+}
+
+/* ---------- ТЕЛЕФОН ---------- */
 .dep-phone {
     display: flex;
     align-items: center;
     gap: 10px;
     font-size: 0.95rem;
     color: #5a5a5a;
-    margin-bottom: 1.5rem;
+    padding: 0.2rem 0 0.8rem 0;
 }
 
 .dep-phone i {
     color: #9a9a9a;
-    font-size: 0.9rem;
-    width: 18px;
+    font-size: 0.95rem;
+    width: 20px;
+    text-align: center;
 }
 
-.dep-phone a {
+.dep-phone span {
     color: #5a5a5a;
-    text-decoration: none;
-    transition: color 0.2s;
 }
 
-.dep-phone a:hover {
-    color: #7c5237;
-}
-
-/* Блок сотрудников внизу */
+/* ---------- НИЖНЯЯ ЧАСТЬ (КОЛ-ВО СОТРУДНИКОВ) ---------- */
 .dep-bottom {
     padding-top: 1rem;
+    margin-top: auto;
     display: flex;
     justify-content: space-between;
     align-items: center;
+    border-top: 1px solid #f0f0f0;
 }
 
 .dep-employees-link {
@@ -135,84 +167,124 @@ body{
     font-weight: 400;
     font-size: 0.9rem;
     text-decoration: none;
-    transition: color 0.2s;
+    transition: all 0.3s ease;
 }
 
 .dep-employees-link:hover {
-    color: #2c2c2c;
+    color: rgb(143, 0, 0);
+    gap: 14px;
 }
 
 .dep-employees-link i {
-    font-size: 1rem;
+    font-size: 0.9rem;
+    transition: transform 0.3s ease;
+}
+
+.dep-employees-link:hover i {
+    transform: translateX(4px);
 }
 
 .dep-employees-count {
-    background: #f0f0f0;
-    padding: 2px 12px;
-    border-radius: 20px;
+    background: #f5f5f0;
+    padding: 3px 14px;
     font-size: 0.8rem;
     color: #6a6a6a;
+    font-weight: 500;
+    border-radius: 0; /* 👈 БЕЗ СКРУГЛЕНИЙ */
 }
 
+/* ---------- ПУСТОЕ СОСТОЯНИЕ ---------- */
 .no-data {
     grid-column: 1 / -1;
     text-align: center;
-    padding: 3rem;
-    background: #ffffff;
-    border-radius: 16px;
+    padding: 4rem;
+    background: #fafaf8;
     border: 1px solid #e8e8e8;
-    color: #8a8a8a;
+    border-right: 4px solid rgb(143, 0, 0);
+    color: #9a9a9a;
+    border-radius: 0;
 }
 
-/* Адаптив */
-@media (max-width: 700px) {
-    body {
+.no-data i {
+    display: block;
+    margin-bottom: 1rem;
+    opacity: 0.3;
+}
+
+/* ---------- КАРТА ---------- */
+#map {
+    width: 100%;
+    max-width: 1400px;
+    height: 500px;
+    margin: 4rem auto 2rem auto;
+    border: 1px solid #eaeaea;
+    border-right: 4px solid rgb(143, 0, 0);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.02);
+}
+
+/* ============================================
+   АДАПТИВ
+   ============================================ */
+@media (max-width: 1024px) {
+    .departments-grid {
+        grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+        gap: 1.5rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .departments-page {
         padding: 1rem;
     }
-
-    .header {
-        margin: -1rem -1rem 1.5rem -1rem;
+    
+    .departments-grid {
+        grid-template-columns: 1fr 1fr;
+        gap: 1.2rem;
     }
+    
+    .dep-card {
+        padding: 1.2rem 1.2rem 1.5rem 1.2rem;
+        border-right-width: 3px;
+    }
+    
+    .dep-group-name {
+        font-size: 1.3rem;
+    }
+    
+    .page-title {
+        font-size: 1.6rem;
+    }
+    
+    #map {
+        height: 350px;
+        margin: 2rem auto;
+        border-right-width: 3px;
+    }
+}
 
+@media (max-width: 500px) {
     .departments-grid {
         grid-template-columns: 1fr;
         gap: 1rem;
     }
-
-    .dep-group-name {
-        font-size: 1.6rem;
-    }
-
-    .page-title {
-        font-size: 1.5rem;
-    }
-}
-
-@media (max-width: 480px) {
+    
     .dep-card {
-        padding: 1.2rem;
+        padding: 1rem 1rem 1.2rem 1rem;
+        border-right-width: 3px;
     }
-
+    
     .dep-group-name {
-        font-size: 1.3rem;
+        font-size: 1.2rem;
     }
-
-    .dep-bottom {
-        flex-direction: column;
-        gap: 0.5rem;
-        align-items: flex-start;
+    
+    .dep-address,
+    .dep-timework,
+    .dep-phone {
+        font-size: 0.85rem;
     }
-}
-
-
-/* ========== ССЫЛКИ ========== */
-
-a {
-    font-size: 1.15rem;
-    text-decoration: none;
-    color: #333333;
-}
-
-a:hover {
-    color: #7c5237;       
+    
+    #map {
+        height: 250px;
+        border-right-width: 3px;
+    }
 }

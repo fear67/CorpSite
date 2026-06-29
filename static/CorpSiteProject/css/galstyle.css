@@ -1,25 +1,7 @@
-/* ============================================
-   КНОПКА НАЗАД
-   ============================================ */
-.back-btn {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    text-decoration: none;
-    color: #5a5a5a;
-    font-size: 0.9rem;
-    font-weight: 400;
-    margin-bottom: 1.5rem;
-    padding: 8px 0;
-    transition: color 0.2s;
-}
-
-.back-btn:hover {
-    color: #2c2c2c;
-}
+/* galstyle.css - страница галереи мероприятия */
 
 /* ============================================
-   СТРАНИЦА ГАЛЕРЕИ (.gallery-page)
+   ОБЩИЕ СТИЛИ
    ============================================ */
 .gallery-page {
     min-height: 100vh;
@@ -32,69 +14,150 @@
     background: white;
     border-radius: 16px;
     padding: 2rem;
+    border: 1px solid #eaeaea;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.02);
 }
 
+/* ---------- КНОПКА НАЗАД ---------- */
+.back-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    text-decoration: none;
+    color: #7a7a7a;
+    font-size: 0.9rem;
+    font-weight: 400;
+    margin-bottom: 1.5rem;
+    padding: 8px 0;
+    transition: all 0.3s ease;
+}
+
+.back-btn i {
+    font-size: 0.85rem;
+    transition: transform 0.3s ease;
+}
+
+.back-btn:hover {
+    color: rgb(143, 0, 0);
+    gap: 12px;
+}
+
+.back-btn:hover i {
+    transform: translateX(-4px);
+}
+
+/* ---------- ЗАГОЛОВОК ---------- */
 .gallery-page h1 {
     font-size: 2.2rem;
     font-weight: 300;
-    color: #2c2c2c;
-    margin-bottom: 0.5rem;
+    color: rgb(143, 0, 0);
+    margin-bottom: 0.3rem;
     padding-bottom: 0.75rem;
-    border-bottom: 1px solid #e8e8e8;
+    border-bottom: 2px solid #f0f0f0;
     letter-spacing: -0.3px;
 }
 
 .gallery-page .event-date {
-    font-size: 0.9rem;
+    font-size: 0.95rem;
     font-weight: 400;
-    color: #8a8a8a;
+    color: #7a7a7a;
     margin-bottom: 1.5rem;
     display: flex;
     align-items: center;
     gap: 8px;
 }
 
+.gallery-page .event-date i {
+    color: #7c5237;
+}
+
+/* ---------- ОПИСАНИЕ ---------- */
 .gallery-page .event-description {
-    background: #f0f0f0;
-    padding: 2rem 3rem;
-    border-radius: 1rem;
+    background: #f7f7f5;
+    padding: 1.5rem 2rem;
+    border-radius: 12px;
     margin-bottom: 2rem;
+    border-left: 3px solid rgb(143, 0, 0);
 }
 
 .gallery-page .event-description p {
-    color: #797979;
-    line-height: 1.6;
+    color: #5a5a5a;
+    line-height: 1.7;
     font-size: 1rem;
     font-weight: 400;
+    margin: 0;
 }
 
-/* ============================================
-   ГАЛЕРЕЯ (сетка)
-   ============================================ */
+/* ---------- КНОПКА ДОБАВЛЕНИЯ ФОТО ---------- */
+.add-photo-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 20px;
+    background: rgb(143, 0, 0);
+    color: #fff;
+    border-radius: 30px;
+    text-decoration: none;
+    font-size: 0.9rem;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    margin-bottom: 1.5rem;
+    box-shadow: 0 2px 8px rgba(143, 0, 0, 0.15);
+}
+
+.add-photo-btn:hover {
+    background: #7c5237;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(143, 0, 0, 0.2);
+    color: #fff;
+}
+
+.add-photo-btn i {
+    font-size: 0.85rem;
+}
+
+/* ---------- СЕТКА ГАЛЕРЕИ ---------- */
 .gallery-grid {
     display: grid;
-    gap: 1.5rem;
-    margin-top: 2rem;
-}
-
-.gallery-page .gallery-grid {
     grid-template-columns: repeat(5, 1fr);
     gap: 1rem;
+    margin-top: 0.5rem;
 }
 
-/* Стили для карточек фото */
+/* ---------- КАРТОЧКА ФОТО ---------- */
 .gallery-item {
     background: #ffffff;
     overflow: hidden;
     border-radius: 12px;
-    border: 1px solid #e8e8e8;
-    transition: transform 0.2s, box-shadow 0.2s;
+    border: 1px solid #eaeaea;
+    transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    opacity: 0;
+    transform: translateY(20px);
+    animation: fadeUp 0.5s ease forwards;
+}
+
+.gallery-item:nth-child(1) { animation-delay: 0.05s; }
+.gallery-item:nth-child(2) { animation-delay: 0.08s; }
+.gallery-item:nth-child(3) { animation-delay: 0.11s; }
+.gallery-item:nth-child(4) { animation-delay: 0.14s; }
+.gallery-item:nth-child(5) { animation-delay: 0.17s; }
+.gallery-item:nth-child(6) { animation-delay: 0.20s; }
+.gallery-item:nth-child(7) { animation-delay: 0.23s; }
+.gallery-item:nth-child(8) { animation-delay: 0.26s; }
+.gallery-item:nth-child(9) { animation-delay: 0.29s; }
+.gallery-item:nth-child(10) { animation-delay: 0.32s; }
+
+@keyframes fadeUp {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
 .gallery-item:hover {
     transform: translateY(-4px);
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+    box-shadow: 0 12px 28px rgba(0, 0, 0, 0.06);
+    border-color: #d0d0d0;
 }
 
 .gallery-item a {
@@ -108,32 +171,32 @@
     width: 100%;
     height: 100%;
     object-fit: cover;
-    transition: transform 0.3s;
+    transition: transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
 }
 
 .gallery-item:hover img {
-    transform: scale(1.05);
+    transform: scale(1.06);
 }
 
-/* Подпись под фото */
+/* ---------- ПОДПИСЬ ПОД ФОТО ---------- */
 .photo-caption {
-    padding: 0.75rem;
-    font-size: 0.8rem;
+    padding: 0.6rem 0.8rem;
+    font-size: 0.75rem;
     font-weight: 400;
     color: #5a5a5a;
     text-align: center;
     background: #fafaf8;
-    border-top: 1px solid #e8e8e8;
+    border-top: 1px solid #eaeaea;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
 }
 
-/* Нет фото */
+/* ---------- НЕТ ФОТО ---------- */
 .no-photos {
     grid-column: 1 / -1;
     text-align: center;
-    padding: 4rem;
+    padding: 4rem 2rem;
     color: #9a9a9a;
     font-weight: 400;
     background: #fafaf8;
@@ -141,70 +204,20 @@
     border: 1px dashed #d0d0d0;
 }
 
+.no-photos i {
+    display: block;
+    font-size: 3rem;
+    opacity: 0.3;
+    margin-bottom: 1rem;
+}
+
 .no-photos p {
     font-size: 1rem;
 }
 
 /* ============================================
-   АДАПТИВНОСТЬ
+   ЛАЙТБОКС
    ============================================ */
-@media (max-width: 1000px) {
-    .gallery-page .gallery-grid {
-        grid-template-columns: repeat(2, 1fr);
-        gap: 1rem;
-    }
-
-    .gallery-page {
-        padding: 1rem;
-    }
-
-    .gallery-page .container{
-        padding: 0rem;
-    }
-
-    .gallery-page h1 {
-        font-size: 1.8rem;
-    }
-}
-
-@media (max-width: 700px) {
-    .gallery-page .gallery-grid {
-        grid-template-columns: repeat(2, 1fr);
-        gap: 1rem;
-    }
-
-    .gallery-page h1 {
-        font-size: 1.5rem;
-    }
-
-    .gallery-page .event-description {
-        padding: 1.2rem 1.5rem;
-    }
-
-    .container {
-        padding: 0;
-    }
-}
-
-@media (max-width: 480px) {
-    .gallery-page .gallery-grid {
-        grid-template-columns: repeat(2, 1fr);
-        gap: 1rem;
-    }
-
-    .container {
-        padding: 0;
-    }
-    .gallery-page h1 {
-        font-size: 1.3rem;
-        font-weight: 400;
-    }
-
-    .gallery-page .event-description {
-        padding: 1rem;
-    }
-}
-
 .my-lightbox-overlay {
     display: none;
     position: fixed;
@@ -271,7 +284,7 @@
 .my-lightbox-overlay .prev:hover,
 .my-lightbox-overlay .next:hover {
     opacity: 1;
-    background: rgba(255, 255, 255, 0.1);
+    background: rgba(255, 255, 255, 0.08);
     color: #ffffff;
 }
 
@@ -301,27 +314,100 @@
     letter-spacing: 1px;
 }
 
+/* ============================================
+   АДАПТИВ
+   ============================================ */
+@media (max-width: 1000px) {
+    .gallery-grid {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 1rem;
+    }
+
+    .gallery-page {
+        padding: 1rem;
+    }
+
+    .gallery-page .container {
+        padding: 1.5rem;
+    }
+
+    .gallery-page h1 {
+        font-size: 1.8rem;
+    }
+}
+
 @media (max-width: 700px) {
+    .gallery-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 0.8rem;
+    }
+
+    .gallery-page h1 {
+        font-size: 1.5rem;
+    }
+
+    .gallery-page .event-description {
+        padding: 1rem 1.2rem;
+    }
+
+    .gallery-page .container {
+        padding: 1rem;
+    }
+    
     .my-lightbox-overlay .prev,
     .my-lightbox-overlay .next {
         font-size: 30px;
         padding: 15px 10px;
     }
+    
     .my-lightbox-overlay .prev {
         left: 5px;
     }
+    
     .my-lightbox-overlay .next {
         right: 5px;
     }
+    
     .my-lightbox-overlay .close-btn {
         font-size: 32px;
         top: 15px;
         right: 20px;
     }
+    
     .my-lightbox-overlay img {
         max-height: 70%;
     }
+    
     .my-lightbox-overlay .counter {
         bottom: 50px;
+    }
+}
+
+@media (max-width: 480px) {
+    .gallery-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 0.6rem;
+    }
+
+    .gallery-page h1 {
+        font-size: 1.2rem;
+        font-weight: 400;
+    }
+
+    .gallery-page .event-description {
+        padding: 0.8rem 1rem;
+    }
+    
+    .gallery-page .event-description p {
+        font-size: 0.9rem;
+    }
+    
+    .gallery-page .container {
+        padding: 0.8rem;
+    }
+    
+    .photo-caption {
+        font-size: 0.65rem;
+        padding: 0.4rem 0.5rem;
     }
 }

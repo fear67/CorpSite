@@ -8,6 +8,7 @@ from django.utils.safestring import mark_safe
 from django_admin_multiupload import MultipleUploadAdminMixin, MultipleUploadInlineMixin
 from galleryfield.mixins import GalleryFormMediaMixin
 from .models import CorpLife, Post, Group, Place, Workplace, Profile, News, EventPhoto
+from .models import Project, Task, TaskComment, TaskHistory
 
 
 @admin.register(Post)
@@ -210,6 +211,109 @@ class CustomUserAdmin(UserAdmin):
             )
         return super().get_fieldsets(request, obj)
 
+@admin.register(Project)
+class ProjectAdmin(admin.ModelAdmin):
+    list_display = ['name', 'created_by', 'created_at', 'is_active', 'task_count', 'completion_percent']
+    list_filter = ['is_active', 'created_at']
+    search_fields = ['name', 'description']
+    readonly_fields = ['created_at', 'updated_at']
+    fieldsets = (
+        ('Основная информация', {
+            'fields': ('name', 'description', 'is_active')
+        }),
+        ('Автор', {
+            'fields': ('created_by',)
+        }),
+        ('Даты', {
+            'fields': ('created_at', 'updated_at'),
+            'classes': ('collapse',)
+        }),
+    )
+
+    def task_count(self, obj):
+        return obj.get_task_count()
+    task_count.short_description = "Количество задач"
+
+    def completion_percent(self, obj):
+        percent = obj.get_progress_percent()
+        color = '#28a745' if percent >= 70 else '#ffc107' if percent >= 30 else '#dc3545'
+        return mark_safe(f'<span style="color:{color}; font-weight:bold;">{percent}%</span>')
+    completion_percent.short_description = "Выполнение"
+
+
+@admin.register(Task)
+class TaskAdmin(admin.ModelAdmin):
+    list_display = ['title', 'project', 'assignee', 'status', 'priority', 'due_date', 'is_overdue']
+    list_filter = ['status', 'priority', 'project', 'assignee']
+    search_fields = ['title', 'description']
+    readonly_fields = ['created_at', 'updated_at']
+    list_editable = ['status', 'priority', 'assignee']
+    fieldsets = (
+        ('Основная информация', {
+            'fields': ('title', 'description', 'project')
+        }),
+        ('Назначение', {
+            'fields': ('assignee', 'created_by')
+        }),
+        ('Статус и приоритет', {
+            'fields': ('status', 'priority')
+        }),
+        ('Сроки', {
+            'fields': ('due_date',)
+        }),
+        ('Даты', {
+            'fields': ('created_at', 'updated_at'),
+            'classes': ('collapse',)
+        }),
+    )
+
+    def is_overdue(self, obj):
+        if obj.is_overdue():
+            return mark_safe('<span style="color:#dc3545; font-weight:bold;">🔴 Просрочена</span>')
+        return '✅ В срок'
+    is_overdue.short_description = "Статус срока"
+
+    def get_color_status(self, obj):
+        colors = {
+            'new': '#6c757d',
+            'in_progress': '#0d6efd',
+            'review': '#fd7e14',
+            'done': '#198754',
+            'closed': '#6c757d',
+        }
+        return mark_safe(f'<span style="color:{colors.get(obj.status, "#6c757d")};">{obj.get_status_display()}</span>')
+    get_color_status.short_description = "Статус"
+
+
+@admin.register(TaskComment)
+class TaskCommentAdmin(admin.ModelAdmin):
+    list_display = ['task', 'author', 'text_preview', 'created_at']
+    list_filter = ['created_at', 'author']
+    search_fields = ['text']
+    readonly_fields = ['created_at', 'updated_at']
+
+    def text_preview(self, obj):
+        return obj.text[:50] + '...' if len(obj.text) > 50 else obj.text
+    text_preview.short_description = "Текст комментария"
+
+
+@admin.register(TaskHistory)
+class TaskHistoryAdmin(admin.ModelAdmin):
+    list_display = ['task', 'user', 'field', 'new_value', 'changed_at']
+    list_filter = ['field', 'changed_at']
+    search_fields = ['task__title', 'user__username', 'field']
+    readonly_fields = ['task', 'user', 'field', 'old_value', 'new_value', 'changed_at']
+
+    def has_add_permission(self, request):
+        return False
+
+    def has_delete_permission(self, request, obj=None):
+        return False
+
+    def has_change_permission(self, request, obj=None):
+        return False
 
 admin.site.unregister(User)
 admin.site.register(User, CustomUserAdmin)
+
+

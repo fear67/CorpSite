@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ task.title }} - Задача</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="{% static 'CorpSiteProject/css/base.css' %}">
+    <link rel="stylesheet" href="{% static 'CorpSiteProject/css/modal.css' %}">
+</head>
+
+<body>
+    <div class="task-detail-page">
+        <div class="task-detail-container">
+            <div class="detail-nav">
+                <a href="{% url 'project_detail' task.project.id %}" class="back-link">
+                    <i class="fas fa-arrow-left"></i> Назад к проекту
+                </a>
+                <div class="detail-actions">
+                    <button class="btn-edit" onclick="openModal('editTaskModal')">
+                        <i class="fas fa-pen"></i> Редактировать
+                    </button>
+                    <button class="btn-delete" onclick="openModal('deleteTaskModal')">
+                        <i class="fas fa-trash"></i> Удалить
+                    </button>
+                </div>
+            </div>
+
+            <!-- ИНФОРМАЦИЯ О ЗАДАЧЕ -->
+            <div class="task-header">
+                <h1>{{ task.title }}</h1>
+                <div class="task-badges">
+                    <span class="status-badge status-{{ task.status }}">
+                        {{ task.get_status_display }}
+                    </span>
+                    <span class="priority-badge priority-{{ task.priority }}">
+                        {{ task.get_priority_display }}
+                    </span>
+                    {% if task.is_overdue %}
+                        <span class="overdue-badge">Просрочена</span>
+                    {% endif %}
+                </div>
+            </div>
+
+            <div class="task-meta-grid">
+                <div class="task-meta-item">
+                    <span class="meta-label">Проект</span>
+                    <span class="meta-value">
+                        <a href="{% url 'project_detail' task.project.id %}">{{ task.project.name }}</a>
+                    </span>
+                </div>
+                <div class="task-meta-item">
+                    <span class="meta-label">Исполнитель</span>
+                    <span class="meta-value">{{ task.assignee.username|default:"—" }}</span>
+                </div>
+                <div class="task-meta-item">
+                    <span class="meta-label">Создатель</span>
+                    <span class="meta-value">{{ task.created_by.username|default:"—" }}</span>
+                </div>
+                <div class="task-meta-item">
+                    <span class="meta-label">Срок выполнения</span>
+                    <span class="meta-value">
+                        {% if task.due_date %}
+                            {{ task.due_date|date:"d.m.Y H:i" }}
+                        {% else %}
+                            —
+                        {% endif %}
+                    </span>
+                </div>
+                <div class="task-meta-item">
+                    <span class="meta-label">Создана</span>
+                    <span class="meta-value">{{ task.created_at|date:"d.m.Y H:i" }}</span>
+                </div>
+                <div class="task-meta-item">
+                    <span class="meta-label">Обновлена</span>
+                    <span class="meta-value">{{ task.updated_at|date:"d.m.Y H:i" }}</span>
+                </div>
+            </div>
+
+            <!-- ОПИСАНИЕ -->
+            <div class="task-description">
+                <h3>Описание</h3>
+                <p>{{ task.description|default:"Нет описания" }}</p>
+            </div>
+
+            <!-- ИСТОРИЯ ИЗМЕНЕНИЙ -->
+            {% if task.history.all %}
+                <div class="task-history">
+                    <h3>История изменений</h3>
+                    <div class="history-list">
+                        {% for change in task.history.all|slice:":10" %}
+                            <div class="history-item">
+                                <span class="history-user">{{ change.user.username|default:"Система" }}</span>
+                                <span class="history-field">{{ change.field }}</span>
+                                <span class="history-old">{{ change.old_value|default:"—" }}</span>
+                                <span class="history-arrow">→</span>
+                                <span class="history-new">{{ change.new_value|default:"—" }}</span>
+                                <span class="history-time">{{ change.changed_at|date:"d.m.Y H:i" }}</span>
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            {% endif %}
+
+            <!-- КОММЕНТАРИИ -->
+            <div class="task-comments">
+                <h3>Комментарии ({{ comments.count }})</h3>
+
+                <!-- Форма комментария -->
+                <form method="post" class="comment-form">
+                    {% csrf_token %}
+                    <textarea name="text" class="form-control" rows="3" placeholder="Напишите комментарий..." required></textarea>
+                    <button type="submit" class="btn-submit"><i class="fas fa-paper-plane"></i> Отправить</button>
+                </form>
+
+                <!-- Список комментариев -->
+                <div class="comments-list">
+                    {% for comment in comments %}
+                        <div class="comment-item">
+                            <div class="comment-header">
+                                <span class="comment-author">{{ comment.author.username }}</span>
+                                <span class="comment-time">{{ comment.created_at|date:"d.m.Y H:i" }}</span>
+                            </div>
+                            <div class="comment-text">{{ comment.text|linebreaks }}</div>
+                        </div>
+                    {% empty %}
+                        <p class="no-comments">Нет комментариев</p>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- МОДАЛКА 1: РЕДАКТИРОВАНИЕ ЗАДАЧИ -->
+    <div class="modal-overlay" id="editTaskModal">
+        <div class="modal">
+            <div class="modal-header">
+                <h3>Редактировать задачу</h3>
+                <span class="close" onclick="closeModal('editTaskModal')">&times;</span>
+            </div>
+            <div class="modal-body">
+                <form method="post" action="{% url 'task_edit' task.id %}">
+                    {% csrf_token %}
+                    <div class="form-group">
+                        <label>Название задачи <span class="required">*</span></label>
+                        <input type="text" name="title" class="form-control" value="{{ task.title }}" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Описание</label>
+                        <textarea name="description" class="form-control" rows="4">{{ task.description }}</textarea>
+                    </div>
+                    <div class="form-group">
+                        <label>Исполнитель</label>
+                        <select name="assignee" class="form-control">
+                            <option value="">— Не назначен —</option>
+                            {% for user in users %}
+                                <option value="{{ user.id }}" {% if task.assignee.id == user.id %}selected{% endif %}>
+                                    {{ user.username }}
+                                </option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Приоритет</label>
+                            <select name="priority" class="form-control">
+                                <option value="low" {% if task.priority == 'low' %}selected{% endif %}>Низкий</option>
+                                <option value="medium" {% if task.priority == 'medium' %}selected{% endif %}>Средний</option>
+                                <option value="high" {% if task.priority == 'high' %}selected{% endif %}>Высокий</option>
+                                <option value="critical" {% if task.priority == 'critical' %}selected{% endif %}>Критический</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Статус</label>
+                            <select name="status" class="form-control">
+                                <option value="new" {% if task.status == 'new' %}selected{% endif %}>Новая</option>
+                                <option value="in_progress" {% if task.status == 'in_progress' %}selected{% endif %}>В работе</option>
+                                <option value="review" {% if task.status == 'review' %}selected{% endif %}>На проверке</option>
+                                <option value="done" {% if task.status == 'done' %}selected{% endif %}>Готово</option>
+                                <option value="closed" {% if task.status == 'closed' %}selected{% endif %}>Закрыта</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Срок выполнения</label>
+                        <input type="datetime-local" name="due_date" class="form-control" value="{{ task.due_date|date:'Y-m-d\TH:i' }}">
+                    </div>
+                    <div class="form-actions">
+                        <button type="button" class="btn-cancel" onclick="closeModal('editTaskModal')">Отмена</button>
+                        <button type="submit" class="btn-submit">Сохранить</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- МОДАЛКА 2: УДАЛЕНИЕ ЗАДАЧИ -->
+    <div class="modal-overlay" id="deleteTaskModal">
+        <div class="modal modal-danger">
+            <div class="modal-header">
+                <h3>Удалить задачу</h3>
+                <span class="close" onclick="closeModal('deleteTaskModal')">&times;</span>
+            </div>
+            <div class="modal-body">
+                <p>Вы уверены, что хотите удалить задачу <strong>"{{ task.title }}"</strong>?</p>
+                <p class="text-danger">Это действие удалит все комментарии и историю изменений. Отменить нельзя.</p>
+                <form method="post" action="{% url 'task_delete' task.id %}">
+                    {% csrf_token %}
+                    <div class="form-actions">
+                        <button type="button" class="btn-cancel" onclick="closeModal('deleteTaskModal')">Отмена</button>
+                        <button type="submit" class="btn-danger">Удалить задачу</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <script>
+        function openModal(modalId) {
+            const modal = document.getElementById(modalId);
+            if (modal) {
+                modal.classList.add('active');
+                document.body.style.overflow = 'hidden';
+            }
+        }
+
+        function closeModal(modalId) {
+            const modal = document.getElementById(modalId);
+            if (modal) {
+                modal.classList.remove('active');
+                document.body.style.overflow = 'auto';
+            }
+        }
+
+        document.addEventListener('click', function(e) {
+            if (e.target.classList.contains('modal-overlay')) {
+                e.target.classList.remove('active');
+                document.body.style.overflow = 'auto';
+            }
+        });
+
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                document.querySelectorAll('.modal-overlay.active').forEach(function(modal) {
+                    modal.classList.remove('active');
+                    document.body.style.overflow = 'auto';
+                });
+            }
+        });
+    </script>
+    <script src="{% static 'CorpSiteProject/js/script.js' %}" defer></script>
+</body>
+</html>

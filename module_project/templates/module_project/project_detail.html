@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ project.name }} - Проект</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="{% static 'CorpSiteProject/css/base.css' %}">
+    <link rel="stylesheet" href="{% static 'CorpSiteProject/css/modal.css' %}">
+</head>
+
+<body>
+    <div class="project-detail-page">
+        <div class="project-detail-container">
+
+            <!-- НАВИГАЦИЯ -->
+            <div class="detail-nav">
+                <a href="{% url 'project_list' %}" class="back-link">
+                    <i class="fas fa-arrow-left"></i> Назад к проектам
+                </a>
+                <div class="detail-actions">
+                    <button class="btn-edit" onclick="openModal('editProjectModal')">
+                        <i class="fas fa-pen"></i> Редактировать
+                    </button>
+                    <button class="btn-delete" onclick="openModal('deleteProjectModal')">
+                        <i class="fas fa-trash"></i> Удалить
+                    </button>
+                </div>
+            </div>
+
+            <!-- ИНФОРМАЦИЯ О ПРОЕКТЕ -->
+            <div class="project-info">
+                <h1>{{ project.name }}</h1>
+                <p class="project-description">{{ project.description|default:"Без описания" }}</p>
+                <div class="project-meta">
+                    <span><i class="fas fa-user"></i> Создал: {{ project.created_by.username|default:"—" }}</span>
+                    <span><i class="fas fa-calendar-alt"></i> Создан: {{ project.created_at|date:"d.m.Y H:i" }}</span>
+                    <span><i class="fas fa-sync-alt"></i> Обновлён: {{ project.updated_at|date:"d.m.Y H:i" }}</span>
+                </div>
+            </div>
+
+            <!-- СТАТИСТИКА -->
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-number">{{ stats.total }}</div>
+                    <div class="stat-label">Всего задач</div>
+                </div>
+                <div class="stat-card stat-new">
+                    <div class="stat-number">{{ stats.new }}</div>
+                    <div class="stat-label">Новые</div>
+                </div>
+                <div class="stat-card stat-progress">
+                    <div class="stat-number">{{ stats.in_progress }}</div>
+                    <div class="stat-label">В работе</div>
+                </div>
+                <div class="stat-card stat-review">
+                    <div class="stat-number">{{ stats.review }}</div>
+                    <div class="stat-label">На проверке</div>
+                </div>
+                <div class="stat-card stat-done">
+                    <div class="stat-number">{{ stats.done }}</div>
+                    <div class="stat-label">Готово</div>
+                </div>
+                <div class="stat-card stat-overdue">
+                    <div class="stat-number">{{ stats.overdue }}</div>
+                    <div class="stat-label">Просрочено</div>
+                </div>
+            </div>
+
+            <!-- ПРОГРЕСС -->
+            <div class="project-progress">
+                <div class="progress-header">
+                    <span>Прогресс выполнения</span>
+                    <span class="progress-percent">{{ project.get_progress_percent }}%</span>
+                </div>
+                <div class="progress-bar">
+                    <div class="progress-fill" style="width: {{ project.get_progress_percent }}%;"></div>
+                </div>
+            </div>
+
+            <!-- СПИСОК ЗАДАЧ -->
+            <div class="tasks-section">
+                <div class="tasks-header">
+                    <h2>Задачи</h2>
+                    <button class="btn-create" onclick="openModal('createTaskModal')">
+                        <i class="fas fa-plus"></i> Добавить задачу
+                    </button>
+                </div>
+
+                {% if tasks %}
+                    <div class="tasks-table-wrapper">
+                        <table class="tasks-table">
+                            <thead>
+                                <tr>
+                                    <th>Название</th>
+                                    <th>Исполнитель</th>
+                                    <th>Приоритет</th>
+                                    <th>Статус</th>
+                                    <th>Срок</th>
+                                    <th>Действия</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for task in tasks %}
+                                    <tr>
+                                        <td>
+                                            <a href="{% url 'task_detail' task.id %}" class="task-link">
+                                                {{ task.title }}
+                                            </a>
+                                        </td>
+                                        <td>{{ task.assignee.username|default:"—" }}</td>
+                                        <td>
+                                            <span class="priority-badge priority-{{ task.priority }}">
+                                                {{ task.get_priority_display }}
+                                            </span>
+                                        </td>
+                                        <td>
+                                            <span class="status-badge status-{{ task.status }}">
+                                                {{ task.get_status_display }}
+                                            </span>
+                                        </td>
+                                        <td>
+                                            {% if task.due_date %}
+                                                {{ task.due_date|date:"d.m.Y" }}
+                                                {% if task.is_overdue %}
+                                                    <span class="overdue-badge">Просрочена</span>
+                                                {% endif %}
+                                            {% else %}
+                                                —
+                                            {% endif %}
+                                        </td>
+                                        <td>
+                                            <button class="btn-icon" onclick="openModal('editTaskModal', {{ task.id }})" title="Редактировать">
+                                                <i class="fas fa-pen"></i>
+                                            </button>
+                                            <button class="btn-icon btn-delete" onclick="openModal('deleteTaskModal', {{ task.id }})" title="Удалить">
+                                                <i class="fas fa-trash"></i>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                {% else %}
+                    <div class="empty-tasks">
+                        <p>В этом проекте пока нет задач</p>
+                        <button class="btn-create" onclick="openModal('createTaskModal')">
+                            Создать первую задачу
+                        </button>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+    <!-- ============================================ -->
+    <!--                МОДАЛЬНЫЕ ОКНА                  -->
+    <!-- ============================================ -->
+
+    <!-- МОДАЛКА 1: РЕДАКТИРОВАНИЕ ПРОЕКТА -->
+    <div class="modal-overlay" id="editProjectModal">
+        <div class="modal">
+            <div class="modal-header">
+                <h3>Редактировать проект</h3>
+                <span class="close" onclick="closeModal('editProjectModal')">&times;</span>
+            </div>
+            <div class="modal-body">
+                <form method="post" action="{% url 'project_edit' project.id %}">
+                    {% csrf_token %}
+                    <div class="form-group">
+                        <label>Название проекта <span class="required">*</span></label>
+                        <input type="text" name="name" class="form-control" value="{{ project.name }}" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Описание</label>
+                        <textarea name="description" class="form-control" rows="4">{{ project.description }}</textarea>
+                    </div>
+                    <div class="form-group checkbox">
+                        <label>
+                            <input type="checkbox" name="is_active" {% if project.is_active %}checked{% endif %}>
+                            Проект активен
+                        </label>
+                    </div>
+                    <div class="form-actions">
+                        <button type="button" class="btn-cancel" onclick="closeModal('editProjectModal')">Отмена</button>
+                        <button type="submit" class="btn-submit">Сохранить</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- МОДАЛКА 2: УДАЛЕНИЕ ПРОЕКТА -->
+    <div class="modal-overlay" id="deleteProjectModal">
+        <div class="modal modal-danger">
+            <div class="modal-header">
+                <h3>Удалить проект</h3>
+                <span class="close" onclick="closeModal('deleteProjectModal')">&times;</span>
+            </div>
+            <div class="modal-body">
+                <p>Вы уверены, что хотите удалить проект <strong>"{{ project.name }}"</strong>?</p>
+                <p class="text-danger">Это действие удалит все задачи, комментарии и историю изменений. Отменить нельзя.</p>
+                <form method="post" action="{% url 'project_delete' project.id %}">
+                    {% csrf_token %}
+                    <div class="form-actions">
+                        <button type="button" class="btn-cancel" onclick="closeModal('deleteProjectModal')">Отмена</button>
+                        <button type="submit" class="btn-danger">Удалить проект</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- МОДАЛКА 3: СОЗДАНИЕ ЗАДАЧИ -->
+    <div class="modal-overlay" id="createTaskModal">
+        <div class="modal">
+            <div class="modal-header">
+                <h3>Создать задачу</h3>
+                <span class="close" onclick="closeModal('createTaskModal')">&times;</span>
+            </div>
+            <div class="modal-body">
+                <form method="post" action="{% url 'task_create' %}">
+                    {% csrf_token %}
+                    <input type="hidden" name="project" value="{{ project.id }}">
+                    
+                    <div class="form-group">
+                        <label>Название задачи <span class="required">*</span></label>
+                        <input type="text" name="title" class="form-control" placeholder="Введите название" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Описание</label>
+                        <textarea name="description" class="form-control" rows="4" placeholder="Описание задачи"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label>Исполнитель</label>
+                        <select name="assignee" class="form-control">
+                            <option value="">— Не назначен —</option>
+                            {% for user in users %}
+                                <option value="{{ user.id }}">{{ user.username }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Приоритет</label>
+                            <select name="priority" class="form-control">
+                                <option value="low">Низкий</option>
+                                <option value="medium" selected>Средний</option>
+                                <option value="high">Высокий</option>
+                                <option value="critical">Критический</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Статус</label>
+                            <select name="status" class="form-control">
+                                <option value="new" selected>Новая</option>
+                                <option value="in_progress">В работе</option>
+                                <option value="review">На проверке</option>
+                                <option value="done">Готово</option>
+                                <option value="closed">Закрыта</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Срок выполнения</label>
+                        <input type="datetime-local" name="due_date" class="form-control">
+                    </div>
+                    <div class="form-actions">
+                        <button type="button" class="btn-cancel" onclick="closeModal('createTaskModal')">Отмена</button>
+                        <button type="submit" class="btn-submit">Создать задачу</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- МОДАЛКА 4: РЕДАКТИРОВАНИЕ ЗАДАЧИ -->
+    <div class="modal-overlay" id="editTaskModal">
+        <div class="modal">
+            <div class="modal-header">
+                <h3>Редактировать задачу</h3>
+                <span class="close" onclick="closeModal('editTaskModal')">&times;</span>
+            </div>
+            <div class="modal-body">
+                <form method="post" action="" id="editTaskForm">
+                    {% csrf_token %}
+                    <div class="form-group">
+                        <label>Название задачи <span class="required">*</span></label>
+                        <input type="text" name="title" class="form-control" id="editTaskTitle" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Описание</label>
+                        <textarea name="description" class="form-control" rows="4" id="editTaskDescription"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label>Исполнитель</label>
+                        <select name="assignee" class="form-control" id="editTaskAssignee">
+                            <option value="">— Не назначен —</option>
+                            {% for user in users %}
+                                <option value="{{ user.id }}">{{ user.username }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Приоритет</label>
+                            <select name="priority" class="form-control" id="editTaskPriority">
+                                <option value="low">Низкий</option>
+                                <option value="medium">Средний</option>
+                                <option value="high">Высокий</option>
+                                <option value="critical">Критический</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Статус</label>
+                            <select name="status" class="form-control" id="editTaskStatus">
+                                <option value="new">Новая</option>
+                                <option value="in_progress">В работе</option>
+                                <option value="review">На проверке</option>
+                                <option value="done">Готово</option>
+                                <option value="closed">Закрыта</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Срок выполнения</label>
+                        <input type="datetime-local" name="due_date" class="form-control" id="editTaskDueDate">
+                    </div>
+                    <div class="form-actions">
+                        <button type="button" class="btn-cancel" onclick="closeModal('editTaskModal')">Отмена</button>
+                        <button type="submit" class="btn-submit">Сохранить</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- МОДАЛКА 5: УДАЛЕНИЕ ЗАДАЧИ -->
+    <div class="modal-overlay" id="deleteTaskModal">
+        <div class="modal modal-danger">
+            <div class="modal-header">
+                <h3>Удалить задачу</h3>
+                <span class="close" onclick="closeModal('deleteTaskModal')">&times;</span>
+            </div>
+            <div class="modal-body">
+                <p>Вы уверены, что хотите удалить эту задачу?</p>
+                <p class="text-danger">Это действие удалит все комментарии и историю изменений. Отменить нельзя.</p>
+                <form method="post" action="" id="deleteTaskForm">
+                    {% csrf_token %}
+                    <div class="form-actions">
+                        <button type="button" class="btn-cancel" onclick="closeModal('deleteTaskModal')">Отмена</button>
+                        <button type="submit" class="btn-danger">Удалить задачу</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // ============================================
+        // ДАННЫЕ ЗАДАЧ ДЛЯ РЕДАКТИРОВАНИЯ
+        // ============================================
+        var tasksData = {
+            {% for task in tasks %}
+                {{ task.id }}: {
+                    title: "{{ task.title|escapejs }}",
+                    description: "{{ task.description|escapejs }}",
+                    assignee: "{{ task.assignee.id|default:'' }}",
+                    priority: "{{ task.priority }}",
+                    status: "{{ task.status }}",
+                    due_date: "{{ task.due_date|date:'Y-m-d\TH:i'|default:'' }}"
+                }{% if not forloop.last %},{% endif %}
+            {% endfor %}
+        };
+
+        // ============================================
+        // ОТКРЫТЬ МОДАЛКУ
+        // ============================================
+        function openModal(modalId, taskId) {
+            const modal = document.getElementById(modalId);
+            if (!modal) return;
+            
+            modal.classList.add('active');
+            document.body.style.overflow = 'hidden';
+
+            // Если это модалка редактирования задачи — заполняем данными
+            if (modalId === 'editTaskModal' && taskId) {
+                const task = tasksData[taskId];
+                if (task) {
+                    const form = document.getElementById('editTaskForm');
+                    if (form) {
+                        form.action = "{% url 'task_edit' 0 %}".replace('/0/', '/' + taskId + '/');
+                    }
+                    document.getElementById('editTaskTitle').value = task.title;
+                    document.getElementById('editTaskDescription').value = task.description;
+                    document.getElementById('editTaskAssignee').value = task.assignee;
+                    document.getElementById('editTaskPriority').value = task.priority;
+                    document.getElementById('editTaskStatus').value = task.status;
+                    document.getElementById('editTaskDueDate').value = task.due_date;
+                }
+            }
+
+            // Если это модалка удаления задачи — подставляем ID в action
+            if (modalId === 'deleteTaskModal' && taskId) {
+                const form = document.getElementById('deleteTaskForm');
+                if (form) {
+                    form.action = "{% url 'task_delete' 0 %}".replace('/0/', '/' + taskId + '/');
+                }
+            }
+        }
+
+        // ============================================
+        // ЗАКРЫТЬ МОДАЛКУ
+        // ============================================
+        function closeModal(modalId) {
+            const modal = document.getElementById(modalId);
+            if (modal) {
+                modal.classList.remove('active');
+                document.body.style.overflow = 'auto';
+            }
+        }
+
+        // ============================================
+        // СОБЫТИЯ
+        // ============================================
+        document.addEventListener('DOMContentLoaded', function() {
+            // Закрытие по клику на фон
+            document.addEventListener('click', function(e) {
+                if (e.target.classList.contains('modal-overlay')) {
+                    e.target.classList.remove('active');
+                    document.body.style.overflow = 'auto';
+                }
+            });
+
+            // Закрытие по ESC
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'Escape') {
+                    document.querySelectorAll('.modal-overlay.active').forEach(function(modal) {
+                        modal.classList.remove('active');
+                        document.body.style.overflow = 'auto';
+                    });
+                }
+            });
+        });
+    </script>
+    <script src="{% static 'CorpSiteProject/js/script.js' %}" defer></script>
+</body>
+</html>

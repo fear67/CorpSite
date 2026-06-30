@@ -70,6 +70,7 @@
                 <li><a href="{% url 'Departments' %}" class="nav-btn">Подразделения</a></li>
                 <li><a href="{% url 'Events' %}" class="nav-btn">Мероприятия</a></li>
                 <li><a href="{% url 'Docs' %}" class="nav-btn">Документы</a></li>
+                <li><a href="{% url 'project_list' %}" class="nav-btn">Проекты</a></li>
             </ul>
         </nav>
         
@@ -78,6 +79,7 @@
             <a href="{% url 'Departments' %}"><i class="fas fa-building"></i> Подразделения</a>
             <a href="{% url 'Events' %}"><i class="fas fa-calendar-alt"></i> Мероприятия</a>
             <a href="{% url 'Docs' %}"><i class="fas fa-file-alt"></i> Документы</a>
+            <a href="{% url 'project_list' %}"><i class="fas fa-project-diagram"></i> Проекты</a>
             {% if user.is_authenticated %}
                 <a href="{% url 'Profile' %}"><i class="fas fa-user-circle"></i> Личный кабинет</a>
                 {% if perms.auth.add_user %}

@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Мои задачи</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="{% static 'CorpSiteProject/css/base.css' %}">
+    <link rel="stylesheet" href="{% static 'CorpSiteProject/css/modal.css' %}">
+</head>
+
+<body>
+    <div class="my-tasks-page">
+        <div class="my-tasks-container">
+            <div class="my-tasks-header">
+                <h1>Мои задачи</h1>
+                <a href="{% url 'project_list' %}" class="back-link">
+                    <i class="fas fa-arrow-left"></i> Назад к проектам
+                </a>
+            </div>
+
+            <!-- ФИЛЬТРЫ -->
+            <form method="get" class="filter-form">
+                <div class="filter-group">
+                    <label>Статус</label>
+                    <select name="status" onchange="this.form.submit()">
+                        <option value="">Все</option>
+                        {% for value, label in statuses %}
+                            <option value="{{ value }}" {% if status_filter == value %}selected{% endif %}>
+                                {{ label }}
+                            </option>
+                        {% endfor %}
+                    </select>
+                </div>
+                {% if status_filter %}
+                    <a href="{% url 'my_tasks' %}" class="clear-btn"><i class="fas fa-times"></i> Сбросить</a>
+                {% endif %}
+            </form>
+
+            <!-- СПИСОК ЗАДАЧ -->
+            {% if tasks %}
+                <div class="tasks-list">
+                    {% for task in tasks %}
+                        <div class="task-item">
+                            <div class="task-item-left">
+                                <span class="status-badge status-{{ task.status }}">
+                                    {{ task.get_status_display }}
+                                </span>
+                                <span class="priority-badge priority-{{ task.priority }}">
+                                    {{ task.get_priority_display }}
+                                </span>
+                            </div>
+                            <a href="{% url 'task_detail' task.id %}" class="task-title">
+                                {{ task.title }}
+                            </a>
+                            <div class="task-item-right">
+                                <span class="task-project"><i class="fas fa-folder"></i> {{ task.project.name }}</span>
+                                {% if task.due_date %}
+                                    <span class="task-due">
+                                        <i class="fas fa-calendar-alt"></i>
+                                        {{ task.due_date|date:"d.m.Y" }}
+                                        {% if task.is_overdue %}
+                                            <span class="overdue-badge">Просрочена</span>
+                                        {% endif %}
+                                    </span>
+                                {% endif %}
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            {% else %}
+                <div class="empty-state">
+                    <p><i class="fas fa-tasks" style="font-size: 2rem; display: block; opacity: 0.3; margin-bottom: 1rem;"></i> У вас нет задач</p>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+    <script src="{% static 'CorpSiteProject/js/script.js' %}" defer></script>
+</body>
+</html>

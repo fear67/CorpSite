@@ -5,8 +5,6 @@ from django.db.models import Q
 User = get_user_model()
 
 class PhoneNumberBackend(ModelBackend):
-    """Аутентификация по телефону, email или username"""
-    
     def authenticate(self, request, username=None, password=None, **kwargs):
         if username is None or password is None:
             return None

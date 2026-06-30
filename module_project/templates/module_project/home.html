@@ -63,17 +63,16 @@
             </nav>
         </div>
         
-        <!-- 👇 ОСНОВНАЯ НАВИГАЦИЯ (БЕЗ ИКОНОК) -->
         <nav class="header-nav">
             <ul class="nav-list">
                 <li><a href="{% url 'Home' %}" class="nav-btn">Главная</a></li>
                 <li><a href="{% url 'Departments' %}" class="nav-btn">Подразделения</a></li>
                 <li><a href="{% url 'Events' %}" class="nav-btn">Мероприятия</a></li>
                 <li><a href="{% url 'Docs' %}" class="nav-btn">Документы</a></li>
+                <li><a href="{% url 'project_list' %}" class="nav-btn">Проекты</a></li>
             </ul>
         </nav>
         
-        <!-- 👇 МОБИЛЬНОЕ МЕНЮ (С ИКОНКАМИ) -->
         <div class="mobile-nav" id="mobileNav">
             <a href="{% url 'Home' %}"><i class="fas fa-home"></i> Главная</a>
             <a href="{% url 'Departments' %}"><i class="fas fa-building"></i> Подразделения</a>
@@ -87,6 +86,7 @@
                 {% if user.is_staff %}
                     <a href="{% url 'admin:index' %}"><i class="fas fa-shield-alt"></i> Админ-панель</a>
                 {% endif %}
+                <a href="{% url 'project_list' %}"><i class="fas fa-file-alt"></i> Проекты</a>
                 <a href="#" onclick="document.getElementById('logout-form-mobile').submit();">
                     <i class="fas fa-sign-out-alt"></i> Выйти
                 </a>

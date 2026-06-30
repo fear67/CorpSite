@@ -1,6 +1,6 @@
 from django import forms
 from .models import News
-from .models import CorpLife, EventPhoto
+from .models import CorpLife, EventPhoto, Project
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 from .models import Profile, Workplace, Post
@@ -47,9 +47,8 @@ class MultipleFileField(forms.FileField):
 
 
 class MultipleFileInput(forms.ClearableFileInput):
-    allow_multiple_selected = True  # Ключевой флаг, который убирает ошибку
+    allow_multiple_selected = True 
 
-# 2. ИСПОЛЬЗУЕМ ЕГО В ФОРМЕ
 class EventCreateForm(forms.ModelForm):
     class Meta:
         model = CorpLife
@@ -81,7 +80,6 @@ class EventPhotoForm(forms.ModelForm):
         }
 
 class UserCreateForm(UserCreationForm):
-    """Форма создания пользователя"""
     email = forms.EmailField(required=False, label='Email')
     phone_number = forms.CharField(max_length=20, required=False, label='Номер телефона')
     firstname = forms.CharField(max_length=100, required=False, label='Имя')
@@ -129,7 +127,6 @@ class UserCreateForm(UserCreationForm):
 
 
 class UserEditForm(forms.ModelForm):
-    """Форма редактирования пользователя"""
     email = forms.EmailField(required=False, label='Email')
     phone_number = forms.CharField(max_length=20, required=False, label='Номер телефона')
     firstname = forms.CharField(max_length=100, required=False, label='Имя')
@@ -181,3 +178,28 @@ class UserEditForm(forms.ModelForm):
             profile.post = self.cleaned_data.get('post')
             profile.save()
         return user
+
+
+class ProjectForm(forms.ModelForm):
+    class Meta:
+        model = Project
+        fields = ['name', 'description', 'is_active']
+        widgets = {
+            'name': forms.TextInput(attrs={
+                'class': 'form-control',
+                'placeholder': 'Введите название проекта'
+            }),
+            'description': forms.Textarea(attrs={
+                'class': 'form-control',
+                'rows': 4,
+                'placeholder': 'Описание проекта (необязательно)'
+            }),
+            'is_active': forms.CheckboxInput(attrs={
+                'class': 'form-checkbox'
+            }),
+        }
+        labels = {
+            'name': 'Название проекта',
+            'description': 'Описание',
+            'is_active': 'Проект активен',
+        }

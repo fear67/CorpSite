@@ -5,14 +5,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Календарь мероприятий</title>
+    <title>Проекты</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link rel="stylesheet" href="{% static 'CorpSiteProject/css/base.css' %}">
-    <link rel="stylesheet" href="{% static 'CorpSiteProject/css/events.css' %}">
+    <link rel="stylesheet" href="{% static 'CorpSiteProject/css/modal.css' %}">
 </head>
 
 <body>
-<header class="header">
+
+    <!-- ===== ХЕДЕР ===== -->
+    <header class="header">
         <div class="header-top">
             <h1>Пламенея корпоративный портал</h1>
             
@@ -98,70 +100,86 @@
             {% endif %}
         </div>
     </header>
-    <main class="events-page-container">
-        <section class="page-title-block">
-            <h1>Календарь мероприятий</h1>
-            {% if perms.module_project.add_corplife %}
-                <a class="add-event-btn" href="{% url 'event_create' %}">
-                    + Добавить мероприятие
+
+    <!-- ===== ОСНОВНОЙ КОНТЕНТ ===== -->
+    <div class="projects-page">
+        <div class="projects-header">
+            <h1>Проекты</h1>
+            <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
+                <a href="{% url 'my_tasks' %}" class="btn-create" style="background: #7c5237;">
+                    <i class="fas fa-tasks"></i> Мои задачи
                 </a>
+                <button class="btn-create" onclick="openModal('createProjectModal')">
+                    <i class="fas fa-plus"></i> Создать проект
+                </button>
+            </div>
+        </div>
+
+        <form method="get" class="search-form">
+            <input type="text" name="search" value="{{ search }}" placeholder="Поиск проектов...">
+            <button type="submit"><i class="fas fa-search"></i> Найти</button>
+            {% if search %}
+                <a href="{% url 'project_list' %}" class="clear-btn"><i class="fas fa-times"></i> Сбросить</a>
             {% endif %}
-        </section>
+        </form>
 
-        <!-- БЛОК ПОИСКА И ФИЛЬТРОВ -->
-        <section class="search-filter-panel">
-            <form class="filter-form" id="filterForm">
-                <div class="filter-group search-input-wrapper">
-                    <label for="search-name">Поиск по названию</label>
-                    <div class="input-with-icon">
-                        <i class="fas fa-search"></i>
-                        <input type="text" id="search-name" placeholder="Введите название...">
+        <div class="projects-grid">
+            {% for project in page_obj %}
+                <a href="{% url 'project_detail' project.id %}" class="project-card">
+                    <h3>{{ project.name }}</h3>
+                    <p>{{ project.description|truncatewords:20|default:"Без описания" }}</p>
+                    <div class="project-stats">
+                        <span><i class="fas fa-tasks"></i> {{ project.get_task_count }} задач</span>
+                        <span><i class="fas fa-check-circle"></i> {{ project.get_completed_count }} выполнено</span>
                     </div>
-                </div>
-
-                <div class="filter-group">
-                    <label for="search-date">Дата проведения</label>
-                    <input type="date" id="search-date">
-                </div>
-
-                <button type="button" class="clear-filters-btn" id="clearFilters">Сбросить</button>
-            </form>
-        </section>
-
-        <!-- СПИСОК МЕРОПРИЯТИЙ ИЗ БД -->
-        <section class="events-catalog-grid" id="eventsGrid">
-            {% for event in events %}
-                <div class="catalog-card" data-date="{{ event.date|date:'Y-m-d' }}">
-                    <div class="card-img">
-                        {% with first_photo=event.photos.first %}
-                        {% if first_photo %}
-                            <img src="{{ first_photo.image.url }}" alt="{{ event.title }}">
-                        {% else %}
-                            <div class="no-image">
-                                <i class="fas fa-image"></i>
-                                <p>Нет фото</p>
-                            </div>
-                        {% endif %}
-                        {% endwith %}
-                        <span class="card-badge">{{ event.date|date:"d.m.Y" }}</span>
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width: {{ project.get_progress_percent }}%;"></div>
                     </div>
-                    <div class="card-content">
-                        <span class="card-date"><i class="far fa-calendar-alt"></i> {{ event.date|date:"d E Y, H:i" }}</span>
-                        <h3>{{ event.title }}</h3>
-                        <p class="card-text">{{ event.text|truncatewords:20 }}</p>
-                        <a href="{% url 'event' event.id %}" class="card-btn">
-                            <i class="fas fa-images"></i> Альбом мероприятия
-                        </a>
-                    </div>
-                </div>
+                    <span class="progress-text">{{ project.get_progress_percent }}%</span>
+                </a>
             {% empty %}
-                <div class="empty-events">
-                    <i class="fas fa-calendar-plus"></i>
-                    <p>Мероприятий пока нет</p>
+                <div class="empty-state">
+                    <p><i class="fas fa-folder-open" style="font-size: 2rem; display: block; opacity: 0.3; margin-bottom: 1rem;"></i> Нет проектов</p>
+                    <button class="btn-create" onclick="openModal('createProjectModal')">Создать первый проект</button>
                 </div>
             {% endfor %}
-        </section>
-    </main>
+        </div>
+
+        {% include 'module_project/_pagination.html' %}
+    </div>
+
+    <!-- ===== МОДАЛКА СОЗДАНИЯ ПРОЕКТА ===== -->
+    <div class="modal-overlay" id="createProjectModal">
+        <div class="modal">
+            <div class="modal-header">
+                <h3>Создать проект</h3>
+                <span class="close" onclick="closeModal('createProjectModal')">&times;</span>
+            </div>
+            <div class="modal-body">
+                <form method="post" action="{% url 'project_create' %}">
+                    {% csrf_token %}
+                    <div class="form-group">
+                        <label>Название проекта <span class="required">*</span></label>
+                        <input type="text" name="name" class="form-control" placeholder="Введите название" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Описание</label>
+                        <textarea name="description" class="form-control" rows="4" placeholder="Описание проекта"></textarea>
+                    </div>
+                    <div class="form-group checkbox">
+                        <label>
+                            <input type="checkbox" name="is_active" checked>
+                            Проект активен
+                        </label>
+                    </div>
+                    <div class="form-actions">
+                        <button type="button" class="btn-cancel" onclick="closeModal('createProjectModal')">Отмена</button>
+                        <button type="submit" class="btn-submit">Создать проект</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
 
     <!-- ===== ФУТЕР ===== -->
     <footer class="site-footer">
@@ -171,57 +189,44 @@
             <a href="{% url 'Departments' %}">Подразделения</a>
             <a href="{% url 'Events' %}">Мероприятия</a>
             <a href="{% url 'Docs' %}">Документы</a>
+            <a href="{% url 'project_list' %}">Проекты</a>
         </div>
         <span class="footer-year">2026</span>
     </footer>
 
-    <script src="{% static 'CorpSiteProject/js/script.js' %}" defer></script>
     <script>
-        const eventsGrid = document.getElementById('eventsGrid');
-        const searchInput = document.getElementById('search-name');
-        const dateInput = document.getElementById('search-date');
-        const clearBtn = document.getElementById('clearFilters');
-        
-        let events = [];
-
-        function initEvents() {
-            if (!eventsGrid) return;
-            const cards = eventsGrid.querySelectorAll('.catalog-card');
-            events = Array.from(cards).map(card => ({
-                element: card,
-                title: card.querySelector('h3')?.innerText.toLowerCase() || '',
-                date: card.dataset.date || ''
-            }));
+        function openModal(modalId) {
+            const modal = document.getElementById(modalId);
+            if (modal) {
+                modal.classList.add('active');
+                document.body.style.overflow = 'hidden';
+            }
         }
 
-        function filterEvents() {
-            const searchTerm = searchInput?.value.toLowerCase() || '';
-            const filterDate = dateInput?.value || '';
-            
-            events.forEach(event => {
-                const matchesSearch = event.title.includes(searchTerm);
-                const matchesDate = !filterDate || event.date === filterDate;
-                
-                if (matchesSearch && matchesDate) {
-                    event.element.style.display = '';
-                } else {
-                    event.element.style.display = 'none';
-                }
-            });
+        function closeModal(modalId) {
+            const modal = document.getElementById(modalId);
+            if (modal) {
+                modal.classList.remove('active');
+                document.body.style.overflow = 'auto';
+            }
         }
 
-        function clearFilters() {
-            if (searchInput) searchInput.value = '';
-            if (dateInput) dateInput.value = '';
-            filterEvents();
-        }
+        document.addEventListener('click', function(e) {
+            if (e.target.classList.contains('modal-overlay')) {
+                e.target.classList.remove('active');
+                document.body.style.overflow = 'auto';
+            }
+        });
 
-        if (searchInput) searchInput.addEventListener('input', filterEvents);
-        if (dateInput) dateInput.addEventListener('change', filterEvents);
-        if (clearBtn) clearBtn.addEventListener('click', clearFilters);
-        
-        initEvents();
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                document.querySelectorAll('.modal-overlay.active').forEach(function(modal) {
+                    modal.classList.remove('active');
+                    document.body.style.overflow = 'auto';
+                });
+            }
+        });
     </script>
-
+    <script src="{% static 'CorpSiteProject/js/script.js' %}" defer></script>
 </body>
 </html>
